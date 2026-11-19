@@ -1,3 +1,5 @@
+> Also follow the general rules in [../general.md](../general.md); they apply to every theme.
+
 
 ## Colors
 
@@ -32,4 +34,4 @@ you can also use Montserrat.
 
 Avoid bold fonts instead play between light, medium, normal, semi bold. 
 
-## General Instructions 
+## Style Instructions 

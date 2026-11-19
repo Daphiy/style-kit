@@ -48,13 +48,14 @@
 
   /* Hero: line-drawn lotus with ripples, inspired by elements/image.png */
   .hero { position: relative; display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 24px;
-          padding: 36px 36px 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 40px 40px 40px 120px; overflow: hidden; }
+          padding: 36px 36px 40px 48px; background: var(--surface); border: 1px solid var(--line); border-radius: 40px 40px 40px 120px; overflow: hidden; }
   .hero svg { width: 100%; max-width: 340px; justify-self: center; }
   @media (max-width: 760px) { .hero { grid-template-columns: 1fr; border-radius: 32px; padding: 28px 22px; } .hero svg { max-width: 220px; } }
 
-  /* Lily-pad stat tiles */
+  /* Lily-pad stat tiles. Fixed radii (not 999px): a pill radius on a tall tile curves across the whole side
+     and cuts into the text (themes/general.md, text clearance). 0.3 × 56 + 2 ≈ 19px ≤ padding. */
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin: 20px 0 8px; }
-  .stat { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px 999px 999px 28px; }
+  .stat { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 56px 56px 56px 28px; }
   .stat:nth-child(1) { background: color-mix(in oklab, var(--waterlily-blue-light) 28%, #FFFFFF); }
   .stat:nth-child(2) { background: color-mix(in oklab, var(--waterlily-green) 35%, #FFFFFF); }
   .stat:nth-child(3) { background: color-mix(in oklab, var(--waterlily-lilac) 35%, #FFFFFF); }
@@ -99,9 +100,11 @@
 
   /* Species */
   .species { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-  .sp { position: relative; padding: 20px 22px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 26px 26px 26px 80px; overflow: hidden; }
+  /* 80px bottom-left radius: left and bottom padding ≥ 0.3 × 80 + 2 = 26px, plus a little margin (themes/general.md) */
+  .sp { position: relative; padding: 20px 22px 30px 36px; background: var(--surface); border: 1px solid var(--line); border-radius: 26px 26px 26px 80px; overflow: hidden; }
   .sp::after { content: ""; position: absolute; right: -26px; top: -26px; width: 90px; height: 90px; border-radius: 50%; background: var(--tint); opacity: .55; }
   .sp h3 { position: relative; z-index: 1; }
+  .sp h3, .sp .sci { margin-right: 44px; } /* keep the name and Latin name clear of the tinted pad in the corner */
   .sp .sci { font-style: italic; font-weight: 300; font-size: 14px; color: var(--muted); }
   .sp .n { margin-top: 12px; font: 300 26px var(--font-display); font-variant-numeric: tabular-nums; }
   .sp .n small { font: 400 12px var(--font); color: var(--muted); }
@@ -315,7 +318,8 @@ document.getElementById("stats").innerHTML = [
     const pad = el("path", { class: "pad b" + b, d: `M${cx} ${cy} L${p2[0].toFixed(1)} ${p2[1].toFixed(1)} A${R} ${R} 0 1 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Z` }, svg);
     pad.addEventListener("mousemove", e => showTip(e, `${NAMES[code]}<br><span style="font-weight:500">${fmt(v)}</span> records`));
     pad.addEventListener("mouseleave", hideTip);
-    el("text", { class: "pad-label", x: cx, y: cy + 4, fill: b === 4 ? "#FFFFFF" : "#000000" }, svg).textContent = code;
+    // label sits below the centre so it stays clear of the notch, which runs from the centre to the upper right
+    el("text", { class: "pad-label", x: cx, y: cy + 11, fill: b === 4 ? "#FFFFFF" : "#000000" }, svg).textContent = code;
   }
   document.getElementById("mapLegend").innerHTML = BINS.map(([, label], i) =>
     `<li><i class="b${i}" style="background:${["#F2F8F8", "var(--waterlily-aqua)", "var(--waterlily-blue-light)", "var(--waterlily-blue)", "var(--waterlily-blue-ink)"][i]}"></i>${label}</li>`).join("");

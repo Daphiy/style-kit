@@ -75,8 +75,10 @@ All three load from Google Fonts. Keep Lora, then Georgia, then serif as the fal
 
 All other text is IBM Plex Sans at 14px with a 16px line height, in black.
 
-## General Instructions 
+## Style Instructions 
 
 The page is minimalistic and editorial, like square post-it notes on white paper.
 
+
+## General UI Guidelines 
 

@@ -1,0 +1,13 @@
+# General design rules (all themes)
+
+These rules apply to every theme. Read this file together with the chosen theme's `design.md` whenever you build a UI. If a theme's `design.md` contradicts a rule here, follow this file, unless `design.md` explicitly says it overrides that rule.
+
+## Text clearance inside shapes
+
+Text must never touch or come close to the edge of the shape it sits in (card, bubble, pill, badge, button, banner, header, etc.).
+
+- Keep **at least 2px of clear space** between every glyph and the nearest edge of its shape, measured to the **visible edge** (the curve), not to the bounding box.
+- Watch this especially for **non-rectangular shapes**: large or asymmetric `border-radius` (e.g. `36px 36px 36px 100px`), pills, circles and blobs. A rounded corner cuts into the box, so padding that is fine for a square box can leave text touching or overlapping the curve.
+- When a corner has radius `r`, the curve reaches about `0.3 × r` inward at the diagonal. So for text that runs near that corner, set the padding on the adjacent sides to at least `0.3 × r + 2px`, or keep text out of the corner area (e.g. extra `padding-left` / `padding-bottom` next to a large bottom-left radius).
+- Check every line of text, including the first and last line and long lines that run toward a curved side. Large display headings need the same clearance as body text.
+- After building, look at the rendered result and verify the clearance. If text is close to a curve, increase padding or reduce the radius on that corner.
