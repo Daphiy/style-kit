@@ -1,0 +1,50 @@
+#!/bin/sh
+# Regenerates themes/<theme>/examples/*.html with Claude Code when a commit
+# changes themes/<theme>/design.md, then adds the updated examples to the commit.
+#
+# Enable once per clone:   git config core.hooksPath .githooks
+# Skip for one commit:     SKIP_EXAMPLES=1 git commit ...   (or git commit --no-verify)
+
+[ -n "$SKIP_EXAMPLES" ] && exit 0
+
+changed=$(git diff --cached --name-only --diff-filter=AM -- 'themes/*/design.md' |
+  grep -E '^themes/[^/]+/design\.md$')
+[ -z "$changed" ] && exit 0
+
+if ! command -v claude >/dev/null 2>&1; then
+  echo "pre-commit: design.md changed but Claude Code ('claude') is not on PATH." >&2
+  echo "pre-commit: examples were NOT regenerated. Install Claude Code or regenerate them by hand." >&2
+  exit 0
+fi
+
+status=0
+for design in $changed; do
+  theme_dir=$(dirname "$design")
+  theme=$(basename "$theme_dir")
+
+  if ! git diff --quiet -- "$design"; then
+    echo "pre-commit: $design has unstaged changes; Claude will read the working-tree version." >&2
+  fi
+
+  echo "pre-commit: regenerating $theme_dir/examples from $design (this can take a few minutes)..."
+  diff=$(git diff --cached -- "$design")
+
+  prompt="The design.md of the '$theme' theme changed. Update $theme_dir/examples/report.html and $theme_dir/examples/game.html so they follow $design exactly, as CLAUDE.md describes. If they don't exist yet, create them.
+Make targeted changes: keep the existing content, data and layout wherever the design change does not affect them, so the diff stays reviewable. Only edit files inside $theme_dir/examples/.
+
+Staged change to $design:
+$diff"
+
+  if claude -p "$prompt" \
+       --permission-mode acceptEdits \
+       --allowedTools Read Glob Grep Edit Write \
+       </dev/null; then
+    git add -- "$theme_dir/examples"
+    echo "pre-commit: updated $theme_dir/examples and added it to the commit."
+  else
+    echo "pre-commit: Claude failed for $theme; commit aborted. Use SKIP_EXAMPLES=1 to commit anyway." >&2
+    status=1
+  fi
+done
+
+exit $status
