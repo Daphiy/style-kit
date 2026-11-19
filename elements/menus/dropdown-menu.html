@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Dropdown menu preview</title>
+<link rel="stylesheet" href="../_preview/preview.css">
+<link rel="stylesheet" href="../buttons/buttons.css">
+<link rel="stylesheet" href="dropdown-menu.css">
+<style>
+  .stage { width: 480px; height: 380px; }
+</style>
+<div class="stage">
+  <button class="btn btn--outline menu-trigger" popovertarget="account-menu" style="--menu-anchor: --account-menu">Basic</button>
+
+  <div class="menu menu--w56" id="account-menu" popover role="menu" style="--menu-anchor: --account-menu">
+    <div class="menu__group" role="group">
+      <div class="menu__label">My Account</div>
+      <hr class="menu__separator">
+      <button class="menu__item" role="menuitem">Profile</button>
+      <button class="menu__item" role="menuitem">Billing</button>
+    </div>
+    <hr class="menu__separator">
+    <div class="menu__group" role="group">
+      <div class="menu__sub is-open">
+        <button class="menu__item" role="menuitem" aria-haspopup="menu">
+          Invite users
+          <svg class="menu__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="menu" role="menu">
+          <button class="menu__item is-active" role="menuitem">Email</button>
+          <button class="menu__item" role="menuitem">Message</button>
+          <hr class="menu__separator">
+          <button class="menu__item" role="menuitem">More...</button>
+        </div>
+      </div>
+      <button class="menu__item" role="menuitem">GitHub</button>
+      <button class="menu__item" role="menuitem">Support</button>
+      <button class="menu__item" role="menuitem" disabled>API</button>
+    </div>
+  </div>
+</div>
+<script>
+  // Preview only: open the menu so the screenshot shows it. In real use the trigger opens it.
+  document.getElementById('account-menu').showPopover();
+</script>

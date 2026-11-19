@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Segmented toggle preview</title>
+<link rel="stylesheet" href="../_preview/preview.css">
+<link rel="stylesheet" href="segmented.css">
+<style>
+  .row + .row { margin-top: 24px; }
+  .stage { width: 420px; }
+</style>
+<div class="stage">
+  <div class="row">
+    <div class="segmented" role="radiogroup" aria-label="Property type">
+      <button class="segmented__option" role="radio" aria-checked="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M2.5 7 8 2.5 13.5 7v6.5h-11z"/><path d="M6.5 13.5V10h3v3.5"/></svg>House
+      </button>
+      <button class="segmented__option" role="radio" aria-checked="false">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="2.5" width="10" height="11"/><path d="M5.5 5h1M9.5 5h1M5.5 7.5h1M9.5 7.5h1M5.5 10h1M9.5 10h1"/></svg>Condo
+      </button>
+      <button class="segmented__option" role="radio" aria-checked="false">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M2.5 13.5V6l5-3v10.5M7.5 6.5l6 2v5h-11"/></svg>Other
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="segmented-label" id="bed">Bedrooms</span>
+    <div class="segmented" role="radiogroup" aria-labelledby="bed">
+      <button class="segmented__option" role="radio" aria-checked="true">Any</button>
+      <button class="segmented__option" role="radio" aria-checked="false">1</button>
+      <button class="segmented__option" role="radio" aria-checked="false">2</button>
+      <button class="segmented__option" role="radio" aria-checked="false">3</button>
+      <button class="segmented__option" role="radio" aria-checked="false">4</button>
+      <button class="segmented__option" role="radio" aria-checked="false">5</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="segmented-label" id="bath">Bathrooms</span>
+    <div class="segmented" role="radiogroup" aria-labelledby="bath">
+      <button class="segmented__option" role="radio" aria-checked="false">Any</button>
+      <button class="segmented__option" role="radio" aria-checked="false">1</button>
+      <button class="segmented__option" role="radio" aria-checked="true">2</button>
+      <button class="segmented__option" role="radio" aria-checked="false">3</button>
+      <button class="segmented__option" role="radio" aria-checked="false">4</button>
+      <button class="segmented__option" role="radio" aria-checked="false">5</button>
+    </div>
+  </div>
+</div>

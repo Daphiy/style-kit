@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library Usage Report · College theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Graduate&family=IBM+Plex+Sans:wght@400;500;600&family=Lora&display=swap" rel="stylesheet">
+<!-- General elements, restyled below as themes/college/design.md describes -->
+<link rel="stylesheet" href="../../../elements/toggles/switch.css">
+<link rel="stylesheet" href="../../../elements/buttons/buttons.css">
+<style>
+  :root {
+    /* themes/college/design.md */
+    --navy: #0A2747;          /* primary buttons, card borders */
+    --mid-blue: #5881AF;      /* secondary borders, focus, dashed lines */
+    --red: #C76666;           /* small touches only: dots, markers */
+    --college-blue: #5099DC;
+    --college-ochre: #D8AB31;
+    --college-pinkish: #ED9681;
+    --college-green: #89C889;
+    --college-blue-light: #DFF0F8;
+    --card: #DCEBF8;          /* college-blue-greylight */
+
+    --page: #FFFFFF;
+    --panel: #F6F6F7;
+    --text: #000000;
+    --pad: 18px;              /* card padding, also used by edge-to-edge lines */
+    --font: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --font-head: "Graduate", "Lora", Georgia, serif;
+
+    /* Dashed line A: dash-dot, under card titles (repeats every 15px) */
+    --line-a: linear-gradient(to right, var(--mid-blue) 0 7px, transparent 7px 10px, var(--mid-blue) 10px 12px, transparent 12px) left bottom / 15px 1px repeat-x;
+    /* Dashed line B: double dashed separator, 4px tall, dashes aligned (repeats every 12px) */
+    --line-b: linear-gradient(to right, var(--mid-blue) 7px, transparent 7px) left top / 12px 1px repeat-x,
+              linear-gradient(to right, var(--mid-blue) 7px, transparent 7px) left bottom / 12px 1px repeat-x;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; background: var(--page); color: var(--text); font: 400 14px/16px var(--font); }
+  .page { max-width: 1040px; margin: 0 auto; padding: 36px 20px 56px; }
+  p { margin: 0; }
+
+  /* Headings: Varsity option, Graduate in capitals */
+  h1, h2, h3, .head { font-family: var(--font-head); font-weight: 400; text-transform: uppercase; letter-spacing: .5px; margin: 0; }
+  h1 { font-size: 34px; line-height: 1.15; }
+  h2 { font-size: 20px; line-height: 1.2; }
+  h3 { font-size: 15px; line-height: 1.2; }
+
+  .eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none; }
+  .sub { margin-top: 10px; max-width: 62ch; }
+
+  header { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between; }
+  .sep { height: 4px; margin: 28px 0; background: var(--line-b); }
+
+  /* Cards: square post-it notes, thin border, no shadow */
+  .card { background: var(--card); border: 1px solid var(--navy); padding: var(--pad); }
+  .card--white { background: var(--page); }
+  .card--secondary { border-color: var(--mid-blue); }
+  /* Card title with line A running edge to edge: negative margin = card padding, padding added back */
+  .card__title { margin: calc(-1 * var(--pad)) calc(-1 * var(--pad)) 14px; padding: var(--pad) var(--pad) 12px; background: var(--line-a); }
+  .card__title p { margin-top: 6px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .kpi__label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .kpi__value { margin: 14px 0 10px; font: 400 30px/1 var(--font-head); font-variant-numeric: tabular-nums; }
+  .kpi__delta { display: flex; align-items: center; gap: 6px; }
+  .dot--up { background: var(--college-green); } .dot--down { background: var(--red); }
+
+  .grid2 { display: grid; grid-template-columns: 3fr 2fr; gap: 16px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .chart-head { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: start; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 10px; padding: 0; list-style: none; font-size: 12px; }
+  .legend li { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch { width: 16px; height: 0; border-top: 2px solid; }
+  .legend .swatch--dashed { border-top-style: dashed; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .axis text, .lbl { font: 400 12px var(--font); fill: var(--text); }
+  .gridline { stroke: var(--mid-blue); stroke-opacity: .45; stroke-dasharray: 7 5; stroke-width: .8; }
+  .tip { position: fixed; z-index: 5; pointer-events: none; background: var(--page); border: 1px solid var(--mid-blue); padding: 6px 8px; font-size: 12px; }
+
+  /* Switch: toggles are the only rounded element */
+  .toggle { --toggle-track-on: var(--navy); --toggle-label: var(--text); --toggle-label-size: 14px; font-family: var(--font); }
+  .toggle:focus-visible .toggle__track { box-shadow: 0 0 0 2px var(--mid-blue); }
+
+  /* Buttons: square, navy primary, no shadow */
+  .btn { --btn-radius: 0; --btn-primary: var(--navy); --btn-border: var(--navy); --btn-fg: var(--navy); --btn-accent: var(--college-blue-light); --btn-ring: var(--mid-blue); box-shadow: none; font: 500 14px/16px var(--font); }
+  .btn:focus-visible { box-shadow: none; outline: 1px solid var(--mid-blue); outline-offset: 2px; }
+
+  /* Table on the second panel */
+  .panel { background: var(--panel); padding: var(--pad); border: 1px solid var(--mid-blue); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 10px; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { font: 400 12px var(--font-head); text-transform: uppercase; letter-spacing: .5px; background: var(--line-a); padding-bottom: 12px; }
+  tbody tr { cursor: pointer; background: linear-gradient(to right, var(--mid-blue) 7px, transparent 7px) left bottom / 12px 1px repeat-x; }
+  tbody tr:hover, tbody tr:focus-visible { background-color: var(--card); outline: none; }
+  td .dot { margin-right: 8px; vertical-align: 1px; }
+  .bar-cell { width: 32%; }
+  .bar { height: 8px; background: var(--navy); }
+  .hint { margin-top: 10px; font-size: 12px; }
+
+  .findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .finding h3 { display: flex; gap: 8px; align-items: baseline; }
+  .finding h3 .dot { transform: translateY(-1px); }
+
+  /* Popup */
+  dialog { width: min(440px, calc(100% - 32px)); padding: 0; border: 1px solid var(--navy); background: var(--page); color: var(--text); }
+  dialog::backdrop { background: rgba(255, 255, 255, .75); }
+  .pop { padding: 22px; }
+  .pop h2 { font-size: 32px; line-height: 1.1; }
+  .pop .sep { margin: 16px 0; }
+  .pop dl { display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; margin: 0; }
+  .pop dt { text-transform: uppercase; font-size: 12px; letter-spacing: .06em; }
+  .pop dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .pop svg { margin-top: 4px; }
+  .pop__actions { display: flex; justify-content: end; }
+
+  footer { font-size: 12px; }
+  code { font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <p class="eyebrow"><span class="dot"></span>Example report · College theme</p>
+      <h1>Campus Library Usage 2025/26</h1>
+      <p class="sub">Visits, study-room bookings and loans across five faculties. Sample data for demonstration only.</p>
+    </div>
+    <button class="btn btn--outline" id="sortBtn" type="button">Sort faculties by change</button>
+  </header>
+
+  <div class="sep"></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="sep"></div>
+
+  <div class="grid2">
+    <div class="card card--white">
+      <div class="card__title chart-head">
+        <div>
+          <h2>Monthly visits</h2>
+          <p>Gate entries per month, in thousands</p>
+        </div>
+        <div class="toggle" role="switch" aria-checked="true" tabindex="0" id="lastYear">
+          <span class="toggle__track"></span>
+          <span class="toggle__label">Compare with last year</span>
+        </div>
+      </div>
+      <ul class="legend" id="lineLegend"></ul>
+      <svg id="lineChart" viewBox="0 0 600 280" role="img" aria-label="Line chart of monthly visits"></svg>
+    </div>
+    <div class="card card--secondary">
+      <div class="card__title">
+        <h2>Where visitors go</h2>
+        <p>Share of visits by library area</p>
+      </div>
+      <svg id="barChart" viewBox="0 0 380 270" role="img" aria-label="Bar chart of visits by area"></svg>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="panel">
+    <div class="card__title" style="--pad:18px">
+      <h2>Visits by faculty</h2>
+      <p>Total visits this year and change against last year</p>
+    </div>
+    <table>
+      <thead><tr><th>Faculty</th><th>Visits</th><th>Last year</th><th>Change</th><th class="bar-cell" aria-label="Share"></th></tr></thead>
+      <tbody id="facultyRows"></tbody>
+    </table>
+    <p class="hint">Select a faculty to see its monthly profile.</p>
+  </div>
+
+  <div class="sep"></div>
+
+  <h2 style="margin-bottom:16px">Key findings</h2>
+  <div class="findings" id="findings"></div>
+
+  <div class="sep"></div>
+  <footer>Sample dataset generated for the style-kit College theme. Built from <code>themes/college/design.md</code> with the general switch and button elements.</footer>
+</div>
+
+<dialog id="pop" aria-labelledby="popTitle">
+  <div class="pop">
+    <p class="eyebrow"><span class="dot"></span>Faculty detail</p>
+    <h2 id="popTitle"></h2>
+    <div class="sep"></div>
+    <dl id="popStats"></dl>
+    <div class="sep"></div>
+    <p style="margin-bottom:6px">Visits per month, in thousands</p>
+    <svg id="popChart" viewBox="0 0 400 110" aria-hidden="true"></svg>
+    <div class="sep"></div>
+    <div class="pop__actions"><button class="btn" id="popClose" type="button">Close</button></div>
+  </div>
+</dialog>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const C = { navy: "#0A2747", mid: "#5881AF", red: "#C76666", blue: "#5099DC", ochre: "#D8AB31", pinkish: "#ED9681", green: "#89C889", card: "#DCEBF8" };
+const NS = "http://www.w3.org/2000/svg";
+
+// ---- Sample data -------------------------------------------------------
+const months = ["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"];
+const visits     = [38.2, 52.6, 58.1, 41.0, 47.3, 55.8, 60.4, 49.9, 66.7, 44.1, 18.3, 15.6];
+const visitsLast = [35.9, 48.0, 53.2, 39.4, 45.0, 50.1, 54.8, 51.2, 59.3, 40.7, 17.9, 14.8];
+const areas = [["Quiet study", 34, C.navy], ["Group rooms", 22, C.mid], ["Computers", 18, C.blue], ["Café corner", 15, C.card], ["Stacks", 11, C.card]];
+let faculties = [
+  { name: "Engineering",  now: 142300, last: 121800, color: C.navy },
+  { name: "Humanities",   now:  98400, last: 104900, color: C.red },
+  { name: "Medicine",     now: 121700, last: 109300, color: C.blue },
+  { name: "Business",     now:  67900, last:  61200, color: C.ochre },
+  { name: "Natural Sci.", now:  57700, last:  54700, color: C.green },
+];
+
+const sum = a => a.reduce((s, v) => s + v, 0);
+const fmt = n => n.toLocaleString("en-US");
+const pct = (a, b) => (a - b) / b * 100;
+const signed = v => (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(1) + "%";
+function el(name, attrs, parent) { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; }
+const tip = document.getElementById("tip");
+const showTip = (e, html) => { tip.innerHTML = html; tip.hidden = false; tip.style.left = e.clientX + 12 + "px"; tip.style.top = e.clientY + 12 + "px"; };
+const hideTip = () => tip.hidden = true;
+
+// ---- KPIs --------------------------------------------------------------
+const total = sum(visits) * 1000, totalLast = sum(visitsLast) * 1000;
+const peak = visits.indexOf(Math.max(...visits));
+document.getElementById("kpis").innerHTML = [
+  ["Total visits", fmt(Math.round(total)), pct(total, totalLast)],
+  ["Average per open day", fmt(Math.round(total / 300)), pct(total / 300, totalLast / 302)],
+  ["Peak month", months[peak] + " · " + visits[peak] + "k", null, "Exam season"],
+  ["Study-room bookings", "18,420", 12.6],
+].map(([label, value, d, note], i) => `
+  <div class="card${i % 2 ? " card--secondary" : ""}">
+    <p class="kpi__label">${label}</p>
+    <p class="kpi__value">${value}</p>
+    <p class="kpi__delta">${d == null ? note : `<span class="dot ${d >= 0 ? "dot--up" : "dot--down"}"></span>${signed(d)} vs last year`}</p>
+  </div>`).join("");
+
+// ---- Line chart --------------------------------------------------------
+function drawLine(showLast) {
+  const svg = document.getElementById("lineChart"); svg.innerHTML = "";
+  const W = 600, H = 280, m = { t: 10, r: 10, b: 28, l: 34 }, max = 70;
+  const x = i => m.l + i * (W - m.l - m.r) / (months.length - 1);
+  const y = v => H - m.b - v / max * (H - m.t - m.b);
+  const ax = el("g", { class: "axis" }, svg);
+  for (let v = 0; v <= max; v += 10) {
+    el("line", { class: "gridline", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, svg);
+    el("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end" }, ax).textContent = v;
+  }
+  months.forEach((mo, i) => el("text", { x: x(i), y: H - 8, "text-anchor": "middle" }, ax).textContent = mo);
+  el("line", { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: C.navy }, svg);
+
+  const series = [{ name: "This year", data: visits, color: C.navy, dash: "" }];
+  if (showLast) series.push({ name: "Last year", data: visitsLast, color: C.mid, dash: "7 5" });
+  series.slice().reverse().forEach(s => el("polyline", { points: s.data.map((v, i) => x(i) + "," + y(v)).join(" "), fill: "none", stroke: s.color, "stroke-width": s.dash ? 1.5 : 2, "stroke-dasharray": s.dash }, svg));
+  visits.forEach((v, i) => {
+    el("rect", { x: x(i) - 3, y: y(v) - 3, width: 6, height: 6, fill: C.navy }, svg);
+    const hit = el("rect", { x: x(i) - 20, y: m.t, width: 40, height: H - m.t - m.b, fill: "transparent" }, svg);
+    hit.addEventListener("mousemove", e => showTip(e, `<b>${months[i]}</b><br>This year: ${v}k` + (showLast ? `<br>Last year: ${visitsLast[i]}k` : "")));
+    hit.addEventListener("mouseleave", hideTip);
+  });
+  // Muted red: a single small marker on the peak
+  el("circle", { cx: x(peak), cy: y(visits[peak]) - 14, r: 4, fill: C.red }, svg);
+  el("text", { x: x(peak) + 8, y: y(visits[peak]) - 10, class: "lbl" }, svg).textContent = "Peak";
+  document.getElementById("lineLegend").innerHTML = series.map(s =>
+    `<li><span class="swatch${s.dash ? " swatch--dashed" : ""}" style="border-color:${s.color}"></span>${s.name}</li>`).join("");
+}
+
+// ---- Bar chart ---------------------------------------------------------
+(function () {
+  const svg = document.getElementById("barChart");
+  const W = 380, rowH = 50, labelW = 112, max = 40, bw = W - labelW - 44;
+  areas.forEach(([name, share, color], i) => {
+    const yy = 8 + i * rowH;
+    el("circle", { cx: 5, cy: yy + 12, r: 4, fill: i === 0 ? C.red : C.mid }, svg);
+    el("text", { x: 16, y: yy + 16, class: "lbl" }, svg).textContent = name;
+    el("rect", { x: labelW, y: yy, width: bw, height: 24, fill: "#FFFFFF", stroke: C.mid, "stroke-width": 1 }, svg);
+    const bar = el("rect", { x: labelW + .5, y: yy + .5, width: share / max * bw - 1, height: 23, fill: color, stroke: color === C.card ? C.navy : "none", "stroke-width": 1 }, svg);
+    el("text", { x: W - 36, y: yy + 16, class: "lbl" }, svg).textContent = share + "%";
+    bar.addEventListener("mousemove", e => showTip(e, `<b>${name}</b><br>${share}% of visits`));
+    bar.addEventListener("mouseleave", hideTip);
+  });
+})();
+
+// ---- Table + popup -----------------------------------------------------
+function drawTable() {
+  const top = Math.max(...faculties.map(f => f.now));
+  document.getElementById("facultyRows").innerHTML = faculties.map((f, i) => {
+    const d = pct(f.now, f.last);
+    return `<tr tabindex="0" data-i="${i}"><td><span class="dot" style="background:${f.color}"></span>${f.name}</td><td>${fmt(f.now)}</td><td>${fmt(f.last)}</td>
+      <td><span class="dot ${d >= 0 ? "dot--up" : "dot--down"}" style="margin-right:6px"></span>${signed(d)}</td>
+      <td class="bar-cell"><div class="bar" style="width:${f.now / top * 100}%;background:${d >= 0 ? C.navy : C.mid}"></div></td></tr>`;
+  }).join("");
+}
+const pop = document.getElementById("pop");
+function openFaculty(f) {
+  const d = pct(f.now, f.last), share = f.now / sum(faculties.map(x => x.now));
+  document.getElementById("popTitle").textContent = f.name;
+  document.getElementById("popStats").innerHTML = [
+    ["Visits this year", fmt(f.now)], ["Last year", fmt(f.last)], ["Change", signed(d)], ["Share of all visits", Math.round(share * 100) + "%"],
+  ].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  // Monthly profile: the library-wide curve scaled to this faculty's share
+  const svg = document.getElementById("popChart"); svg.innerHTML = "";
+  const data = visits.map(v => v * share), max = Math.max(...data), bw = 400 / data.length;
+  data.forEach((v, i) => {
+    const h = v / max * 86;
+    el("rect", { x: i * bw + 4, y: 92 - h, width: bw - 8, height: h, fill: i === peak ? C.navy : C.card, stroke: C.navy, "stroke-width": 1 }, svg);
+    el("text", { x: i * bw + bw / 2, y: 108, "text-anchor": "middle", class: "lbl", style: "font-size:10px" }, svg).textContent = months[i][0];
+  });
+  pop.showModal();
+}
+document.getElementById("facultyRows").addEventListener("click", e => { const r = e.target.closest("tr"); if (r) openFaculty(faculties[r.dataset.i]); });
+document.getElementById("facultyRows").addEventListener("keydown", e => { const r = e.target.closest("tr"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openFaculty(faculties[r.dataset.i]); } });
+document.getElementById("popClose").addEventListener("click", () => pop.close());
+pop.addEventListener("click", e => { if (e.target === pop) pop.close(); });
+
+let sorted = false;
+faculties.sort((a, b) => b.now - a.now);
+document.getElementById("sortBtn").addEventListener("click", e => {
+  sorted = !sorted;
+  faculties.sort(sorted ? (a, b) => pct(b.now, b.last) - pct(a.now, a.last) : (a, b) => b.now - a.now);
+  e.currentTarget.textContent = sorted ? "Sort faculties by visits" : "Sort faculties by change";
+  drawTable();
+});
+
+// ---- Findings ----------------------------------------------------------
+const byChange = faculties.slice().sort((a, b) => pct(b.now, b.last) - pct(a.now, a.last));
+document.getElementById("findings").innerHTML = [
+  ["Exam months drive demand", `Visits peak in ${months[peak]} at ${visits[peak]}k, ${Math.round(visits[peak] / Math.min(...visits))}× the summer low. Extended opening hours in May and November would meet the largest crowds.`, false],
+  [`${byChange.at(-1).name} is declining`, `Visits fell ${signed(pct(byChange.at(-1).now, byChange.at(-1).last))} while every other faculty grew. Worth checking whether the move to digital reading lists explains it.`, true],
+  ["Group rooms are growing", `Study-room bookings rose 12.6% and group rooms now take 22% of visits. ${byChange[0].name} leads growth at ${signed(pct(byChange[0].now, byChange[0].last))}.`, false],
+].map(([h, p, flag], i) => `<div class="card${i === 1 ? " card--white" : ""}${i === 2 ? " card--secondary" : ""} finding">
+    <div class="card__title"><h3>${flag ? '<span class="dot"></span>' : ""}${h}</h3></div><p style="line-height:20px">${p}</p></div>`).join("");
+
+// ---- Switch ------------------------------------------------------------
+const sw = document.getElementById("lastYear");
+const flip = () => { const on = sw.getAttribute("aria-checked") !== "true"; sw.setAttribute("aria-checked", on); drawLine(on); };
+sw.addEventListener("click", flip);
+sw.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+
+drawLine(true); drawTable();
+</script>
+</body>
+</html>

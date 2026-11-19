@@ -1,0 +1,53 @@
+/* Segmented toggle (single choice per row)
+   Values estimated from a reference screenshot; verify against source design. */
+
+.segmented {
+  --seg-track: #F2F3F5;
+  --seg-selected-bg: #FFFFFF;
+  --seg-selected-text: #18181B;
+  --seg-text: #A6A9AE;
+  --seg-text-hover: #71717A;
+  --seg-text-disabled: #D4D4D8;
+
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--seg-track);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+.segmented__option {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--seg-text);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+.segmented__option svg { width: 16px; height: 16px; flex: none; }
+.segmented__option:hover { color: var(--seg-text-hover); }
+.segmented__option[aria-checked="true"] {
+  background: var(--seg-selected-bg);
+  color: var(--seg-selected-text);
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.segmented__option:disabled { color: var(--seg-text-disabled); cursor: not-allowed; }
+.segmented__option:focus-visible { outline: 2px solid #18181B; outline-offset: 2px; }
+
+.segmented-label {
+  display: block;
+  margin: 0 0 12px;
+  color: #3F3F46;
+  font: 400 14px "Inter", "Segoe UI", system-ui, sans-serif;
+}

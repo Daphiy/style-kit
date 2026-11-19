@@ -1,0 +1,153 @@
+/* ==========================================================================
+   colors.css — named colors (the raw ingredients)
+   --------------------------------------------------------------------------
+   One line per color:   --swa-<family>-<shade>: <value>;
+   - Use lowercase-kebab-case names
+   - Values can be hex (#1a2b3c), rgb(), or hsl()
+   - Name colors by what they ARE, not what they're FOR
+     (good: --swa-soft-blue-light, avoid: --swa-button-bg)
+   Palettes in palettes.css pick from these by name.
+
+   Shade scale (same column = same word in every family):
+     darkest · dark · medium · light · lighter · lightest
+   Families with fewer shades just skip the steps they don't have.
+
+   NOTE: hex values were estimated from a screenshot. Replace them with
+   the official values from the design source before relying on them.
+   ========================================================================== */
+
+:root {
+
+      /* Shades: basic white and black */
+  --white:                #FFFFFF;
+  --black:                #000000;
+  --grey-light: #D9D9D9;
+
+
+   --college-red: #CF4F4F;
+   --college-reddish: #C76666;
+
+   --college-pink: #FFC3B4;
+   --college-pinkish: #ED9681;
+   --college-pinkish-lighter: #FBB9A8;
+   --college-lightpink: #FFE6DF;
+   
+   --college-ochre: #D8AB31;
+   --college-yellow: #F9E789;
+   --college-yellowish: #E8D24A;
+   --college-light-yellow: #FFF8C4;
+   
+   --college-blue: #5099DC;
+   --college-blueish: #5881AF;
+   --college-blue-navy: #0A2747;
+   --college-blue-light: #DFF0F8;
+   --college-blue-greylight: #C8D8DF;
+   
+   --college-green: #89C889;
+   --college-green: #D8F2BF;
+   --college-green: #E1F7CD;
+   
+
+
+/* Series / model colours (c1–c5) */
+  --waterlily-blue-light:   #A1D3FF;  /* c1 */
+  --waterlily-aqua:         #C5E7E7;  /* c2 */
+  --waterlily-blue:         #85B6EA;  /* c3 */
+  --waterlily-green:        #C6F0A6;  /* c4 */
+  --waterlily-lilac:        #D4C0EE;  /* c5 */
+
+  /* Darker series tints for text and strokes on light backgrounds (k1–k5) */
+  --waterlily-blue-light-ink: color-mix(in oklab, var(--waterlily-blue-light) 55%, #2E2F2F);
+  --waterlily-aqua-ink:       color-mix(in oklab, var(--waterlily-aqua) 55%, #2E2F2F);
+  --waterlily-blue-ink:       color-mix(in oklab, var(--waterlily-blue) 55%, #2E2F2F);
+  --waterlily-green-ink:      color-mix(in oklab, var(--waterlily-green) 55%, #2E2F2F);
+  --waterlily-lilac-ink:      color-mix(in oklab, var(--waterlily-lilac) 55%, #2E2F2F);
+
+
+  /* Neutrals: scale based on brand grey */
+  --swa-grey--50:             #FAFAFA;  /* old color */
+  --swa-grey--100:            #E8E7E7;
+  --swa-grey--200:            #D1D0CE;
+  --swa-grey--300:            #BAB8B6;
+  --swa-grey--400:            #A3A19D;
+  --swa-grey--500:            #8C8985;  /* base, brand grey */
+  --swa-grey--600:            #706E6A;
+  --swa-grey--700:            #545250;
+  --swa-grey--800:            #383735;
+  --swa-grey--900:            #1C1B1B;
+
+  /* Brand: Swan white (core color) */
+  --swa-swan-white--105:      #E4E2D8;  /* darker swan */
+  --swa-swan-white--100:      #F0EEE4;
+
+  /* Brand: pink (accent) */
+  --swa-pink--100:            #F8AAB6;
+  --swa-pink-light--100:      #FCC2CC;
+  --swa-pink-light--50:       #FDE0E5;
+
+  /* Brand: blue (accent) */
+  --swa-blue--100:            #8DBAED;
+  --swa-blue-light--100:      #ADCFF1;
+  --swa-blue-light--50:       #D6E7F8;
+
+  /* Brand: yellow (accent) */
+  --swa-yellow--100:          #FCCF61;
+  --swa-yellow-light--100:    #FFE495;
+
+  /* Brand: green (accent) */
+  --swa-green--100:           #77BB78;
+  --swa-green-light--100:     #C7E299;
+
+  /* Green */
+  --swa-green-dark:           #326633;
+  --swa-green-medium:         #6EB66F;
+  --swa-green-light:          #C7E299;
+  --swa-green-lighter:        #E3F1E3;
+
+  /* Soft blue */
+  --swa-soft-blue-darkest:    #3255A5;
+  --swa-soft-blue-dark:       #5A90E5;
+  --swa-soft-blue-medium:     #8DBAED;
+  --swa-soft-blue-light:      #ADCFF1;
+  --swa-soft-blue-lighter:    #E3F2FF;
+  --swa-soft-blue-lightest:   #E3F2FF;
+
+  /* Purple */
+  --swa-purple-medium:        #CCA8CF;
+  --swa-purple-light:         #EADBEB;
+  --swa-purple-lighter:       #F4ECF5;
+
+  /* Pink */
+  --swa-pink-medium:          #F8AAB6;
+  --swa-pink-light:           #F9E4EB;
+
+  /* Soft yellow */
+  --swa-soft-yellow-dark:     #FCCC55;
+  --swa-soft-yellow-medium:   #FCCF61;
+  --swa-soft-yellow-light:    #FFE495;
+  --swa-soft-yellow-lighter:  #FEF4DE;
+
+  /* Warning yellow */
+  --swa-warning-yellow-darkest:  #CC8E14;
+  --swa-warning-yellow-dark:     #FFC147;
+  --swa-warning-yellow-medium:   #FFC122;
+  --swa-warning-yellow-light:    #FFEFD1;
+  --swa-warning-yellow-lighter:  #FFF7E8;
+  --swa-warning-yellow-lightest: #FFFBF3;
+
+  /* Error red */
+  --swa-error-red-darkest:    #BE1212;
+  --swa-error-red-dark:       #EE1717;
+  --swa-error-red-medium:     #F14545;
+  --swa-error-red-light:      #FCD1D1;
+  --swa-error-red-lighter:    #FDE7E7;
+  --swa-error-red-lightest:   #FEF3F3;
+
+  /* Info blue */
+  --swa-info-blue-darkest:    #1448CC;
+  --swa-info-blue-dark:       #0040E3;
+  --swa-info-blue-medium:     #477BFF;
+  --swa-info-blue-light:      #D1DEFF;
+  --swa-info-blue-lighter:    #E8EEFF;
+  --swa-info-blue-lightest:   #f3f7ff;
+}

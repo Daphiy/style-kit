@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waterlilies of the United States · Waterlily theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* themes/waterlily/design.md */
+    --waterlily-blue-light: #A1D3FF;  /* c1 */
+    --waterlily-aqua:       #C5E7E7;  /* c2 */
+    --waterlily-blue:       #85B6EA;  /* c3 */
+    --waterlily-green:      #C6F0A6;  /* c4 */
+    --waterlily-lilac:      #D4C0EE;  /* c5 */
+    --waterlily-blue-light-ink: color-mix(in oklab, var(--waterlily-blue-light) 55%, #2E2F2F);
+    --waterlily-aqua-ink:       color-mix(in oklab, var(--waterlily-aqua) 55%, #2E2F2F);
+    --waterlily-blue-ink:       color-mix(in oklab, var(--waterlily-blue) 55%, #2E2F2F);
+    --waterlily-green-ink:      color-mix(in oklab, var(--waterlily-green) 55%, #2E2F2F);
+    --waterlily-lilac-ink:      color-mix(in oklab, var(--waterlily-lilac) 55%, #2E2F2F);
+
+    --text: #000000;
+    --muted: #4A4D4E;
+    --page: #F6FAFB;
+    --surface: #FFFFFF;
+    --line: color-mix(in oklab, var(--waterlily-blue) 60%, #FFFFFF);
+    --font: "Work Sans", "Segoe UI", system-ui, sans-serif;
+    --font-display: "Montserrat", "Work Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; background: var(--page); color: var(--text); font: 400 15px/1.55 var(--font); }
+  .page { max-width: 1080px; margin: 0 auto; padding: 28px 20px 56px; }
+
+  /* No bold in this theme: weights stay between 300 and 600 */
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; letter-spacing: -.01em; }
+  h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 300; line-height: 1.1; }
+  h1 em { font-style: normal; font-weight: 500; }
+  h2 { font-size: 24px; font-weight: 400; }
+  h3 { font-size: 16px; font-weight: 500; }
+  p { margin: 0; }
+  .eyebrow { font: 500 12px var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--waterlily-blue-ink); }
+  .lede { max-width: 58ch; margin-top: 14px; font-size: 17px; font-weight: 300; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+
+  /* Hero: line-drawn lotus with ripples, inspired by elements/image.png */
+  .hero { position: relative; display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 24px;
+          padding: 36px 36px 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 40px 40px 40px 120px; overflow: hidden; }
+  .hero svg { width: 100%; max-width: 340px; justify-self: center; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; border-radius: 32px; padding: 28px 22px; } .hero svg { max-width: 220px; } }
+
+  /* Lily-pad stat tiles */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin: 20px 0 8px; }
+  .stat { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px 999px 999px 28px; }
+  .stat:nth-child(1) { background: color-mix(in oklab, var(--waterlily-blue-light) 28%, #FFFFFF); }
+  .stat:nth-child(2) { background: color-mix(in oklab, var(--waterlily-green) 35%, #FFFFFF); }
+  .stat:nth-child(3) { background: color-mix(in oklab, var(--waterlily-lilac) 35%, #FFFFFF); }
+  .stat:nth-child(4) { background: color-mix(in oklab, var(--waterlily-aqua) 45%, #FFFFFF); }
+  .stat b { display: block; font: 300 34px/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .stat span { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+
+  section { margin-top: 44px; }
+  .section-head { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: end; justify-content: space-between; margin-bottom: 16px; }
+  .section-head p { max-width: 60ch; }
+  .wave { display: block; width: 100%; height: 18px; margin-top: 44px; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 22px 24px; }
+  .split { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+
+  /* Map */
+  .map svg { width: 100%; height: auto; display: block; }
+  .pad { stroke: var(--waterlily-blue-ink); stroke-width: .8; cursor: default; transition: transform .15s; transform-box: fill-box; transform-origin: center; }
+  .pad:hover { transform: scale(1.08); }
+  .pad-label { font: 500 11px var(--font); pointer-events: none; text-anchor: middle; }
+  .b0 { fill: #F2F8F8; } .b1 { fill: var(--waterlily-aqua); } .b2 { fill: var(--waterlily-blue-light); }
+  .b3 { fill: var(--waterlily-blue); } .b4 { fill: var(--waterlily-blue-ink); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--muted); }
+  .legend i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; border-radius: 50%; border: .8px solid var(--waterlily-blue-ink); }
+
+  .rank { list-style: none; margin: 8px 0 0; padding: 0; counter-reset: r; }
+  .rank li { display: grid; grid-template-columns: 22px 1fr auto; gap: 4px 10px; align-items: center; padding: 7px 0; font-size: 14px; counter-increment: r; }
+  .rank li::before { content: counter(r); font: 400 12px var(--font-display); color: var(--muted); }
+  .rank .bar { grid-column: 2 / 4; height: 6px; border-radius: 99px; background: var(--waterlily-blue-light); }
+  .rank b { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* Trend */
+  .trend svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .axis text { font: 400 11px var(--font); fill: var(--muted); }
+  .gridline { stroke: var(--line); stroke-width: .8; stroke-dasharray: 2 5; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 10px; padding: 0; list-style: none; font-size: 13px; }
+  .key i { display: inline-block; width: 18px; height: 8px; margin-right: 6px; border-radius: 99px; vertical-align: 1px; }
+  .callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+  .callout { padding: 14px 18px; border-radius: 22px; border: 1px solid var(--line); font-size: 14px; }
+  .callout b { display: block; font: 300 26px/1.2 var(--font-display); }
+
+  /* Species */
+  .species { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .sp { position: relative; padding: 20px 22px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 26px 26px 26px 80px; overflow: hidden; }
+  .sp::after { content: ""; position: absolute; right: -26px; top: -26px; width: 90px; height: 90px; border-radius: 50%; background: var(--tint); opacity: .55; }
+  .sp h3 { position: relative; z-index: 1; }
+  .sp .sci { font-style: italic; font-weight: 300; font-size: 14px; color: var(--muted); }
+  .sp .n { margin-top: 12px; font: 300 26px var(--font-display); font-variant-numeric: tabular-nums; }
+  .sp .n small { font: 400 12px var(--font); color: var(--muted); }
+  .sp .where { margin-top: 6px; font-size: 13px; }
+  .sp--hero { grid-column: span 2; }
+  @media (max-width: 560px) { .sp--hero { grid-column: auto; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { padding: 5px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); font-size: 13px; }
+  .chip i { font-weight: 300; }
+  .chip span { color: var(--muted); }
+
+  /* Status */
+  .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .st { padding: 20px 22px; border-radius: 28px; border: 1px solid var(--line); background: var(--surface); }
+  .st .tag { display: inline-block; margin-bottom: 10px; padding: 3px 12px; border-radius: 99px; font: 500 11px var(--font-display); letter-spacing: .08em; text-transform: uppercase; }
+  .st p { margin-top: 6px; font-size: 14px; }
+  .tag--ok    { background: var(--waterlily-green); }
+  .tag--watch { background: var(--waterlily-lilac); }
+  .tag--rare  { background: var(--waterlily-blue-light); }
+  .tag--local { background: var(--waterlily-aqua); }
+
+  .note { margin-top: 44px; padding: 22px 26px; border-radius: 28px; background: color-mix(in oklab, var(--waterlily-lilac) 22%, #FFFFFF); border: 1px solid var(--line); font-size: 14px; }
+  .note h3 { margin-bottom: 6px; }
+  .note ul { margin: 8px 0 0; padding-left: 18px; }
+  footer { margin-top: 28px; font-size: 12px; color: var(--muted); }
+  a { color: var(--waterlily-blue-ink); }
+
+  .tip { position: fixed; z-index: 10; pointer-events: none; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; font-size: 13px; box-shadow: 0 4px 16px rgba(46, 47, 47, .08); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Example report · Waterlily theme</p>
+      <h1>Waterlilies of the <em>United States</em></h1>
+      <p class="lede">Where America’s waterlilies (genus <i>Nymphaea</i>) are recorded, how the record has changed since 1950, which species grow here, and what is known about their ecological status.</p>
+    </div>
+    <svg viewBox="0 0 300 260" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- ripples -->
+      <ellipse cx="150" cy="238" rx="120" ry="14" stroke="var(--waterlily-aqua-ink)" stroke-width="1" opacity=".5"/>
+      <ellipse cx="150" cy="238" rx="78" ry="9" stroke="var(--waterlily-blue)" stroke-width="1.2"/>
+      <path d="M150 238 V188" stroke="var(--waterlily-green-ink)" stroke-width="1.4"/>
+      <!-- outer petals -->
+      <path d="M150 168 C 110 176 52 170 22 150 C 62 132 118 140 150 168Z" fill="color-mix(in oklab, var(--waterlily-lilac) 35%, #FFFFFF)" stroke="var(--waterlily-lilac-ink)" stroke-width="1.2"/>
+      <path d="M150 168 C 190 176 248 170 278 150 C 238 132 182 140 150 168Z" fill="color-mix(in oklab, var(--waterlily-lilac) 35%, #FFFFFF)" stroke="var(--waterlily-lilac-ink)" stroke-width="1.2"/>
+      <path d="M150 166 C 112 140 60 118 34 96 C 86 92 132 124 150 166Z" fill="color-mix(in oklab, var(--waterlily-blue-light) 30%, #FFFFFF)" stroke="var(--waterlily-blue-ink)" stroke-width="1.2"/>
+      <path d="M150 166 C 188 140 240 118 266 96 C 214 92 168 124 150 166Z" fill="color-mix(in oklab, var(--waterlily-blue-light) 30%, #FFFFFF)" stroke="var(--waterlily-blue-ink)" stroke-width="1.2"/>
+      <!-- inner petals -->
+      <path d="M150 166 C 118 140 96 92 100 52 C 128 80 146 120 150 166Z" fill="#FFFFFF" stroke="var(--waterlily-lilac-ink)" stroke-width="1.2"/>
+      <path d="M150 166 C 182 140 204 92 200 52 C 172 80 154 120 150 166Z" fill="#FFFFFF" stroke="var(--waterlily-lilac-ink)" stroke-width="1.2"/>
+      <path d="M150 166 C 132 128 126 76 150 30 C 174 76 168 128 150 166Z" fill="color-mix(in oklab, var(--waterlily-lilac) 25%, #FFFFFF)" stroke="var(--waterlily-lilac-ink)" stroke-width="1.2"/>
+      <!-- bud below the flower -->
+      <path d="M150 196 C 134 186 132 170 150 160 C 168 170 166 186 150 196Z" fill="color-mix(in oklab, var(--waterlily-green) 45%, #FFFFFF)" stroke="var(--waterlily-green-ink)" stroke-width="1.2"/>
+    </svg>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <svg class="wave" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 9 Q 25 0 50 9 T 100 9 T 150 9 T 200 9 T 250 9 T 300 9 T 350 9 T 400 9 T 450 9 T 500 9 T 550 9 T 600 9 T 650 9 T 700 9 T 750 9 T 800 9 T 850 9 T 900 9 T 950 9 T 1000 9" fill="none" stroke="var(--line)" stroke-width="1"/></svg>
+
+  <section>
+    <div class="section-head">
+      <div><p class="eyebrow">Where</p><h2>Which states have the most waterlilies</h2></div>
+      <p class="muted small">Each lily pad is a state, shaded by the number of <i>Nymphaea</i> records. Records track where people look as well as where plants grow, so big, well-surveyed states with many lakes come out on top.</p>
+    </div>
+    <div class="split">
+      <div class="card map">
+        <svg id="map" viewBox="0 0 560 420" role="img" aria-label="Lily-pad tile map of waterlily records by US state"></svg>
+        <ul class="legend" id="mapLegend"></ul>
+      </div>
+      <div class="card">
+        <h3>Top 10 states by records</h3>
+        <ol class="rank" id="rank"></ol>
+        <p class="small muted" style="margin-top:10px" id="rankNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 9 Q 25 0 50 9 T 100 9 T 150 9 T 200 9 T 250 9 T 300 9 T 350 9 T 400 9 T 450 9 T 500 9 T 550 9 T 600 9 T 650 9 T 700 9 T 750 9 T 800 9 T 850 9 T 900 9 T 950 9 T 1000 9" fill="none" stroke="var(--line)" stroke-width="1"/></svg>
+
+  <section>
+    <div class="section-head">
+      <div><p class="eyebrow">When</p><h2>The trend over time</h2></div>
+      <p class="muted small">Records per year, 1950–2025, split into museum specimens and everything else. Most of the “everything else” is photo observations from community science apps.</p>
+    </div>
+    <div class="card trend">
+      <ul class="key">
+        <li><i style="background:var(--waterlily-blue)"></i>Observations and other records</li>
+        <li><i style="background:var(--waterlily-lilac-ink)"></i>Museum specimens</li>
+      </ul>
+      <svg id="trend" viewBox="0 0 900 300" role="img" aria-label="Waterlily records per year since 1950"></svg>
+      <div class="callouts" id="callouts"></div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 9 Q 25 0 50 9 T 100 9 T 150 9 T 200 9 T 250 9 T 300 9 T 350 9 T 400 9 T 450 9 T 500 9 T 550 9 T 600 9 T 650 9 T 700 9 T 750 9 T 800 9 T 850 9 T 900 9 T 950 9 T 1000 9" fill="none" stroke="var(--line)" stroke-width="1"/></svg>
+
+  <section>
+    <div class="section-head">
+      <div><p class="eyebrow">What</p><h2>How many types are there</h2></div>
+      <p class="muted small">Worldwide the genus has roughly 50–70 species, depending on which classification you follow. Seven native species have US records. One of them, the fragrant white waterlily, accounts for 9 in 10 of all records.</p>
+    </div>
+    <div class="species" id="species"></div>
+    <div class="card" style="margin-top:14px">
+      <h3>Introduced and garden waterlilies</h3>
+      <p class="small muted" style="margin-top:4px">Non-native species and hybrids, mostly escaped or planted in ornamental ponds. Number of US records:</p>
+      <div class="chips" id="introduced"></div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 9 Q 25 0 50 9 T 100 9 T 150 9 T 200 9 T 250 9 T 300 9 T 350 9 T 400 9 T 450 9 T 500 9 T 550 9 T 600 9 T 650 9 T 700 9 T 750 9 T 800 9 T 850 9 T 900 9 T 950 9 T 1000 9" fill="none" stroke="var(--line)" stroke-width="1"/></svg>
+
+  <section>
+    <div class="section-head">
+      <div><p class="eyebrow">Status</p><h2>Ecological status at a glance</h2></div>
+      <p class="muted small">A qualitative summary. Check the formal conservation ranks per state before using these for any decision.</p>
+    </div>
+    <div class="status">
+      <div class="st">
+        <span class="tag tag--ok">Widespread</span>
+        <h3>Fragrant white waterlily</h3>
+        <p>Common in ponds, lakes and slow rivers across the East, the Great Lakes states and the Gulf Coast, and recorded in every region of the country. It is generally regarded as secure.</p>
+      </div>
+      <div class="st">
+        <span class="tag tag--watch">Out of place</span>
+        <h3>Spreading beyond its native range</h3>
+        <p>In the Pacific Northwest and California the fragrant white waterlily is introduced and can form dense mats that shade out native plants. Washington lists it as a noxious weed. The yellow banana waterlily, native to Florida and the Gulf, also turns up in California (49 records).</p>
+      </div>
+      <div class="st">
+        <span class="tag tag--rare">Rare</span>
+        <h3>Northern dwarfs</h3>
+        <p>Leiberg’s and pygmy waterlilies are small, cold-water species. They have only a few hundred records, scattered across Minnesota, Maine, Montana, Idaho and Alaska, at the southern edge of a mostly boreal range. Several states treat them as rare.</p>
+      </div>
+      <div class="st">
+        <span class="tag tag--local">Local</span>
+        <h3>Subtropical specialists</h3>
+        <p>The blue, Jameson’s and dotleaf waterlilies grow only in the warm South: Texas, Florida and Louisiana. 72 of the 74 Jameson’s records are from Florida, and the dotleaf has just 26 US records in total.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <h3>How to read these numbers</h3>
+    <ul>
+      <li><b style="font-weight:500">Records are not population counts.</b> A record is one dated sighting or specimen. State totals reflect survey effort, lake density and how popular community science apps are locally, as well as how common the plants are.</li>
+      <li><b style="font-weight:500">The rise since 2015 is mostly more observers.</b> Photo observations grew more than tenfold in a decade, while museum collecting fell. The data can’t tell whether waterlily populations themselves are growing or shrinking.</li>
+      <li><b style="font-weight:500">Recent specimen counts lag.</b> Museums take years to digitise collections, so the last few years of specimens are likely undercounted.</li>
+      <li><b style="font-weight:500">Status is a summary, not a ranking.</b> For formal ranks, see NatureServe Explorer and each state’s natural heritage program.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Data: GBIF.org occurrence records for genus <i>Nymphaea</i> (taxon key 2882411) with country = United States, retrieved 19 November 2026. 31,511 records in total. State names were cleaned (e.g. “Wa” merged into Washington), and 2026 is left out of the trend because the year is incomplete.
+    Built from <code>themes/waterlily/design.md</code>.
+  </footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+// ---- Data: GBIF, genus Nymphaea, country = US (retrieved 2026-11-19) ----
+const TOTAL = 31511;
+const STATES = {"AL":628,"AK":312,"AZ":62,"AR":131,"CA":228,"CO":132,"CT":588,"DE":50,"DC":21,"FL":4035,"GA":710,"HI":107,"ID":87,"IL":567,"IN":366,"IA":86,"KS":75,"KY":39,"LA":736,"ME":729,"MD":789,"MA":1946,"MI":2004,"MN":2018,"MS":335,"MO":249,"MT":109,"NE":85,"NV":28,"NH":775,"NJ":1100,"NM":9,"NY":1939,"NC":723,"ND":1,"OH":831,"OK":99,"OR":251,"PA":956,"RI":195,"SC":690,"SD":6,"TN":119,"TX":1960,"UT":13,"VT":825,"VA":411,"WA":969,"WV":32,"WI":2012,"WY":9};
+const NAMES = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+// [year, museum specimens, other records]
+const YEARS = [[1950,61,0],[1951,20,0],[1952,21,0],[1953,43,0],[1954,40,0],[1955,37,0],[1956,73,0],[1957,70,0],[1958,54,0],[1959,49,1],[1960,30,0],[1961,93,0],[1962,58,0],[1963,42,1],[1964,56,0],[1965,65,1],[1966,81,4],[1967,54,0],[1968,72,0],[1969,72,0],[1970,80,4],[1971,76,1],[1972,89,2],[1973,76,4],[1974,78,3],[1975,99,5],[1976,90,3],[1977,148,5],[1978,59,1],[1979,106,2],[1980,93,0],[1981,87,4],[1982,67,5],[1983,61,6],[1984,67,12],[1985,57,1],[1986,80,3],[1987,44,4],[1988,36,4],[1989,49,4],[1990,74,5],[1991,45,3],[1992,69,5],[1993,45,1],[1994,71,55],[1995,68,45],[1996,46,63],[1997,48,66],[1998,46,57],[1999,42,48],[2000,54,19],[2001,67,39],[2002,53,26],[2003,67,41],[2004,101,35],[2005,116,65],[2006,36,54],[2007,69,68],[2008,49,68],[2009,71,58],[2010,100,61],[2011,96,69],[2012,48,113],[2013,35,106],[2014,50,140],[2015,44,214],[2016,30,294],[2017,38,481],[2018,24,704],[2019,76,1111],[2020,24,1941],[2021,12,2181],[2022,23,2307],[2023,30,2339],[2024,14,2655],[2025,8,3543]];
+const NATIVE = [
+  { common: "Fragrant white waterlily", sci: "Nymphaea odorata", n: 28384, where: "Throughout the East, Great Lakes and Gulf; top states Florida, Michigan, Wisconsin, New York", tint: "var(--waterlily-blue-light)", hero: true },
+  { common: "Yellow (banana) waterlily", sci: "Nymphaea mexicana", n: 715, where: "Florida, Texas, Louisiana; also introduced in California", tint: "var(--waterlily-green)" },
+  { common: "Blue waterlily", sci: "Nymphaea elegans", n: 592, where: "Texas, Florida, Louisiana", tint: "var(--waterlily-blue)" },
+  { common: "Leiberg’s waterlily", sci: "Nymphaea leibergii", n: 226, where: "Minnesota, Maine, Montana, Idaho", tint: "var(--waterlily-lilac)" },
+  { common: "Pygmy waterlily", sci: "Nymphaea tetragona", n: 175, where: "Mostly Alaska; a few in Maine, Idaho, Montana", tint: "var(--waterlily-aqua)" },
+  { common: "Jameson’s waterlily", sci: "Nymphaea jamesoniana", n: 74, where: "Almost only Florida", tint: "var(--waterlily-green)" },
+  { common: "Dotleaf waterlily", sci: "Nymphaea ampla", n: 26, where: "Florida and Texas", tint: "var(--waterlily-lilac)" },
+];
+const INTRODUCED = [["Nymphaea lotus", "white Egyptian lotus", 136], ["Nymphaea nouchali", "blue lotus", 122], ["Nymphaea alba", "European white waterlily", 54], ["Nymphaea rubra", "red waterlily", 50], ["Nymphaea × marliacea", "garden hybrid", 26], ["Nymphaea micrantha", "blue Egyptian lotus", 13]];
+
+// Tile layout: [col, row]
+const GRID = {AK:[0,0],ME:[10,0],VT:[9,1],NH:[10,1],WA:[0,2],ID:[1,2],MT:[2,2],ND:[3,2],MN:[4,2],IL:[5,2],WI:[6,2],MI:[7,2],NY:[8,2],RI:[9,2],MA:[10,2],OR:[0,3],NV:[1,3],WY:[2,3],SD:[3,3],IA:[4,3],IN:[5,3],OH:[6,3],PA:[7,3],NJ:[8,3],CT:[9,3],CA:[0,4],UT:[1,4],CO:[2,4],NE:[3,4],MO:[4,4],KY:[5,4],WV:[6,4],VA:[7,4],MD:[8,4],DE:[9,4],AZ:[1,5],NM:[2,5],KS:[3,5],AR:[4,5],TN:[5,5],NC:[6,5],SC:[7,5],DC:[8,5],OK:[3,6],LA:[4,6],MS:[5,6],AL:[6,6],GA:[7,6],HI:[0,7],TX:[3,7],FL:[8,7]};
+const BINS = [[0, "fewer than 100"], [100, "100–299"], [300, "300–999"], [1000, "1,000–1,999"], [2000, "2,000 or more"]];
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => n.toLocaleString("en-US");
+const el = (name, attrs, parent) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; };
+const tip = document.getElementById("tip");
+const showTip = (e, html) => { tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(e.clientX + 14, innerWidth - 220) + "px"; tip.style.top = e.clientY + 14 + "px"; };
+const hideTip = () => tip.hidden = true;
+
+// ---- Stats -------------------------------------------------------------
+const dated = YEARS.reduce((s, [, a, b]) => s + a + b, 0);
+const since2020 = YEARS.filter(r => r[0] >= 2020).reduce((s, [, a, b]) => s + a + b, 0);
+document.getElementById("stats").innerHTML = [
+  [fmt(TOTAL), "US waterlily records in GBIF"],
+  ["7", "native species, out of roughly 50–70 worldwide"],
+  ["50", "states with at least one record, plus DC"],
+  [Math.round(since2020 / dated * 100) + "%", "of records since 1950 were made in 2020–2025"],
+].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+// ---- Map ---------------------------------------------------------------
+(function () {
+  const svg = document.getElementById("map");
+  const S = 50, R = 21, OX = 30, OY = 30;
+  const bin = v => BINS.reduce((b, [min], i) => v >= min ? i : b, 0);
+  for (const [code, [c, r]] of Object.entries(GRID)) {
+    const v = STATES[code] || 0, b = bin(v);
+    const cx = OX + c * S, cy = OY + r * S;
+    // lily pad: a circle with a narrow notch cut toward the centre
+    const a1 = (-62) * Math.PI / 180, a2 = (-38) * Math.PI / 180;
+    const p1 = [cx + R * Math.cos(a1), cy + R * Math.sin(a1)], p2 = [cx + R * Math.cos(a2), cy + R * Math.sin(a2)];
+    const pad = el("path", { class: "pad b" + b, d: `M${cx} ${cy} L${p2[0].toFixed(1)} ${p2[1].toFixed(1)} A${R} ${R} 0 1 1 ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Z` }, svg);
+    pad.addEventListener("mousemove", e => showTip(e, `${NAMES[code]}<br><span style="font-weight:500">${fmt(v)}</span> records`));
+    pad.addEventListener("mouseleave", hideTip);
+    el("text", { class: "pad-label", x: cx, y: cy + 4, fill: b === 4 ? "#FFFFFF" : "#000000" }, svg).textContent = code;
+  }
+  document.getElementById("mapLegend").innerHTML = BINS.map(([, label], i) =>
+    `<li><i class="b${i}" style="background:${["#F2F8F8", "var(--waterlily-aqua)", "var(--waterlily-blue-light)", "var(--waterlily-blue)", "var(--waterlily-blue-ink)"][i]}"></i>${label}</li>`).join("");
+
+  const top = Object.entries(STATES).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const max = top[0][1];
+  document.getElementById("rank").innerHTML = top.map(([c, v]) =>
+    `<li><span>${NAMES[c]}</span><b>${fmt(v)}</b><div class="bar" style="width:${v / max * 100}%"></div></li>`).join("");
+  const top5 = top.slice(0, 5).reduce((s, [, v]) => s + v, 0);
+  const assigned = Object.values(STATES).reduce((s, v) => s + v, 0);
+  document.getElementById("rankNote").textContent =
+    `Florida leads by a wide margin. The top five states hold ${Math.round(top5 / assigned * 100)}% of all records. The Great Lakes states (Minnesota, Wisconsin, Michigan) follow, with their thousands of lakes. Washington ranks high because waterlilies are introduced there and get surveyed as weeds.`;
+})();
+
+// ---- Trend -------------------------------------------------------------
+(function () {
+  const svg = document.getElementById("trend");
+  const W = 900, H = 300, m = { t: 14, r: 16, b: 30, l: 46 };
+  const y0 = YEARS[0][0], y1 = YEARS.at(-1)[0];
+  const max = 4000;
+  const x = yr => m.l + (yr - y0) / (y1 - y0) * (W - m.l - m.r);
+  const y = v => H - m.b - v / max * (H - m.t - m.b);
+  const ax = el("g", { class: "axis" }, svg);
+  for (let v = 0; v <= max; v += 1000) {
+    el("line", { class: "gridline", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, svg);
+    el("text", { x: m.l - 8, y: y(v) + 4, "text-anchor": "end" }, ax).textContent = fmt(v);
+  }
+  for (let yr = 1950; yr <= 2025; yr += 10) el("text", { x: x(yr), y: H - 8, "text-anchor": "middle" }, ax).textContent = yr;
+
+  const total = YEARS.map(([yr, a, b]) => [yr, a + b]);
+  const area = (pts, base) => `M${x(pts[0][0])} ${y(base)} ` + pts.map(([yr, v]) => `L${x(yr).toFixed(1)} ${y(v).toFixed(1)}`).join(" ") + ` L${x(pts.at(-1)[0])} ${y(base)} Z`;
+  const line = pts => pts.map(([yr, v], i) => `${i ? "L" : "M"}${x(yr).toFixed(1)} ${y(v).toFixed(1)}`).join(" ");
+  el("path", { d: area(total, 0), fill: "color-mix(in oklab, var(--waterlily-blue-light) 45%, #FFFFFF)" }, svg);
+  el("path", { d: line(total), fill: "none", stroke: "var(--waterlily-blue)", "stroke-width": 2 }, svg);
+  const spec = YEARS.map(([yr, a]) => [yr, a]);
+  el("path", { d: area(spec, 0), fill: "color-mix(in oklab, var(--waterlily-lilac) 70%, #FFFFFF)" }, svg);
+  el("path", { d: line(spec), fill: "none", stroke: "var(--waterlily-lilac-ink)", "stroke-width": 1.5 }, svg);
+  el("line", { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: "var(--waterlily-blue-ink)", "stroke-width": .8 }, svg);
+
+  // annotation
+  const ax2015 = x(2015);
+  el("line", { x1: ax2015, x2: ax2015, y1: y(0), y2: y(2600), stroke: "var(--waterlily-lilac-ink)", "stroke-dasharray": "3 4", "stroke-width": 1 }, svg);
+  el("text", { x: ax2015 - 8, y: y(2600) - 6, "text-anchor": "end", style: "font:400 12px var(--font);fill:var(--muted)" }, svg).textContent = "Community science apps take off";
+
+  const hover = el("line", { y1: m.t, y2: y(0), stroke: "var(--waterlily-blue-ink)", "stroke-width": .8, opacity: 0 }, svg);
+  const hit = el("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+  hit.addEventListener("mousemove", e => {
+    const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
+    const loc = p.matrixTransform(svg.getScreenCTM().inverse());
+    const yr = Math.round(y0 + (loc.x - m.l) / (W - m.l - m.r) * (y1 - y0));
+    const row = YEARS.find(r => r[0] === yr); if (!row) return;
+    hover.setAttribute("x1", x(yr)); hover.setAttribute("x2", x(yr)); hover.setAttribute("opacity", 1);
+    showTip(e, `<span style="font-weight:500">${yr}</span><br>Observations and other: ${fmt(row[2])}<br>Museum specimens: ${fmt(row[1])}`);
+  });
+  hit.addEventListener("mouseleave", () => { hideTip(); hover.setAttribute("opacity", 0); });
+
+  const r2015 = YEARS.find(r => r[0] === 2015), r2025 = YEARS.at(-1);
+  const avg = (a, b) => Math.round(YEARS.filter(r => r[0] >= a && r[0] <= b).reduce((s, r) => s + r[1], 0) / (b - a + 1));
+  document.getElementById("callouts").innerHTML = [
+    [`${Math.round((r2025[1] + r2025[2]) / (r2015[1] + r2015[2]))}×`, `more records in 2025 than in 2015 (${fmt(r2025[1] + r2025[2])} vs ${fmt(r2015[1] + r2015[2])})`],
+    [`${avg(1950, 2010)} → ${avg(2020, 2025)}`, "museum specimens per year, 1950–2010 average vs 2020–2025"],
+    ["Unknown", "the real population trend. These records measure observer effort too, so they can't show whether waterlilies are increasing or declining"],
+  ].map(([b, s], i) => `<div class="callout" style="background:${["color-mix(in oklab, var(--waterlily-blue-light) 22%, #FFFFFF)", "color-mix(in oklab, var(--waterlily-lilac) 25%, #FFFFFF)", "color-mix(in oklab, var(--waterlily-green) 28%, #FFFFFF)"][i]}"><b>${b}</b>${s}</div>`).join("");
+})();
+
+// ---- Species -----------------------------------------------------------
+(function () {
+  const all = NATIVE.reduce((s, x) => s + x.n, 0);
+  document.getElementById("species").innerHTML = NATIVE.map(s => `
+    <article class="sp${s.hero ? " sp--hero" : ""}" style="--tint:${s.tint}">
+      <h3>${s.common}</h3>
+      <p class="sci">${s.sci}</p>
+      <p class="n">${fmt(s.n)} <small>records${s.hero ? ` · ${Math.round(s.n / TOTAL * 100)}% of all US waterlily records` : ""}</small></p>
+      <p class="where">${s.where}</p>
+    </article>`).join("");
+  document.getElementById("introduced").innerHTML = INTRODUCED.map(([sci, common, n]) =>
+    `<span class="chip"><i>${sci}</i> · ${common} <span>${n}</span></span>`).join("");
+})();
+</script>
+</body>
+</html>

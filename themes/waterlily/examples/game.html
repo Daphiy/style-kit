@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pond Words · Waterlily theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- General elements, restyled below as themes/waterlily/design.md describes -->
+<link rel="stylesheet" href="../../../elements/toggles/segmented.css">
+<link rel="stylesheet" href="../../../elements/buttons/buttons.css">
+<style>
+  :root {
+    /* themes/waterlily/design.md */
+    --waterlily-blue-light: #A1D3FF;  /* c1 */
+    --waterlily-aqua:       #C5E7E7;  /* c2 */
+    --waterlily-blue:       #85B6EA;  /* c3 */
+    --waterlily-green:      #C6F0A6;  /* c4 */
+    --waterlily-lilac:      #D4C0EE;  /* c5 */
+    --waterlily-blue-light-ink: color-mix(in oklab, var(--waterlily-blue-light) 55%, #2E2F2F);
+    --waterlily-aqua-ink:       color-mix(in oklab, var(--waterlily-aqua) 55%, #2E2F2F);
+    --waterlily-blue-ink:       color-mix(in oklab, var(--waterlily-blue) 55%, #2E2F2F);
+    --waterlily-green-ink:      color-mix(in oklab, var(--waterlily-green) 55%, #2E2F2F);
+    --waterlily-lilac-ink:      color-mix(in oklab, var(--waterlily-lilac) 55%, #2E2F2F);
+
+    --text: #000000;
+    --muted: #4A4D4E;
+    --page: #F6FAFB;
+    --surface: #FFFFFF;
+    --line: color-mix(in oklab, var(--waterlily-blue) 60%, #FFFFFF);
+    --font: "Work Sans", "Segoe UI", system-ui, sans-serif;
+    --font-display: "Montserrat", "Work Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; background: var(--page); color: var(--text); font: 400 15px/1.5 var(--font); }
+  .page { max-width: 900px; margin: 0 auto; padding: 28px 20px 48px; }
+
+  /* No bold in this theme: weights stay between 300 and 600 */
+  h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 300; letter-spacing: -.01em; }
+  h1 { font-size: clamp(30px, 5vw, 42px); }
+  h1 em { font-style: normal; font-weight: 500; }
+  h2 { font-size: 16px; font-weight: 500; }
+  p { margin: 0; }
+  .eyebrow { font: 500 12px var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--waterlily-blue-ink); }
+  .sub { margin-top: 8px; font-weight: 300; font-size: 16px; }
+
+  header { padding: 28px 30px; background: var(--surface); border: 1px solid var(--line); border-radius: 36px 36px 36px 100px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; justify-content: space-between; margin: 18px 0; }
+  .stats { display: flex; gap: 10px; }
+  .stat { min-width: 82px; padding: 8px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; text-align: center; }
+  .stat span { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .stat b { font: 300 20px var(--font-display); font-variant-numeric: tabular-nums; }
+
+  /* Segmented toggle: track and pill in the waterlily palette */
+  .segmented { --seg-track: color-mix(in oklab, var(--waterlily-aqua) 60%, #FFFFFF); --seg-selected-text: var(--text); --seg-text: var(--muted); --seg-text-hover: var(--text); font-family: var(--font); border: 1px solid var(--line); min-width: 240px; }
+  .segmented__option { height: 32px; font-size: 14px; }
+  .segmented__option[aria-checked="true"] { font-weight: 500; box-shadow: 0 0 0 1px var(--line); }
+  .segmented__option:focus-visible { outline-color: var(--waterlily-blue-ink); }
+  .segmented-label { margin-bottom: 8px; font: 400 13px var(--font); color: var(--muted); }
+
+  /* Buttons: pill-shaped, thin borders, no heavy weights */
+  .btn { --btn-radius: 999px; --btn-primary: var(--waterlily-blue-ink); --btn-border: var(--line); --btn-fg: var(--text); --btn-accent: color-mix(in oklab, var(--waterlily-aqua) 50%, #FFFFFF); --btn-ring: color-mix(in oklab, var(--waterlily-blue) 45%, transparent); box-shadow: none; font: 500 14px/20px var(--font); }
+  .actions { display: flex; gap: 8px; }
+
+  .play { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; align-items: start; }
+  @media (max-width: 720px) { .play { grid-template-columns: 1fr; } }
+
+  /* The pond: the letter grid sits on water, found words float as lily-pad capsules underneath */
+  .pond { padding: 18px; background: color-mix(in oklab, var(--waterlily-aqua) 35%, #FFFFFF); border: 1px solid var(--line); border-radius: 40px 40px 40px 110px; }
+  .board { position: relative; width: 100%; aspect-ratio: 1; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .board svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .grid { position: absolute; inset: 0; display: grid; }
+  .cell { display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text); cursor: pointer;
+          font: 400 clamp(14px, 3.4vw, 22px) var(--font-display); }
+  .cell:focus-visible { outline: 2px solid var(--waterlily-blue-ink); outline-offset: -3px; }
+  .cell.is-anchor { background: color-mix(in oklab, var(--waterlily-lilac) 55%, #FFFFFF); box-shadow: inset 0 0 0 1px var(--waterlily-lilac-ink); }
+  .cell.is-hint { animation: ripple 1.2s ease-out 2; }
+  @keyframes ripple { 0% { box-shadow: 0 0 0 0 var(--waterlily-blue-ink); } 100% { box-shadow: 0 0 0 14px transparent; } }
+  .found { stroke-linecap: round; }
+  .found-edge { fill: none; stroke-linecap: round; }
+  .preview { stroke: color-mix(in oklab, var(--waterlily-lilac) 70%, #FFFFFF); stroke-linecap: round; }
+  .board.is-miss svg .preview { stroke: color-mix(in oklab, var(--waterlily-lilac-ink) 40%, #FFFFFF); }
+
+  .words { padding: 20px 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; }
+  .words ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+  .words li { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font: 400 13px var(--font-display); letter-spacing: .06em; }
+  .words li i { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--line); }
+  .words li.is-found { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--waterlily-blue-ink); }
+  .words li.is-found i { border-color: var(--dot-ink); background: var(--dot); }
+  .words .note { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+  .banner { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 16px; padding: 18px 24px; background: color-mix(in oklab, var(--waterlily-green) 40%, #FFFFFF); border: 1px solid var(--line); border-radius: 999px 999px 999px 32px; }
+  .banner p { font-size: 15px; }
+  .banner b { font-weight: 500; }
+
+  .how { margin-top: 22px; padding: 18px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; font-size: 14px; }
+  .how p { margin-top: 4px; color: var(--muted); }
+  kbd { padding: 1px 7px; border: 1px solid var(--line); border-radius: 99px; font: 500 12px var(--font); background: var(--page); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="eyebrow">Example game · Waterlily theme</p>
+    <h1>Pond <em>Words</em></h1>
+    <p class="sub">Find every pond word hidden among the letters.</p>
+  </header>
+
+  <div class="controls">
+    <div>
+      <span class="segmented-label" id="sizeLabel">Pond size</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="sizeLabel" id="size">
+        <button class="segmented__option" role="radio" aria-checked="true" data-n="8">Small</button>
+        <button class="segmented__option" role="radio" aria-checked="false" data-n="10">Medium</button>
+        <button class="segmented__option" role="radio" aria-checked="false" data-n="12">Large</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Found</span><b id="found">0/0</b></div>
+      <div class="stat"><span>Time</span><b id="time">0:00</b></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn--outline" id="hintBtn" type="button">Hint</button>
+      <button class="btn" id="newBtn" type="button">New pond</button>
+    </div>
+  </div>
+
+  <div class="play">
+    <div class="pond">
+      <div class="board" id="board">
+        <svg id="marks" aria-hidden="true"></svg>
+        <div class="grid" id="grid" role="grid" aria-label="Letter grid"></div>
+      </div>
+    </div>
+    <aside class="words" aria-labelledby="wordsTitle">
+      <h2 id="wordsTitle">Words to find</h2>
+      <ul id="list"></ul>
+      <p class="note" id="note"></p>
+    </aside>
+  </div>
+
+  <div class="banner" id="banner" hidden>
+    <p id="result"></p>
+    <button class="btn" type="button" id="againBtn">Next pond</button>
+  </div>
+  <p class="sr" aria-live="polite" id="live"></p>
+
+  <div class="how">
+    <h2>How to play</h2>
+    <p>Drag across a word from its first letter to its last, or tap the first letter and then the last. Use the arrow keys and <kbd>Enter</kbd> to do the same from the keyboard, and <kbd>Esc</kbd> to cancel. A medium pond also hides words diagonally, and a large one hides some backwards too. Hint makes the first letter of a word ripple.</p>
+  </div>
+</div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const $ = id => document.getElementById(id);
+const WORDS = ["LOTUS", "LILY", "POND", "RIPPLE", "FROG", "REED", "PETAL", "MOSS", "HERON", "ALGAE", "NEWT", "BLOOM",
+               "CATTAIL", "WATER", "CARP", "SNAIL", "DUCK", "DRAGONFLY", "STREAM", "MARSH", "SEDGE", "TADPOLE"];
+const LEVELS = {
+  8:  { count: 6,  dirs: [[1, 0], [0, 1]] },
+  10: { count: 8,  dirs: [[1, 0], [0, 1], [1, 1], [1, -1]] },
+  12: { count: 10, dirs: [[1, 0], [0, 1], [1, 1], [1, -1], [-1, 0], [0, -1], [-1, -1], [-1, 1]] },
+};
+// Found words cycle through the series colours c1–c5
+const SERIES = ["blue-light", "green", "lilac", "aqua", "blue"];
+
+let N = 8, letters, placed, found, anchor, dragging, hover, focusIdx, hints, start, timer, done;
+
+const rand = n => Math.floor(Math.random() * n);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fmtTime = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+const el = (name, attrs, parent) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; };
+
+// Place words; restart the board if a word can't fit.
+function build() {
+  const { count, dirs } = LEVELS[N];
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const grid = new Array(N * N).fill(null), list = [];
+    const pool = shuffle(WORDS.filter(w => w.length <= N)).slice(0, count);
+    let ok = true;
+    for (const word of pool.sort((a, b) => b.length - a.length)) {
+      let spot = null;
+      for (let t = 0; t < 300 && !spot; t++) {
+        const [dx, dy] = dirs[rand(dirs.length)], x = rand(N), y = rand(N);
+        const ex = x + dx * (word.length - 1), ey = y + dy * (word.length - 1);
+        if (ex < 0 || ey < 0 || ex >= N || ey >= N) continue;
+        let fits = true;
+        for (let i = 0; i < word.length && fits; i++) { const c = grid[(y + dy * i) * N + x + dx * i]; fits = c === null || c === word[i]; }
+        if (fits) spot = { word, x, y, dx, dy };
+      }
+      if (!spot) { ok = false; break; }
+      for (let i = 0; i < word.length; i++) grid[(spot.y + spot.dy * i) * N + spot.x + spot.dx * i] = word[i];
+      list.push(spot);
+    }
+    if (!ok) continue;
+    const filler = "AEIOULNRSTDGMPBCHKW";
+    letters = grid.map(c => c ?? filler[rand(filler.length)]);
+    placed = list.sort((a, b) => a.word.localeCompare(b.word));
+    return;
+  }
+}
+
+function newGame() {
+  clearInterval(timer); timer = null; start = 0; done = false;
+  found = new Map(); anchor = null; dragging = false; hover = null; focusIdx = 0; hints = 0;
+  build();
+  const grid = $("grid");
+  grid.style.gridTemplateColumns = grid.style.gridTemplateRows = `repeat(${N}, 1fr)`;
+  grid.innerHTML = "";
+  letters.forEach((ch, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "cell"; b.textContent = ch; b.dataset.i = i;
+    b.tabIndex = i === 0 ? 0 : -1;
+    b.setAttribute("aria-label", `${ch}, row ${Math.floor(i / N) + 1}, column ${i % N + 1}`);
+    grid.appendChild(b);
+  });
+  $("marks").setAttribute("viewBox", `0 0 ${N * 100} ${N * 100}`);
+  $("banner").hidden = true; $("time").textContent = "0:00";
+  $("note").textContent = LEVELS[N].dirs.length > 4 ? "Words run in all eight directions." : LEVELS[N].dirs.length > 2 ? "Words run across, down and diagonally." : "Words run across and down.";
+  render();
+  $("live").textContent = `New ${N} by ${N} pond with ${placed.length} words.`;
+}
+
+// Cells on the straight line from a to b (row, column or 45° diagonal), else null.
+function line(a, b) {
+  const ax = a % N, ay = Math.floor(a / N), bx = b % N, by = Math.floor(b / N);
+  const dx = Math.sign(bx - ax), dy = Math.sign(by - ay), len = Math.max(Math.abs(bx - ax), Math.abs(by - ay));
+  if (ax !== bx && ay !== by && Math.abs(bx - ax) !== Math.abs(by - ay)) return null;
+  return Array.from({ length: len + 1 }, (_, i) => (ay + dy * i) * N + ax + dx * i);
+}
+
+const center = i => [(i % N + .5) * 100, (Math.floor(i / N) + .5) * 100];
+
+function capsule(a, b, cls, extra, parent) {
+  const [x1, y1] = center(a), [x2, y2] = center(b);
+  return el("line", { x1, y1, x2, y2, class: cls, ...extra }, parent);
+}
+
+function render() {
+  const svg = $("marks");
+  svg.innerHTML = "";
+  [...found.values()].forEach(({ a, b, k }) => {
+    const c = SERIES[k % SERIES.length];
+    // Thin ink rim: a slightly wider ink capsule under the pale fill
+    capsule(a, b, "found-edge", { stroke: `var(--waterlily-${c}-ink)`, "stroke-width": 76 }, svg);
+    capsule(a, b, "found", { stroke: `color-mix(in oklab, var(--waterlily-${c}) 75%, #FFFFFF)`, "stroke-width": 72 }, svg);
+  });
+  if (anchor !== null) {
+    const path = hover !== null ? line(anchor, hover) : [anchor];
+    if (path) capsule(anchor, path.at(-1), "preview", { "stroke-width": 70 }, svg);
+  }
+  document.querySelectorAll(".cell").forEach(c => c.classList.toggle("is-anchor", Number(c.dataset.i) === anchor));
+
+  $("list").innerHTML = "";
+  placed.forEach(p => {
+    const li = document.createElement("li");
+    const f = found.get(p.word);
+    li.innerHTML = `<i></i>${p.word}`;
+    if (f) {
+      const c = SERIES[f.k % SERIES.length];
+      li.classList.add("is-found");
+      li.style.setProperty("--dot", `var(--waterlily-${c})`);
+      li.style.setProperty("--dot-ink", `var(--waterlily-${c}-ink)`);
+      li.setAttribute("aria-label", `${p.word}, found`);
+    }
+    $("list").appendChild(li);
+  });
+  $("found").textContent = `${found.size}/${placed.length}`;
+}
+
+function startTimer() {
+  if (timer || done) return;
+  start = Date.now();
+  timer = setInterval(() => $("time").textContent = fmtTime(Math.floor((Date.now() - start) / 1000)), 500);
+}
+
+function pick(i) {
+  if (done) return;
+  startTimer();
+  if (anchor === null) { anchor = i; hover = i; render(); return; }
+  attempt(anchor, i);
+}
+
+function attempt(a, b) {
+  anchor = null; hover = null;
+  const path = a === b ? null : line(a, b);
+  const text = path ? path.map(i => letters[i]).join("") : "";
+  const rev = [...text].reverse().join("");
+  const hit = placed.find(p => !found.has(p.word) && (p.word === text || p.word === rev));
+  if (hit) {
+    found.set(hit.word, { a, b, k: found.size });
+    $("live").textContent = `Found ${hit.word}. ${placed.length - found.size} to go.`;
+    render();
+    if (found.size === placed.length) win();
+  } else {
+    render();
+    if (path) {
+      $("live").textContent = text.length > 1 ? `${text} is not on the list.` : "";
+      const board = $("board");
+      board.classList.add("is-miss"); setTimeout(() => board.classList.remove("is-miss"), 300);
+    }
+  }
+}
+
+function win() {
+  done = true; clearInterval(timer);
+  const secs = Math.floor((Date.now() - start) / 1000);
+  const key = "pond-words-best-" + N;
+  let best = null; try { best = Number(localStorage.getItem(key)) || null; } catch {}
+  const record = !hints && (best == null || secs < best);
+  if (record) try { localStorage.setItem(key, secs); } catch {}
+  $("result").innerHTML = `All <b>${placed.length} words</b> found in <b>${fmtTime(secs)}</b>. ` +
+    (hints ? `${hints} hint${hints > 1 ? "s" : ""} used, so this round doesn’t count for the best time.` :
+      record ? "New best time for this size." : `Best time: ${fmtTime(best)}.`);
+  $("banner").hidden = false;
+  $("live").textContent = $("result").textContent;
+}
+
+function hint() {
+  if (done) return;
+  const left = placed.filter(p => !found.has(p.word));
+  if (!left.length) return;
+  hints++; startTimer();
+  const p = left[rand(left.length)];
+  const cell = $("grid").children[p.y * N + p.x];
+  cell.classList.remove("is-hint"); void cell.offsetWidth; cell.classList.add("is-hint");
+  $("live").textContent = `Hint: a word starts at row ${p.y + 1}, column ${p.x + 1}.`;
+}
+
+// ---- Input ---------------------------------------------------------------
+const cellAt = (x, y) => { const c = document.elementFromPoint(x, y)?.closest?.(".cell"); return c ? Number(c.dataset.i) : null; };
+const board = $("board");
+board.addEventListener("pointerdown", e => {
+  const i = cellAt(e.clientX, e.clientY);
+  if (i === null) return;
+  e.preventDefault();
+  if (anchor !== null && anchor !== i) { pick(i); return; } // second tap
+  if (anchor === i) { anchor = null; hover = null; render(); return; } // tap the anchor again to cancel
+  pick(i); dragging = true;
+});
+board.addEventListener("pointermove", e => {
+  if (!dragging) return;
+  const i = cellAt(e.clientX, e.clientY);
+  if (i !== null && i !== hover) { hover = i; render(); }
+});
+document.addEventListener("pointerup", e => {
+  if (!dragging) return;
+  dragging = false;
+  const i = cellAt(e.clientX, e.clientY);
+  if (i !== null && i !== anchor) attempt(anchor, i); // finished a drag; a plain tap leaves the anchor set
+});
+
+$("grid").addEventListener("keydown", e => {
+  const moves = { ArrowUp: -N, ArrowDown: N, ArrowLeft: -1, ArrowRight: 1 };
+  if (e.key in moves) {
+    e.preventDefault();
+    const d = moves[e.key], x = focusIdx % N;
+    if ((d === -1 && x === 0) || (d === 1 && x === N - 1)) return;
+    const next = focusIdx + d;
+    if (next < 0 || next >= N * N) return;
+    const cells = $("grid").children;
+    cells[focusIdx].tabIndex = -1; focusIdx = next; cells[next].tabIndex = 0; cells[next].focus();
+    if (anchor !== null) { hover = next; render(); }
+  } else if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault(); pick(focusIdx);
+  } else if (e.key === "Escape" && anchor !== null) {
+    anchor = null; hover = null; render();
+  }
+});
+$("grid").addEventListener("focusin", e => { if (e.target.dataset.i) focusIdx = Number(e.target.dataset.i); });
+
+$("size").addEventListener("click", e => {
+  const opt = e.target.closest(".segmented__option"); if (!opt) return;
+  $("size").querySelectorAll(".segmented__option").forEach(o => o.setAttribute("aria-checked", o === opt));
+  N = Number(opt.dataset.n); newGame();
+});
+$("hintBtn").addEventListener("click", hint);
+$("newBtn").addEventListener("click", newGame);
+$("againBtn").addEventListener("click", newGame);
+newGame();
+</script>
+</body>
+</html>

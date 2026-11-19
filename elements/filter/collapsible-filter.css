@@ -1,0 +1,67 @@
+/* Collapsible filter — plain-CSS equivalent of shadcn studio "collapsible-05".
+   A vertical stack of collapsible sections (native <details>/<summary>, no JS), separated by lines.
+   Depends on: ../buttons/buttons.css (ghost icon-sm chevron), ../forms/forms.css (checkbox, input, label, separator).
+   Themes restyle by overriding the --cf-* variables. */
+
+.collapsible-filter {
+  --cf-fg: #0A0A0A;           /* --foreground */
+  --cf-muted: #737373;        /* --muted-foreground (chevron) */
+  --cf-star: #F59E0B;         /* amber-500 */
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                  /* space-y-3 */
+  width: 100%;
+  max-width: 350px;           /* max-w-87.5 */
+  color: var(--cf-fg);
+  font-family: "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* One section */
+.collapsible { display: flex; flex-direction: column; }
+.collapsible__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;            /* px-4 */
+  list-style: none;
+  cursor: pointer;
+}
+.collapsible__head::-webkit-details-marker { display: none; }
+.collapsible__head:focus-visible { outline: none; }
+.collapsible__head:focus-visible .collapsible__chevron { box-shadow: 0 0 0 3px rgba(161, 161, 161, 0.5); }
+.collapsible__title { font-size: 14px; font-weight: 600; }   /* text-sm font-semibold */
+
+.collapsible__chevron { color: var(--cf-muted); pointer-events: none; }
+.collapsible__chevron svg { transition: transform 150ms ease; }
+.collapsible[open] .collapsible__chevron svg { transform: rotate(180deg); }
+.collapsible__head:hover .collapsible__chevron { background: var(--btn-accent, #F5F5F5); }
+
+.collapsible__content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;           /* gap-2 between trigger row and content */
+}
+
+/* Rows inside a section */
+.cf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+.cf-row--field { justify-content: space-between; gap: 16px; }   /* label left, input right */
+.cf-row--field .label { flex-shrink: 0; }
+.cf-row--field .input { max-width: 232px; }                     /* max-w-58 */
+
+.cf-rating { display: inline-flex; align-items: center; gap: 4px; }
+.cf-star { width: 16px; height: 16px; fill: var(--cf-star); stroke: var(--cf-star); }
+
+/* Dark mode */
+.dark .collapsible-filter {
+  --cf-fg: #FAFAFA;
+  --cf-muted: #A1A1A1;
+  --cf-star: #FBBF24;         /* amber-400 */
+}

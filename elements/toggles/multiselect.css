@@ -1,0 +1,53 @@
+/* Multi-select toggle (chips) — any number can be on at once.
+   Values estimated from a reference screenshot; verify against source design.
+   Themes can restyle by overriding the --chip-* variables. */
+
+.chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  --chip-bg: #FFFFFF;
+  --chip-border: #E4E4E7;
+  --chip-border-hover: #D4D4D8;
+  --chip-text: #8A8A8F;
+  --chip-text-hover: #52525B;
+  --chip-text-on: #18181B;
+  --chip-text-disabled: #D4D4D8;
+  --chip-check-bg: #18181B;
+  --chip-check-fg: #FFFFFF;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--chip-border);
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font: 400 14px "Inter", "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+  transition: color 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+.chip:hover { color: var(--chip-text-hover); border-color: var(--chip-border-hover); }
+.chip[aria-pressed="true"] {
+  border-color: transparent;
+  color: var(--chip-text-on);
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.chip:disabled { color: var(--chip-text-disabled); border-color: #F4F4F5; cursor: not-allowed; }
+.chip:focus-visible { outline: 2px solid #18181B; outline-offset: 2px; }
+
+.chip__icon { width: 16px; height: 16px; flex: none; }
+.chip__check {
+  display: none;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--chip-check-bg);
+  color: var(--chip-check-fg);
+}
+.chip__check svg { width: 10px; height: 10px; }
+.chip[aria-pressed="true"] .chip__icon { display: none; }
+.chip[aria-pressed="true"] .chip__check { display: inline-grid; place-items: center; }

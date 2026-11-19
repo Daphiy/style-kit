@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shape Match · College theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Graduate&family=IBM+Plex+Sans:wght@400;500;600&family=Lora&display=swap" rel="stylesheet">
+<!-- General elements, restyled below as themes/college/design.md describes -->
+<link rel="stylesheet" href="../../../elements/toggles/segmented.css">
+<link rel="stylesheet" href="../../../elements/buttons/buttons.css">
+<style>
+  :root {
+    /* themes/college/design.md */
+    --navy: #0A2747;
+    --mid-blue: #5881AF;
+    --red: #C76666;           /* small touches only */
+    --college-blue-light: #DFF0F8;
+    --college-green-light: #E1F5CE;
+    --card: #DCEBF8;          /* college-blue-greylight */
+    --page: #FFFFFF;
+    --panel: #F6F6F7;
+    --text: #000000;
+    --pad: 18px;
+    --font: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --font-head: "Graduate", "Lora", Georgia, serif;
+    --line-a: linear-gradient(to right, var(--mid-blue) 0 7px, transparent 7px 10px, var(--mid-blue) 10px 12px, transparent 12px) left bottom / 15px 1px repeat-x;
+    --line-b: linear-gradient(to right, var(--mid-blue) 7px, transparent 7px) left top / 12px 1px repeat-x,
+              linear-gradient(to right, var(--mid-blue) 7px, transparent 7px) left bottom / 12px 1px repeat-x;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; background: var(--page); color: var(--text); font: 400 14px/16px var(--font); }
+  .page { max-width: 720px; margin: 0 auto; padding: 36px 20px 56px; }
+  p { margin: 0; }
+  h1, h2 { margin: 0; font-family: var(--font-head); font-weight: 400; text-transform: uppercase; letter-spacing: .5px; }
+  h1 { font-size: 34px; line-height: 1.15; }
+  h2 { font-size: 16px; }
+  .eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none; }
+  .sub { margin-top: 10px; }
+  .sep { height: 4px; margin: 24px 0; background: var(--line-b); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between; }
+  .stats { display: flex; gap: 10px; }
+  .stat { min-width: 84px; padding: 8px 12px; background: var(--card); border: 1px solid var(--navy); }
+  .stat:nth-child(2) { border-color: var(--mid-blue); }
+  .stat span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .stat b { display: block; margin-top: 4px; font: 400 20px var(--font-head); font-variant-numeric: tabular-nums; }
+
+  /* Segmented toggle: toggles may stay rounded */
+  .segmented { --seg-track: var(--panel); --seg-selected-text: var(--navy); --seg-text: var(--mid-blue); --seg-text-hover: var(--navy); font-family: var(--font); border: 1px solid var(--mid-blue); min-width: 260px; }
+  .segmented__option { height: 30px; font-size: 14px; white-space: nowrap; }
+  .segmented__option[aria-checked="true"] { box-shadow: 0 0 0 1px var(--navy); }
+  .segmented__option:focus-visible { outline-color: var(--mid-blue); }
+  .segmented-label { margin-bottom: 8px; font: 400 12px var(--font); text-transform: uppercase; letter-spacing: .06em; color: var(--text); }
+
+  /* Buttons: square, navy primary, no shadow */
+  .btn { --btn-radius: 0; --btn-primary: var(--navy); --btn-border: var(--navy); --btn-fg: var(--navy); --btn-accent: var(--college-blue-light); box-shadow: none; font: 500 14px/16px var(--font); }
+  .btn:focus-visible { box-shadow: none; outline: 1px solid var(--mid-blue); outline-offset: 2px; }
+
+  /* Board sits on the second panel, tiles are square post-it notes */
+  .board-wrap { padding: var(--pad); background: var(--panel); border: 1px solid var(--mid-blue); }
+  .board { display: grid; gap: 10px; }
+  .tile { position: relative; aspect-ratio: 1; padding: 0; border: 0; background: none; cursor: pointer; perspective: 600px; }
+  .tile:focus-visible { outline: 1px solid var(--mid-blue); outline-offset: 3px; }
+  .tile__inner { position: absolute; inset: 0; transition: transform 320ms ease; transform-style: preserve-3d; }
+  .tile.is-up .tile__inner, .tile.is-done .tile__inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; border: 1px solid var(--navy); }
+  .face--back { background: var(--card); }
+  /* line A as a small title rule on each tile back */
+  .face--back::before { content: ""; position: absolute; left: 0; right: 0; top: 28%; height: 1px; background: var(--line-a); }
+  .face--back::after { content: ""; position: absolute; left: 12%; top: 12%; width: 7px; height: 7px; border-radius: 50%; background: var(--mid-blue); }
+  .face--front { background: var(--page); transform: rotateY(180deg); }
+  .face--front svg { width: 58%; height: 58%; }
+  .tile.is-done .face--front { background: var(--college-green-light); border-color: var(--mid-blue); }
+  .tile.is-miss .face--front::after { content: ""; position: absolute; right: 10%; top: 10%; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .tile.is-done { cursor: default; }
+
+  .how h2 { margin-bottom: 8px; }
+  .how p { line-height: 20px; }
+
+  /* Popup */
+  dialog { width: min(420px, calc(100% - 32px)); padding: 0; border: 1px solid var(--navy); background: var(--page); color: var(--text); }
+  dialog::backdrop { background: rgba(255, 255, 255, .75); }
+  .pop { padding: 22px; }
+  .pop h2 { font-size: 32px; line-height: 1.1; }
+  .pop .sep { margin: 16px 0; }
+  .pop dl { display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; margin: 0; }
+  .pop dt { text-transform: uppercase; font-size: 12px; letter-spacing: .06em; }
+  .pop dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .pop__note { line-height: 20px; }
+  .pop__actions { display: flex; gap: 8px; justify-content: end; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="eyebrow"><span class="dot"></span>Example game · College theme</p>
+    <h1>Shape Match</h1>
+    <p class="sub">Turn over two tiles at a time and find every matching pair.</p>
+  </header>
+
+  <div class="sep"></div>
+
+  <div class="controls">
+    <div>
+      <span class="segmented-label" id="sizeLabel">Board size</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="sizeLabel" id="size">
+        <button class="segmented__option" role="radio" aria-checked="false" data-pairs="6">12 tiles</button>
+        <button class="segmented__option" role="radio" aria-checked="true" data-pairs="8">16 tiles</button>
+        <button class="segmented__option" role="radio" aria-checked="false" data-pairs="10">20 tiles</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Moves</span><b id="moves">0</b></div>
+      <div class="stat"><span>Pairs</span><b id="pairs">0/8</b></div>
+      <div class="stat"><span>Time</span><b id="time">0:00</b></div>
+    </div>
+    <button class="btn" id="restart" type="button">New game</button>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="board-wrap"><div class="board" id="board" aria-label="Game board"></div></div>
+  <p class="sr" aria-live="polite" id="live"></p>
+
+  <div class="sep"></div>
+
+  <div class="how">
+    <h2>How to play</h2>
+    <p>Click or press Enter on a tile to turn it over. Two matching shapes stay face up. A wrong pair is marked with a red dot and turns back after a moment. Clear the board in as few moves as you can.</p>
+  </div>
+</div>
+
+<dialog id="pop" aria-labelledby="popTitle">
+  <div class="pop">
+    <p class="eyebrow"><span class="dot"></span>Board cleared</p>
+    <h2 id="popTitle">Well done</h2>
+    <div class="sep"></div>
+    <dl id="popStats"></dl>
+    <div class="sep"></div>
+    <p class="pop__note" id="popNote"></p>
+    <div class="sep"></div>
+    <div class="pop__actions">
+      <button class="btn btn--outline" type="button" id="close">Close</button>
+      <button class="btn" type="button" id="again">Play again</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+// Shapes in the theme colours; muted red is kept for small markers only.
+const COLORS = { navy: "#0A2747", mid: "#5881AF", blue: "#5099DC", ochre: "#D8AB31", green: "#89C889", pinkish: "#ED9681" };
+const SHAPES = {
+  square:   c => `<rect x="18" y="18" width="64" height="64" fill="${c}"/>`,
+  circle:   c => `<circle cx="50" cy="50" r="34" fill="${c}"/>`,
+  triangle: c => `<polygon points="50,14 88,84 12,84" fill="${c}"/>`,
+  diamond:  c => `<polygon points="50,10 90,50 50,90 10,50" fill="${c}"/>`,
+  cross:    c => `<path d="M38 12h24v26h26v24H62v26H38V62H12V38h26z" fill="${c}"/>`,
+  stripes:  c => `<g fill="${c}"><rect x="14" y="16" width="72" height="14"/><rect x="14" y="43" width="72" height="14"/><rect x="14" y="70" width="72" height="14"/></g>`,
+  frame:    c => `<rect x="20" y="20" width="60" height="60" fill="none" stroke="${c}" stroke-width="12"/>`,
+  bars:     c => `<g fill="${c}"><rect x="16" y="56" width="16" height="30"/><rect x="42" y="36" width="16" height="50"/><rect x="68" y="16" width="16" height="70"/></g>`,
+  steps:    c => `<path d="M14 86V62h24V38h24V14h24v72z" fill="${c}"/>`,
+  ring:     c => `<circle cx="50" cy="50" r="30" fill="none" stroke="${c}" stroke-width="12" stroke-dasharray="14 6"/>`,
+};
+const DECK = [["square", "navy"], ["circle", "ochre"], ["triangle", "blue"], ["diamond", "mid"], ["cross", "green"],
+              ["stripes", "pinkish"], ["frame", "navy"], ["bars", "blue"], ["steps", "ochre"], ["ring", "mid"]];
+
+const $ = id => document.getElementById(id);
+const board = $("board"), pop = $("pop");
+let pairs = 8, up = [], moves = 0, found = 0, lock = false, start = 0, timer = null;
+
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fmtTime = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+const bestKey = () => "shape-match-best-" + pairs;
+const readBest = () => { try { return Number(localStorage.getItem(bestKey())) || null; } catch { return null; } };
+const writeBest = v => { try { localStorage.setItem(bestKey(), v); } catch {} };
+
+function newGame() {
+  clearInterval(timer); timer = null;
+  up = []; moves = 0; found = 0; lock = false; start = 0;
+  $("moves").textContent = 0; $("pairs").textContent = `0/${pairs}`; $("time").textContent = "0:00";
+  if (pop.open) pop.close();
+  board.style.gridTemplateColumns = `repeat(${pairs === 10 ? 5 : 4}, 1fr)`;
+  const cards = shuffle(DECK.slice()).slice(0, pairs).flatMap(c => [c, c]);
+  board.innerHTML = "";
+  shuffle(cards).forEach(([shape, color], i) => {
+    const b = document.createElement("button");
+    b.className = "tile"; b.type = "button";
+    b.dataset.key = shape + "-" + color; b.dataset.name = `${color === "mid" ? "blue-grey" : color} ${shape}`;
+    b.setAttribute("aria-label", `Tile ${i + 1}, face down`);
+    b.innerHTML = `<span class="tile__inner"><span class="face face--back"></span>
+      <span class="face face--front"><svg viewBox="0 0 100 100" aria-hidden="true">${SHAPES[shape](COLORS[color])}</svg></span></span>`;
+    b.addEventListener("click", () => flip(b));
+    board.appendChild(b);
+  });
+}
+
+function flip(t) {
+  if (lock || t.classList.contains("is-up") || t.classList.contains("is-done")) return;
+  if (!timer) { start = Date.now(); timer = setInterval(() => $("time").textContent = fmtTime(Math.floor((Date.now() - start) / 1000)), 500); }
+  t.classList.add("is-up"); t.setAttribute("aria-label", t.dataset.name);
+  up.push(t);
+  if (up.length < 2) return;
+  moves++; $("moves").textContent = moves;
+  const [a, b] = up; up = [];
+  if (a.dataset.key === b.dataset.key) {
+    [a, b].forEach(x => { x.classList.remove("is-up"); x.classList.add("is-done"); x.setAttribute("aria-label", x.dataset.name + ", matched"); });
+    found++; $("pairs").textContent = `${found}/${pairs}`;
+    $("live").textContent = `Match: ${a.dataset.name}.`;
+    if (found === pairs) setTimeout(win, 400);
+  } else {
+    lock = true;
+    [a, b].forEach(x => x.classList.add("is-miss"));
+    $("live").textContent = `No match: ${a.dataset.name} and ${b.dataset.name}.`;
+    setTimeout(() => { [a, b].forEach(x => { x.classList.remove("is-up", "is-miss"); x.setAttribute("aria-label", "Face down"); }); lock = false; }, 850);
+  }
+}
+
+function win() {
+  clearInterval(timer);
+  const secs = Math.floor((Date.now() - start) / 1000);
+  const best = readBest(), record = best == null || moves < best;
+  if (record) writeBest(moves);
+  $("popStats").innerHTML = [["Moves", moves], ["Time", fmtTime(secs)], ["Perfect game", pairs + " moves"], ["Best on this size", record ? moves : best]]
+    .map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("popNote").textContent = record ? (best == null ? "First score on this board size." : `New best, down from ${best} moves.`) : `${moves - best} moves off your best. Try again?`;
+  pop.showModal();
+  $("live").textContent = `Board cleared in ${moves} moves.`;
+}
+
+$("size").addEventListener("click", e => {
+  const opt = e.target.closest(".segmented__option"); if (!opt) return;
+  $("size").querySelectorAll(".segmented__option").forEach(o => o.setAttribute("aria-checked", o === opt));
+  pairs = Number(opt.dataset.pairs); newGame();
+});
+$("restart").addEventListener("click", newGame);
+$("again").addEventListener("click", newGame);
+$("close").addEventListener("click", () => pop.close());
+newGame();
+</script>
+</body>
+</html>

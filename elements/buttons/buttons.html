@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Buttons preview</title>
+<link rel="stylesheet" href="../_preview/preview.css">
+<link rel="stylesheet" href="buttons.css">
+<style>
+  .stage { width: 740px; }
+  .grid { display: grid; grid-template-columns: 110px repeat(4, auto); gap: 16px 20px; align-items: center; justify-items: start; }
+  .head { color: #71717A; font: 500 12px "Segoe UI", system-ui, sans-serif; }
+  .theme-dark { margin-top: 24px; padding: 24px 32px; margin-inline: -32px; margin-bottom: -32px; background: #0A0A0A; border-radius: 0 0 12px 12px; }
+  .theme-dark .head { color: #A1A1AA; }
+</style>
+<div class="stage">
+  <div class="grid">
+    <span></span><span class="head">Default</span><span class="head">Hover</span><span class="head">Focus</span><span class="head">Disabled</span>
+
+    <span class="head">Default</span>
+    <button class="btn">Button</button>
+    <button class="btn is-hover">Button</button>
+    <button class="btn is-focus">Button</button>
+    <button class="btn" disabled>Button</button>
+
+    <span class="head">Outline sky</span>
+    <button class="btn btn--outline-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+    <button class="btn btn--outline-sky is-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+    <button class="btn btn--outline-sky is-focus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+    <button class="btn btn--outline-sky" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+
+    <span class="head">Outline</span>
+    <button class="btn btn--outline">Basic</button>
+    <button class="btn btn--outline is-hover">Basic</button>
+    <button class="btn btn--outline is-focus">Basic</button>
+    <button class="btn btn--outline" disabled>Basic</button>
+
+    <span class="head">Ghost icon-sm</span>
+    <button class="btn btn--ghost btn--icon-sm" aria-label="Toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+    <button class="btn btn--ghost btn--icon-sm is-hover" aria-label="Toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+    <button class="btn btn--ghost btn--icon-sm is-focus" aria-label="Toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+    <button class="btn btn--ghost btn--icon-sm" disabled aria-label="Toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+  </div>
+
+  <div class="theme-dark dark">
+    <div class="grid">
+      <span class="head">Default (dark)</span>
+      <button class="btn">Button</button>
+      <button class="btn is-hover">Button</button>
+      <button class="btn is-focus">Button</button>
+      <button class="btn" disabled>Button</button>
+
+      <span class="head">Outline sky (dark)</span>
+      <button class="btn btn--outline-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+      <button class="btn btn--outline-sky is-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+      <button class="btn btn--outline-sky is-focus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+      <button class="btn btn--outline-sky" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Duplicate</button>
+    </div>
+  </div>
+</div>

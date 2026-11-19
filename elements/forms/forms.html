@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Form controls preview</title>
+<link rel="stylesheet" href="../_preview/preview.css">
+<link rel="stylesheet" href="forms.css">
+<style>
+  .stage { width: 560px; }
+  .grid { display: grid; grid-template-columns: 90px 1fr; gap: 20px 16px; align-items: center; }
+  .head { color: #71717A; font: 500 12px "Segoe UI", system-ui, sans-serif; }
+  .row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .pair { display: flex; align-items: center; gap: 8px; }
+  .inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+</style>
+<div class="stage">
+  <div class="grid">
+    <span class="head">Checkbox</span>
+    <div class="row">
+      <span class="pair"><input class="checkbox" type="checkbox" id="c1"><label class="label" for="c1">Off</label></span>
+      <span class="pair"><input class="checkbox" type="checkbox" id="c2" checked><label class="label" for="c2">On</label></span>
+      <span class="pair"><input class="checkbox is-focus" type="checkbox" id="c3"><label class="label" for="c3">Focus</label></span>
+      <span class="pair"><input class="checkbox" type="checkbox" id="c4" disabled><label class="label" for="c4">Disabled</label></span>
+    </div>
+
+    <span class="head">Input</span>
+    <div class="inputs">
+      <input class="input" type="number" placeholder="0">
+      <input class="input is-focus" type="number" value="250">
+      <input class="input" type="number" placeholder="Disabled" disabled>
+    </div>
+
+    <span class="head">Label</span>
+    <div class="row"><label class="label">Min Price</label></div>
+
+    <span class="head">Separator</span>
+    <hr class="separator">
+  </div>
+</div>

@@ -1,0 +1,108 @@
+/* Dropdown menu — plain-CSS equivalent of shadcn/ui DropdownMenu (shadcn studio "dropdown-menu-01").
+   Native, no JS: the menu is a [popover] opened by a <button popovertarget>, positioned with CSS
+   anchor positioning; submenus open on :hover / :focus-within.
+   Trigger uses ../buttons/buttons.css (outline). Themes restyle by overriding the --menu-* variables.
+   .is-open / .is-active mirror open-submenu / highlighted-item states so previews can show them. */
+
+.menu {
+  --menu-bg: #FFFFFF;                      /* --popover */
+  --menu-fg: #0A0A0A;                      /* --popover-foreground */
+  --menu-border: #E5E5E5;                  /* --border */
+  --menu-accent: #F5F5F5;                  /* --accent (highlighted item) */
+  --menu-accent-fg: #171717;               /* --accent-foreground */
+  --menu-muted: #737373;                   /* --muted-foreground */
+
+  box-sizing: border-box;
+  min-width: 128px;                        /* min-w-[8rem] */
+  margin: 0;
+  padding: 4px;                            /* p-1 */
+  border: 1px solid var(--menu-border);
+  border-radius: 6px;                      /* rounded-md */
+  background: var(--menu-bg);
+  color: var(--menu-fg);
+  font: 400 14px/20px "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+.menu--w56 { width: 224px; }               /* w-56 */
+
+/* Top-level menu as a popover, anchored under its trigger.
+   Give each trigger/menu pair its own anchor name, e.g. style="--menu-anchor: --account-menu". */
+.menu-trigger { anchor-name: var(--menu-anchor, --menu); }
+.menu[popover] {
+  position: fixed;
+  inset: auto;
+  position-anchor: var(--menu-anchor, --menu);
+  top: anchor(bottom);
+  left: anchor(left);
+  margin-top: 4px;                         /* sideOffset 4 */
+  overflow: visible;                       /* UA popover style is overflow:auto, which would clip submenus */
+  position-try-fallbacks: flip-block, flip-inline;
+}
+
+.menu__group { display: flex; flex-direction: column; }
+
+.menu__label {
+  padding: 6px 8px;                        /* px-2 py-1.5 */
+  font-weight: 500;
+}
+
+.menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px 8px;                        /* px-2 py-1.5 */
+  border: 0;
+  border-radius: 4px;                      /* rounded-sm */
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  outline: none;
+  user-select: none;
+}
+.menu__item:hover, .menu__item:focus-visible, .menu__item.is-active {
+  background: var(--menu-accent);
+  color: var(--menu-accent-fg);
+}
+.menu__item:disabled, .menu__item[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.menu__item svg { width: 16px; height: 16px; flex-shrink: 0; pointer-events: none; }
+
+.menu__shortcut { margin-left: auto; color: var(--menu-muted); font-size: 12px; letter-spacing: 0.1em; }
+
+.menu__separator {
+  height: 1px;
+  margin: 4px -4px;                        /* -mx-1 my-1 */
+  border: 0;
+  background: var(--menu-border);
+}
+
+/* Submenu: wrap trigger + nested .menu in .menu__sub */
+.menu__sub { position: relative; }
+.menu__sub > .menu__item .menu__chevron { margin-left: auto; }
+.menu__sub > .menu {
+  position: absolute;
+  top: -5px;                               /* align first item with trigger (padding + border) */
+  left: calc(100% + 4px);
+  z-index: 1;
+  display: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* shadow-lg */
+}
+.menu__sub:hover > .menu, .menu__sub:focus-within > .menu, .menu__sub.is-open > .menu { display: block; }
+.menu__sub:hover > .menu__item, .menu__sub:focus-within > .menu__item, .menu__sub.is-open > .menu__item {
+  background: var(--menu-accent);
+  color: var(--menu-accent-fg);
+}
+
+/* Dark mode: add class="dark" on any ancestor (shadcn convention). */
+.dark .menu {
+  --menu-bg: #171717;
+  --menu-fg: #FAFAFA;
+  --menu-border: rgba(255, 255, 255, 0.1);
+  --menu-accent: #262626;
+  --menu-accent-fg: #FAFAFA;
+  --menu-muted: #A1A1A1;
+}

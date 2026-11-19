@@ -1,0 +1,96 @@
+/* Buttons — plain-CSS equivalent of shadcn/ui <Button> (Tailwind v4, default size).
+   Source variants: shadcn/button-01.tsx (default) and shadcn/button-13.tsx (outline, sky accent).
+   Themes restyle by overriding the --btn-* variables.
+   .is-hover / .is-focus mirror :hover / :focus-visible so previews can show those states. */
+
+.btn {
+  --btn-radius: 6px;                    /* rounded-md */
+  --btn-primary: #171717;               /* shadcn neutral --primary, oklch(0.205 0 0) */
+  --btn-primary-fg: #FAFAFA;            /* --primary-foreground */
+  --btn-bg: #FFFFFF;                    /* --background */
+  --btn-fg: #0A0A0A;                    /* --foreground */
+  --btn-border: #E5E5E5;                /* --border / --input */
+  --btn-accent: #F5F5F5;                /* --accent (outline hover) */
+  --btn-ring: rgba(161, 161, 161, 0.5); /* --ring at 50% */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 36px;                         /* h-9 */
+  padding: 8px 16px;                    /* px-4 py-2 */
+  border: 1px solid transparent;
+  border-radius: var(--btn-radius);
+  background: var(--btn-primary);
+  color: var(--btn-primary-fg);
+  font: 500 14px/20px "Geist", "Inter", "Segoe UI", system-ui, sans-serif; /* text-sm font-medium */
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-xs */
+  outline: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.btn:has(> svg) { padding-inline: 12px; }  /* has-[>svg]:px-3 */
+.btn > svg { width: 16px; height: 16px; flex-shrink: 0; pointer-events: none; }
+
+.btn:hover, .btn.is-hover { background: color-mix(in srgb, var(--btn-primary) 90%, transparent); }
+.btn:focus-visible, .btn.is-focus { box-shadow: 0 0 0 3px var(--btn-ring); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+/* Outline (shadcn variant="outline") */
+.btn--outline {
+  border-color: var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+}
+.btn--outline:hover, .btn--outline.is-hover { background: var(--btn-accent); }
+
+/* Ghost (shadcn variant="ghost") — no border/background until hover */
+.btn--ghost {
+  background: transparent;
+  color: var(--btn-fg);
+  box-shadow: none;
+}
+.btn--ghost:hover, .btn--ghost.is-hover { background: var(--btn-accent); }
+
+/* Square icon-only sizes (shadcn size="icon" / "icon-sm") */
+.btn--icon    { width: 36px; height: 36px; padding: 0; }
+.btn--icon-sm { width: 32px; height: 32px; padding: 0; }
+.btn--icon:has(> svg), .btn--icon-sm:has(> svg) { padding-inline: 0; }
+
+/* Outline, sky accent — button-13 ("Duplicate") */
+.btn--outline-sky {
+  --btn-sky: #0284C7;                   /* sky-600 */
+  --btn-sky-hover: rgba(2, 132, 199, 0.10);
+  --btn-sky-ring: rgba(2, 132, 199, 0.20);
+
+  border-color: var(--btn-sky);
+  background: var(--btn-bg);
+  color: var(--btn-sky);
+}
+.btn--outline-sky:hover, .btn--outline-sky.is-hover { background: var(--btn-sky-hover); }
+.btn--outline-sky:focus-visible, .btn--outline-sky.is-focus {
+  border-color: var(--btn-sky);
+  box-shadow: 0 0 0 3px var(--btn-sky-ring);
+}
+
+/* Dark mode: add class="dark" on any ancestor (shadcn convention). */
+.dark .btn {
+  --btn-primary: #E5E5E5;               /* oklch(0.922 0 0) */
+  --btn-primary-fg: #171717;
+  --btn-bg: #0A0A0A;
+  --btn-fg: #FAFAFA;
+  --btn-border: rgba(255, 255, 255, 0.15);
+  --btn-accent: #262626;
+  --btn-ring: rgba(115, 115, 115, 0.5);
+}
+.dark .btn--outline { background: rgba(255, 255, 255, 0.045); } /* dark:bg-input/30 */
+.dark .btn--outline:hover, .dark .btn--outline.is-hover { background: rgba(255, 255, 255, 0.075); } /* dark:hover:bg-input/50 */
+.dark .btn--ghost:hover, .dark .btn--ghost.is-hover { background: rgba(38, 38, 38, 0.5); }       /* dark:hover:bg-accent/50 */
+.dark .btn--outline-sky {
+  --btn-sky: #38BDF8;                   /* sky-400 */
+  --btn-sky-hover: rgba(56, 189, 248, 0.10);
+  --btn-sky-ring: rgba(56, 189, 248, 0.40);
+}
