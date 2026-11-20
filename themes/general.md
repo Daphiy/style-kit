@@ -31,4 +31,6 @@ a) a strip plot (jitter plot) with median, 75% and 25% plotted on top. namely, a
 b) a violin plot if the distribution matters more than percentiles 
 2. histograms are useful to present a distribution. you can use them to compare distributions between 1-3 groups as well. use only if you have enough data points. 
 3. when comparing two variables against each other, or how an instance scores against two variables, scatter chart can be used. For example, to test correlation between item price and number of purchases, or to plot the tradeoff between model latency and model accuracy of specific AI models. In the second case also add a label for the instances (e.g. models) that are being evaluated. 
-4. 
+4. Pie charts are a simple, useful chart if you want to present the distribution of a caetgorical variable with <10 or so categories. e.g. how many of the sold items were jewlery, home decor or accessories, or number of male vs female employees. 
+5. A line chart uses demonstrates changes in value, usually over time, of one or more variables. 
+5. Area charts, similar to line charts but with added area shading, are useful in representing cumulated totals using numbers or percentages (stacked area charts in this case) over time. Can be used to compare the progression of groups. 

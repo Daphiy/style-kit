@@ -3,483 +3,707 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Customer Service Review · Cotton theme</title>
+<title>Cotton, Decoded · Cotton theme</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
 <!-- General elements, restyled below as themes/cotton/design.md describes -->
 <link rel="stylesheet" href="../../../elements/buttons/buttons.css">
 <link rel="stylesheet" href="../../../elements/toggles/segmented.css">
-<link rel="stylesheet" href="../../../elements/toggles/switch.css">
 <style>
   :root {
-    /* themes/cotton/design.md — neutrals */
-    --ground: #F0EEE4;        /* page background */
-    --surface: #FFFFFF;       /* cards, panels, header bar */
-    --cream: #FAF7F2;         /* hover, inset areas */
-    --ink: #1C1B18;           /* body text, primary button, active nav */
-    --muted: #5C5A54;         /* secondary text, labels, table headers */
-    --line: #E0DDD4;
-    --hair: rgba(224, 221, 212, 0.6);   /* line at 60% */
-    --line-strong: #C9C5B8;
-    /* accent */
-    --blue: #8DBAED;
-    --blue-tint: #D6E7F8;
-    --action: #358ADA;
-    --deep: #2E6DA8;
-    /* status: solid / tint */
-    --success: #77BB78;  --success-tint: #C7E299;
-    --warning: #FCCF61;  --warning-tint: #FFE495;
-    --info: #CCA8CF;     --info-tint: #EADBEB;
-    --error: #F14545;    --error-tint: #F9DCE4;  --error-text: #8A2A3A;
-    --neutral: #C9C5B8;  --neutral-tint: #E7E3D8;
+    /* themes/cotton/design.md: colours */
+    --cream: #FAF7F2;          /* --swa-cream: page background, header */
+    --white: #FFFFFF;          /* cards, panels, every "bubble" */
+    --darkgrey: #1C1B18;       /* --swa-darkgrey: text, headings */
+    --mediumgrey: #756F68;     /* --swa-mediumgrey: secondary text, chevrons */
+    --grey-500: #8C8985;       /* --swa-grey-500: tertiary (graphics only here, below AA for text) */
+    --label: #756F68;          /* labels: medium grey */
+    --border: #E0DDD4;         /* light grey: every border and divider (borders are never coloured) */
+    --lightgrey: #E0DDD4;
+    --offwhite: #F0EEE4;       /* slightly deeper off-white */
+    --pink: #F8AAB6;           /* --swa-pink: main accent, selection, primary button */
+    --pink-lighter: #FDE0E5;
+    --blue: #8DBAED;           /* --swa-blue: navigation, filters, actions */
+    --blue-lightest: #E5F3FC;  /* filter chips, action buttons */
+    --deep: #2E6DA8;           /* links, focus outline */
+    --action-border: var(--border);
+    --action-text: var(--deep);
+    /* confirm, warning, error: pale wash + ink text */
+    --green-100: #E4F3E1;  --green-700: var(--darkgrey);  --green: #9CCB8E;
+    --amber-100: #FFF8CE;  --amber-700: var(--darkgrey);  --yellow: #FCCF61;
+    --error: #BE1212;      --error-wash: #FDE7E7;         --error-solid: #F14545;
 
-    --shadow: 0 1px 3px rgba(28, 27, 24, 0.06);
-    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+    /* category families (pale fill + pastel border/icon); grey never marks a category */
+    --fam-upland-fill: #E4F3E1;     --fam-upland: #9CCB8E;      /* green */
+    --fam-barbadense-fill: #F4ECF5; --fam-barbadense: #CCA8CF;  /* purple */
+    --fam-asiatic-fill: #FFF8CE;    --fam-asiatic: #FCCF61;     /* yellow */
+
+    --overlay: inset 0 0 0 100vmax rgba(0, 0, 0, 0.2);   /* hover = 20% black overlay, never added colour */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --radius: 10px;
+
+    --font: "Euclid Ignited", "Euclid Circular B", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --display: "ITC Novarese", "Lora", Georgia, serif;
+    --display-weight: 400;     /* Novarese: no bold, size only */
   }
+  /* Fallback fonts (design.md): without Novarese, titles fall back to Lora at the fallback title weight */
+  .no-novarese { --display-weight: 600; }
+
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; }
-  html, body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px/1.4 var(--font); }
-  p { margin: 0; }
-  h1, h2, h3 { margin: 0; font-weight: 600; }
-  h1 { font-size: 30px; line-height: 1.2; letter-spacing: -0.02em; }
-  h2 { font-size: 24px; line-height: 1.25; }
-  h3 { font-size: 18px; line-height: 1.3; }
-  a { color: var(--deep); text-decoration: none; }
+  html { background: var(--cream); scroll-behavior: smooth; }
+  body { margin: 0; background: var(--cream); color: var(--darkgrey); font: 400 15px/1.4 var(--font); }
+  a { color: var(--action-text); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  :focus { outline: none; }
   :focus-visible { outline: 2px solid var(--deep); outline-offset: 2px; }
-  .muted { color: var(--muted); font-size: 14px; }
-  .small { font-size: 12px; }
-  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 16px; }
+  p { margin: 0 0 12px; }
 
-  /* Header: full-width white bar, 1px bottom line */
-  .topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
-  .topbar__in { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; min-height: 60px; padding-block: 10px; }
-  .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 600; }
-  .brand:hover { text-decoration: none; }
-  .accent-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); flex: none; }
-  .nav { display: flex; flex-wrap: wrap; gap: 4px; }
-  .nav a { padding: 6px 12px; border-radius: 8px; color: var(--ink); font-size: 14px; font-weight: 500; }
-  .nav a:hover { background: var(--blue-tint); text-decoration: none; }
-  .nav a.is-active { background: var(--ink); color: var(--surface); }
+  .title { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -0.01em; margin: 0; }
+  h1.title { font-size: 36px; line-height: 1.15; margin-bottom: 10px; }
+  h2.title { font-size: 28px; line-height: 1.2; margin-bottom: 6px; }
+  h3 { font-size: 18px; font-weight: 500; margin: 0 0 4px; }
+  h4 { font-size: 15px; font-weight: 500; margin: 0 0 4px; }
+  .sub { color: var(--mediumgrey); font-size: 14px; margin: 0; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--label); }
+  .fade-in { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  main.wrap { padding-top: 32px; padding-bottom: 56px; display: grid; gap: 32px; }
-  .title-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: end; justify-content: space-between; }
-  .title-row .muted { margin-top: 8px; max-width: 70ch; }
-
-  /* Notices: 8px radius, ~12×6 padding, tint background, ink text */
-  .notice { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 8px; background: var(--blue-tint); font-size: 14px; }
-  .notice .swatch-hatch { width: 14px; height: 14px; border-radius: 3px; flex: none; background: repeating-linear-gradient(135deg, #A9CBF0 0 3px, #DBE9F8 3px 6px); }
-
-  /* Panels and stat tiles: 16px radius, white, no border, one faint shadow */
-  .panel { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 32px; min-width: 0; }
-  .panel--hl { box-shadow: var(--shadow), 0 0 0 2px var(--blue-tint); }
-  .panel__head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: start; justify-content: space-between; margin-bottom: 20px; }
-  .panel__head .muted { margin-top: 4px; }
-
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; }
-  .tile { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 24px; }
-  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; font-weight: 400; color: var(--muted); }
-  .kpi { margin: 8px 0 6px; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-
-  .grid2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; }
-  @media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
-
-  /* Small cards: 12px radius, 1px line border, 16px padding, no shadow */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-  .card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); }
-  .card h4 { margin: 0 0 6px; font-size: 15px; font-weight: 500; }
-  .card p { font-size: 14px; }
-
-  /* Chips: full pill, 10×2 padding, 8px dot of the solid colour */
-  .chip { --chip-bg: var(--neutral-tint); --dot: var(--neutral); display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; background: var(--chip-bg); color: var(--ink); font-size: 12px; line-height: 1.4; white-space: nowrap; }
-  .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex: none; }
-  .chip--success { --chip-bg: var(--success-tint); --dot: var(--success); }
-  .chip--warning { --chip-bg: var(--warning-tint); --dot: var(--warning); }
-  .chip--error   { --chip-bg: var(--error-tint);   --dot: var(--error); color: var(--error-text); }
-  .chip--info    { --chip-bg: var(--info-tint);    --dot: var(--info); }
-
-  /* Legends: dot + text label, always */
-  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 12px; padding: 0; list-style: none; font-size: 12px; color: var(--muted); }
-  .legend li { display: flex; align-items: center; gap: 6px; }
-  .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-  .legend i.sq { width: 12px; height: 12px; border-radius: 3px; }
-
-  /* Charts: flat fills, no gradients, minimal lines */
-  svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .tick { font: 400 12px var(--font); fill: var(--muted); }
-  .lbl { font: 400 12px var(--font); fill: var(--ink); }
-  .lbl--strong { font-weight: 500; }
-  .hair { stroke: var(--hair); stroke-width: 1; }
-  .base { stroke: var(--line-strong); stroke-width: 1; }
-  .tip { position: fixed; z-index: 5; pointer-events: none; padding: 6px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); font-size: 12px; }
-
-  /* Buttons: 8px radius, ~12×6 padding, ink primary, no shadow */
-  .btn { --btn-radius: 8px; --btn-primary: var(--ink); --btn-primary-fg: var(--surface); --btn-bg: var(--surface); --btn-fg: var(--ink); --btn-border: var(--line-strong); --btn-accent: var(--cream);
-         height: auto; padding: 6px 12px; box-shadow: none; font: 500 14px/20px var(--font); }
+  /* Buttons: Apply = pink, actions = blue-lightest (design.md) */
+  .btn {
+    --btn-radius: 8px;
+    --btn-primary: var(--pink);
+    --btn-primary-fg: var(--darkgrey);
+    --btn-bg: var(--white);
+    --btn-fg: var(--darkgrey);
+    --btn-border: var(--border);
+    --btn-accent: var(--white);
+    font-family: var(--font); letter-spacing: 0.025em; box-shadow: none;
+  }
+  .btn:hover, .btn--outline:hover, .btn--action:hover { box-shadow: var(--overlay); }
+  .btn--action { background: var(--blue-lightest); border-color: var(--action-border); color: var(--action-text); }
+  .btn--action { color: var(--deep); }
   .btn:focus-visible { box-shadow: none; outline: 2px solid var(--deep); outline-offset: 2px; }
-  .btn:disabled { opacity: 0.55; }
 
-  /* Segmented toggle: 8px corners, cream track, white selected option */
-  .segmented { --seg-track: var(--cream); --seg-selected-bg: var(--surface); --seg-selected-text: var(--ink); --seg-text: var(--muted); --seg-text-hover: var(--ink);
-               display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--line); border-radius: 8px; font-family: var(--font); }
-  .segmented__option { height: 28px; padding: 0 12px; border-radius: 6px; font-size: 14px; }
-  .segmented__option[aria-checked="true"] { box-shadow: 0 0 0 1px var(--line-strong); }
-  .segmented__option:focus-visible { outline: 2px solid var(--deep); outline-offset: 2px; }
+  /* Multicategory toggle (design.md): one bordered pill, clipped segments, active = pink */
+  .segmented {
+    --seg-track: var(--white);
+    --seg-selected-bg: var(--pink);
+    --seg-selected-text: var(--darkgrey);
+    --seg-text: var(--label);
+    --seg-text-hover: var(--darkgrey);
+    display: inline-flex; gap: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow-sm); font-family: var(--font);
+  }
+  .segmented__option {
+    flex: none; height: auto; padding: 6px 14px; border-radius: 0; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .segmented__option:hover { box-shadow: var(--overlay); }
+  .segmented__option[aria-checked="true"] { box-shadow: none; font-weight: 500; }
+  .segmented__option[aria-checked="true"]:hover { box-shadow: var(--overlay); }
+  .segmented__option:focus-visible { outline: 2px solid var(--deep); outline-offset: -2px; }
 
-  /* Switch: action blue when on, flat knob */
-  .toggle { --toggle-track-off: var(--line-strong); --toggle-track-on: var(--action); --toggle-label: var(--ink); --toggle-label-size: 14px; font-family: var(--font); }
-  .toggle__track::after { box-shadow: none; }
-  .toggle:focus-visible .toggle__track { box-shadow: none; outline: 2px solid var(--deep); outline-offset: 2px; }
+  /* Header: cream shell, app title, nav-tab bar in a white bubble */
+  .topbar { background: var(--cream); border-bottom: 1px solid var(--border); }
+  .topbar__inner {
+    max-width: 1400px; margin: 0 auto; padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .apptitle { color: var(--mediumgrey); font-size: 14px; letter-spacing: 0.025em; }
+  .tabs {
+    display: flex; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 0 6px;
+  }
+  .tabs a {
+    padding: 10px 12px 8px; font-size: 14px; color: var(--mediumgrey); border-bottom: 2px solid transparent;
+  }
+  .tabs a:hover { color: var(--darkgrey); text-decoration: none; box-shadow: var(--overlay); }
+  .tabs a[aria-current="page"] { color: var(--darkgrey); border-bottom-color: var(--blue); font-weight: 500; }
 
-  /* Tables: no outer border or zebra; hairline row tops; 16px vertical / 24px right padding */
-  .table-scroll { overflow-x: auto; }
-  table { width: 100%; min-width: 760px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-  th, td { padding: 16px 24px 16px 0; text-align: left; vertical-align: middle; }
-  th.num, td.num { text-align: right; }
-  thead th { padding-top: 0; font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted); border-bottom: 1px solid var(--line-strong); }
-  tbody td { border-top: 1px solid var(--hair); }
-  tbody tr:first-child td { border-top: 0; }
-  tbody tr:hover td { background: var(--cream); }
-  .meter { width: 120px; height: 8px; background: var(--neutral-tint); border-radius: 4px; overflow: hidden; }
-  .meter span { display: block; height: 100%; background: #A9CBF0; }
-  .sla { display: flex; align-items: center; gap: 12px; }
+  main { max-width: 1400px; margin: 0 auto; padding: 36px 16px 64px; }
+  .lede { color: var(--mediumgrey); max-width: 780px; margin: 0; }
+  .section { margin-top: 56px; }
+  .section__head { margin-bottom: 20px; max-width: 820px; }
 
-  /* Collapsible sections: bold title + muted "· count" */
-  details { border-top: 1px solid var(--hair); }
-  details:first-of-type { border-top: 0; }
-  summary { display: flex; align-items: center; gap: 10px; padding: 16px 0; cursor: pointer; list-style: none; border-radius: 8px; }
-  summary::-webkit-details-marker { display: none; }
-  summary::before { content: ""; width: 7px; height: 7px; margin: 0 4px 0 2px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); transition: transform 150ms ease; flex: none; }
-  details[open] > summary::before { transform: rotate(45deg); }
-  summary b { font-weight: 600; }
-  .details__body { padding: 0 0 24px; }
-  .esc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; align-items: center; }
-  .esc-id { font: 400 12px var(--mono); color: var(--muted); }
-  .notes { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  /* Bubbles: white, rounded-lg, 1px gray-200, shadow-sm */
+  .bubble { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 32px; }
+  .tile { padding: 24px; }
+  .tile__num { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.15; margin: 8px 0 4px; }
+  .panel { padding: 32px; min-width: 0; }
+  .panel__head { margin-bottom: 20px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 24px; align-items: stretch; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+  .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; background: var(--white); }
+  .card p { font-size: 14px; margin: 0; }
+  .card .sub { margin-top: 8px; }
 
-  footer { color: var(--muted); font-size: 12px; }
-  code { font: 400 12px var(--mono); }
+  /* Filter cards (design.md: stat cards are the filter) */
+  .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 16px; }
+  .fcard {
+    display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+    text-align: left; font: inherit; color: inherit; cursor: pointer;
+    background: var(--white); border: 2px solid transparent; border-radius: 16px; padding: 16px 20px;
+    box-shadow: var(--shadow-sm); transition: background 150ms ease, border-color 150ms ease;
+  }
+  .fcard:hover { box-shadow: var(--shadow-sm), var(--overlay); }
+  .fcard[aria-pressed="true"] { border-color: var(--pink); }
+  .fcard__num { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; margin: 6px 0 2px; }
+  .filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 30px; margin: 16px 0 24px; }
+  .filterbar__label { color: var(--label); font-size: 12px; }
+  .fchip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font: inherit; font-size: 12px;
+    background: var(--blue-lightest); color: var(--blue-2); border: 1px solid rgba(141, 186, 237, 0.3); cursor: pointer;
+  }
+  .fchip:hover { background-image: var(--hover); }
+  .fchip svg { width: 12px; height: 12px; }
+  .clear { background: none; border: 0; padding: 0; font: inherit; font-size: 12px; color: var(--label); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+  /* Badges: rounded-full, text-xs */
+  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 16px; white-space: nowrap; border: 1px solid transparent; }
+  .badge--low    { background: var(--green-100); color: var(--green-700); }
+  .badge--medium { background: var(--amber-100); color: var(--amber-700); }
+  .badge--high   { background: var(--error-wash); color: var(--error); }
+  .badge--cream  { background: var(--cream); color: var(--darkgrey); border-color: var(--lightgrey); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .table-wrap > table { min-width: 680px; }   /* wide tables scroll on phones instead of squashing */
+  th {
+    text-align: left; padding: 0 24px 12px 0; border-bottom: 1px solid var(--border);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--label); font-weight: 400; white-space: nowrap;
+  }
+  td { padding: 16px 24px 16px 0; border-top: 1px solid rgba(224, 221, 212, 0.6); vertical-align: top; }
+  tr:first-child td { border-top: 0; }
+  td strong { font-weight: 500; }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .empty { color: var(--mediumgrey); font-size: 14px; padding: 16px 0 0; }
+
+  /* Range chart */
+  .range { position: relative; padding-top: 22px; }
+  .range__row { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 16px; min-height: 44px; }
+  .range__name { font-size: 14px; font-weight: 500; line-height: 1.25; }
+  .range__name small { display: block; font-weight: 400; font-size: 12px; color: var(--mediumgrey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .range__track { align-self: stretch; }
+  .range__track { position: relative; height: 100%; }
+  .range__bar {
+    position: absolute; top: 50%; height: 14px; transform: translateY(-50%);
+    background: var(--fam-fill); box-shadow: inset 0 0 0 1px var(--fam-line); border-radius: 4px; transition: background 200ms ease;
+  }
+  .range__bar.is-on { background: var(--fam-line); box-shadow: inset 0 0 0 2px var(--darkgrey); }
+  .fam-green  { --fam-fill: var(--green-fill);  --fam-line: var(--green); }
+  .fam-yellow { --fam-fill: var(--yellow-fill); --fam-line: var(--yellow); }
+  .fam-purple { --fam-fill: var(--purple-fill); --fam-line: var(--purple); }
+  .range__bar::after { content: ""; position: absolute; inset: -12px 0; }
+  .range__val {
+    position: absolute; top: 50%; transform: translateY(-50%); margin-left: 6px; padding: 0 2px;
+    font-size: 12px; color: var(--mediumgrey); white-space: nowrap; font-variant-numeric: tabular-nums;
+    background: var(--white); z-index: 1;   /* sits above the ELS marker line */
+  }
+  .range__axis { display: grid; grid-template-columns: 130px 1fr; gap: 16px; margin-top: 8px; }
+  .range__ticks { position: relative; height: 18px; border-top: 1px solid var(--border); }
+  .range__ticks span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 12px; color: var(--mediumgrey); font-variant-numeric: tabular-nums; }
+  .range__plot { position: absolute; top: 22px; bottom: 26px; left: 146px; right: 0; pointer-events: none; }
+  .range__marker { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--mediumgrey); }
+  .range__marker-label { position: absolute; top: -22px; transform: translateX(-50%); font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .chart-note { margin-top: 16px; font-size: 12px; color: var(--mediumgrey); display: flex; gap: 16px; flex-wrap: wrap; }
+  .chart-note i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+
+  /* Pie */
+  .pie-wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .pie { width: 200px; height: 200px; flex: none; }
+  .pie path { stroke-width: 2; stroke-linejoin: round; cursor: default; }
+  .legend { display: flex; flex-direction: column; gap: 12px; font-size: 14px; flex: 1; min-width: 200px; }
+  .legend__item { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: baseline; }
+  .legend__sw { width: 12px; height: 12px; border-radius: 3px; align-self: center; border: 1px solid; }
+  .legend__val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .tooltip {
+    position: fixed; z-index: 30; pointer-events: none; background: var(--white); color: var(--darkgrey);
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; font-size: 12px; box-shadow: var(--shadow-lg); max-width: 240px;
+  }
+  .tooltip strong { display: block; font-size: 14px; font-weight: 500; }
+
+  .notice { border-radius: 8px; padding: 12px 16px; font-size: 14px; margin-top: 20px; border: 1px solid; }
+  .notice--info { background: var(--blue-lightest); border-color: var(--action-border); }
+  .notice--warning { background: var(--amber-100); border-color: var(--border); }
+  .notice strong { font-weight: 500; }
+
+  .guide-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+  .spec-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; margin-bottom: 24px; }
+  .spec__val { font-size: 18px; font-weight: 500; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+
+  /* Expandable, variant 1 (design.md) */
+  .expand { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .expand + .expand { margin-top: 16px; }
+  .expand__head {
+    width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer;
+    background: var(--white); border: 0; padding: 16px 20px; font: inherit; color: inherit;
+  }
+  .expand__head:hover { box-shadow: var(--overlay); }
+  .expand__head .title { font-size: 20px; }
+  .expand__count { background: var(--amber-100); color: var(--amber-700); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+  .expand__sub { color: var(--mediumgrey); font-size: 14px; }
+  .expand__chev { margin-left: auto; width: 16px; height: 16px; color: var(--mediumgrey); flex: none; transition: transform 0ms; }
+  .expand__head[aria-expanded="true"] .expand__chev { transform: rotate(180deg); }
+  .expand__body { padding: 4px 20px 20px; }
+
+  footer { margin-top: 48px; color: var(--mediumgrey); font-size: 12px; max-width: 820px; }
+
+  @media (max-width: 640px) {
+    h1.title { font-size: 30px; }
+    .panel { padding: 24px; }
+    .range__row, .range__axis { grid-template-columns: 92px 1fr; gap: 10px; }
+    .range__plot { left: 102px; }
+    .expand__sub { display: none; }
+  }
 </style>
 </head>
-<body id="top">
+<body>
+
 <header class="topbar">
-  <div class="wrap topbar__in">
-    <a class="brand" href="#top"><span class="accent-dot" aria-hidden="true"></span>Service Insights</a>
-    <nav class="nav" aria-label="Report sections" id="nav">
-      <a href="#top" class="is-active" aria-current="true">Overview</a>
-      <a href="#channels">Channels</a>
-      <a href="#teams">Teams</a>
-      <a href="#details">Escalations</a>
+  <div class="topbar__inner">
+    <span class="apptitle">Cotton, Decoded · Buyer's report</span>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#types" aria-current="page">Types</a>
+      <a href="#fabric">Fabric</a>
+      <a href="#buying">Buying guide</a>
+      <a href="#labels">Labels</a>
     </nav>
   </div>
 </header>
 
-<main class="wrap">
-  <section class="title-row">
-    <div>
-      <h1>Customer Service Review · Jun–Nov 2026</h1>
-      <p class="muted">Ticket volume, resolution time and satisfaction across five service teams. Sample data for demonstration only.</p>
+<main>
+  <span class="label">Home textiles &amp; basics</span>
+  <h1 class="title">Cotton, decoded</h1>
+  <p class="lede">"100% cotton" covers a wide range of quality. This report explains the main types of cotton, why fibre length matters most, and how fibre, yarn and weave together decide how bed sheets and t-shirts feel and wear. It ends with a checklist for reading labels.</p>
+
+  <section class="tiles" aria-label="Key figures">
+    <div class="bubble tile">
+      <span class="label">Upland cotton</span>
+      <div class="tile__num">≈90%</div>
+      <p class="sub">of world cotton. The everyday short-to-medium staple fibre.</p>
     </div>
-    <button class="btn" id="csvBtn" type="button">Download CSV</button>
+    <div class="bubble tile">
+      <span class="label">Extra-long staple</span>
+      <div class="tile__num">≥ 35 mm</div>
+      <p class="sub">Fibre length that counts as ELS: Pima, Supima, Egyptian Giza.</p>
+    </div>
+    <div class="bubble tile">
+      <span class="label">Sheet thread count</span>
+      <div class="tile__num">200–400</div>
+      <p class="sub">The useful range for single-ply percale. Above it, check the ply.</p>
+    </div>
+    <div class="bubble tile">
+      <span class="label">T-shirt weight</span>
+      <div class="tile__num">150–200</div>
+      <p class="sub">g/m² (gsm) for an everyday tee that keeps its shape.</p>
+    </div>
   </section>
 
-  <p><span class="notice"><span class="swatch-hatch" aria-hidden="true"></span>November is month to date (1–20 Nov) and is shown hatched in the charts.</span></p>
+  <!-- ===================== TYPES ===================== -->
+  <section class="section" id="types">
+    <div class="section__head">
+      <h2 class="title">The types of cotton</h2>
+      <p class="sub">Cotton is graded mainly by <strong>staple length</strong>, the length of a single fibre. Longer fibres spin into finer, stronger yarn with fewer loose ends, so the fabric is softer, smoother and pills less. Select types below to compare them in the chart and table.</p>
+    </div>
 
-  <section class="tiles" id="tiles" aria-label="Key figures"></section>
+    <div class="filters" id="filters" role="group" aria-label="Filter by cotton type"></div>
+    <div class="filterbar" id="filterbar" aria-live="polite"></div>
 
-  <section class="grid2">
-    <div class="panel" id="channels">
+    <div class="grid-2" id="typeGrid">
+      <div class="bubble panel">
+        <div class="panel__head">
+          <h3>Staple length by cotton type</h3>
+          <p class="sub">Typical fibre length in millimetres. Longer is finer and stronger.</p>
+        </div>
+        <div class="range" id="rangeChart" role="img"
+             aria-label="Range chart of typical staple length: Asiatic 13 to 24 mm, Upland 22 to 30 mm, Egyptian Giza 33 to 40 mm, Pima and Supima 35 to 40 mm, Sea Island 40 to 50 mm."></div>
+        <div class="chart-note" id="rangeLegend">
+          <span><i style="background: var(--grey-500)"></i>Cotton type</span>
+          <span><i style="background: var(--pink); box-shadow: inset 0 0 0 1px var(--pink-1)"></i>Selected</span>
+        </div>
+      </div>
+
+      <div class="bubble panel">
+        <div class="panel__head">
+          <h3>Share of world cotton by species</h3>
+          <p class="sub">Commonly cited approximate shares of global production.</p>
+        </div>
+        <div class="pie-wrap">
+          <svg class="pie" id="pie" viewBox="-100 -100 200 200" role="img" aria-label="Pie chart: Upland about 90%, Barbadense about 8%, Asiatic about 2%."></svg>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div class="notice notice--info">Only a small share of the world's cotton is extra-long staple. If a cheap product claims to be Egyptian or Pima cotton, be sceptical.</div>
+      </div>
+    </div>
+
+    <div class="bubble panel" style="margin-top: 24px;">
       <div class="panel__head">
+        <h3>Cotton types at a glance</h3>
+        <p class="sub" id="tableSub">All six types.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Species</th><th>Staple</th><th>Feel &amp; wear</th><th>Typical use</th><th>Tier</th></tr></thead>
+          <tbody id="typeRows"></tbody>
+        </table>
+      </div>
+      <div class="notice notice--warning"><strong>Organic, Better Cotton and recycled are not cotton types.</strong> They describe how the cotton was grown or sourced, not how long the fibre is. Organic cotton can be Upland or Pima.</div>
+    </div>
+  </section>
+
+  <!-- ===================== FABRIC ===================== -->
+  <section class="section" id="fabric">
+    <div class="section__head">
+      <h2 class="title">From fibre to fabric</h2>
+      <p class="sub">A good fibre can still become a poor fabric. These four steps decide how the fibre ends up feeling.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="label">1 · Cleaning</span>
+        <h4>Combed vs carded</h4>
+        <p>Combing removes short fibres and impurities, which gives a smoother, stronger yarn. Carded-only yarn is cheaper and fuzzier.</p>
+        <p class="sub">Look for: "combed"</p>
+      </div>
+      <div class="card">
+        <span class="label">2 · Spinning</span>
+        <h4>Ring-spun vs open-end</h4>
+        <p>Ring-spun (and compact) yarn is twisted tightly into a fine, soft thread. Open-end yarn is cheaper to make but feels rougher and drier.</p>
+        <p class="sub">Look for: "ring-spun", "compact"</p>
+      </div>
+      <div class="card">
+        <span class="label">3 · Construction</span>
+        <h4>Weave or knit</h4>
+        <p>Sheets are woven (percale or sateen). T-shirts are knitted, usually as single jersey, which stretches and drapes.</p>
+        <p class="sub">Look for: the weave name, gsm</p>
+      </div>
+      <div class="card">
+        <span class="label">4 · Finishing</span>
+        <h4>Mercerised, pre-shrunk</h4>
+        <p>Mercerising adds lustre and strength. Pre-shrinking (or "sanforised") limits shrinkage to a few percent.</p>
+        <p class="sub">Look for: "pre-shrunk", "mercerised"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BUYING GUIDE ===================== -->
+  <section class="section" id="buying">
+    <div class="bubble panel">
+      <div class="guide-head">
         <div>
-          <h3>Tickets by channel</h3>
-          <p class="muted">Monthly tickets, stacked by contact channel</p>
+          <h2 class="title">Buying guide</h2>
+          <p class="sub">What matters most, by product.</p>
         </div>
-        <div class="segmented" role="radiogroup" aria-label="Chart values" id="stackMode">
-          <button class="segmented__option" role="radio" aria-checked="true" data-mode="count" type="button">Count</button>
-          <button class="segmented__option" role="radio" aria-checked="false" data-mode="share" type="button">Share</button>
+        <div class="segmented" role="radiogroup" aria-label="Product" id="productToggle">
+          <button class="segmented__option" role="radio" aria-checked="true" data-target="sheets">Bed sheets</button>
+          <button class="segmented__option" role="radio" aria-checked="false" data-target="tees">T-shirts</button>
         </div>
       </div>
-      <ul class="legend" id="stackLegend"></ul>
-      <svg id="stack" viewBox="0 0 640 300" role="img" aria-label="Stacked bar chart of monthly tickets by channel"></svg>
-    </div>
 
-    <div class="panel">
+      <div id="guide-sheets" class="fade-in">
+        <div class="spec-list">
+          <div class="card"><span class="label">Fibre</span><div class="spec__val">Long or ELS staple</div><p class="sub">Supima, certified Giza, or combed Upland</p></div>
+          <div class="card"><span class="label">Thread count</span><div class="spec__val">200–400</div><p class="sub">Single-ply percale; 300–600 for sateen</p></div>
+          <div class="card"><span class="label">Yarn</span><div class="spec__val">Single-ply, combed</div><p class="sub">Multi-ply is heavier and less breathable</p></div>
+          <div class="card"><span class="label">Safety</span><div class="spec__val">OEKO-TEX® 100</div><p class="sub">Tested for harmful substances</p></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Weave</th><th>How it's made</th><th>Feels</th><th>Good for</th><th>Watch for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Percale</strong></td><td>One-over-one plain weave</td><td>Crisp, matte, cool</td><td>Warm sleepers, summer</td><td>Creases easily; feels stiff at first</td></tr>
+              <tr><td><strong>Sateen</strong></td><td>Three or four over, one under</td><td>Smooth, slight sheen, warmer</td><td>Cool rooms, people who want a silky feel</td><td>Long floats can snag and pill</td></tr>
+              <tr><td><strong>Flannel</strong></td><td>Brushed plain or twill weave</td><td>Fuzzy, warm</td><td>Winter</td><td>Judge by weight (g/m²), not thread count</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="guide-tees" class="fade-in" hidden>
+        <div class="spec-list">
+          <div class="card"><span class="label">Fibre</span><div class="spec__val">Combed ring-spun</div><p class="sub">Pima or Supima for extra softness and less pilling</p></div>
+          <div class="card"><span class="label">Weight</span><div class="spec__val">150–200 gsm</div><p class="sub">&lt; 140 sheer · 200+ heavyweight</p></div>
+          <div class="card"><span class="label">Yarn count</span><div class="spec__val">30s–40s single</div><p class="sub">Higher means finer yarn; 20s is heavier and rougher</p></div>
+          <div class="card"><span class="label">Shrinkage</span><div class="spec__val">Pre-shrunk</div><p class="sub">Otherwise expect about 5% shrinkage</p></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Option</th><th>Feels</th><th>Good for</th><th>Watch for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>100% combed cotton</strong></td><td>Soft, breathable, matte</td><td>Everyday wear, sensitive skin</td><td>Shrinks if not pre-shrunk</td></tr>
+              <tr><td><strong>Pima / Supima</strong></td><td>Smooth, slight sheen, drapes well</td><td>Tees you want to last</td><td>"Pima feel" or "Pima touch" names that aren't Pima</td></tr>
+              <tr><td><strong>Cotton–polyester blend</strong></td><td>Lighter; resists wrinkles and shrinkage</td><td>Sport, travel</td><td>Less breathable; can pill and hold odour</td></tr>
+              <tr><td><strong>Cotton + 3–5% elastane</strong></td><td>Stretchy, fitted</td><td>Slim fits</td><td>Avoid high heat in the dryer</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LABELS ===================== -->
+  <section class="section" id="labels">
+    <div class="bubble panel">
       <div class="panel__head">
-        <div>
-          <h3>Backlog and satisfaction</h3>
-          <p class="muted">Open tickets per agent against CSAT, by team</p>
+        <span class="label">Checklist</span>
+        <h2 class="title">What to look at when reading a label</h2>
+        <p class="sub">Check these in order. The first three tell you most of what you need to know.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Label says</th><th>What it really means</th><th>Check</th><th>Risk</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><strong>Fibre content (%)</strong></td>
+              <td>Must be listed by law in the EU and US. "Cotton rich" or "cotton feel" means it's a blend, or not cotton at all.</td>
+              <td>A clear percentage for every fibre</td><td><span class="badge badge--low">Low</span></td></tr>
+            <tr><td class="num">2</td><td><strong>Cotton type</strong> (Egyptian, Pima, Supima)</td>
+              <td>The most common premium claim, and the most often abused. Look-alike names such as "Egyptian-style" or "Pima feel" are marketing, not fibre.</td>
+              <td>Supima® trademark, Cotton Egypt Association logo, a named Giza variety</td><td><span class="badge badge--high">High</span></td></tr>
+            <tr><td class="num">3</td><td><strong>Thread count</strong></td>
+              <td>Threads per square inch. Some makers multiply the count by the number of plies to reach 800–1,200. The US FTC has called that misleading.</td>
+              <td>"Single-ply", and a count of 200–600</td><td><span class="badge badge--medium">Medium</span></td></tr>
+            <tr><td class="num">4</td><td><strong>Yarn &amp; construction</strong></td>
+              <td>"Combed", "ring-spun" and "compact" show care in making the yarn. A missing weave name or weight is a small warning sign.</td>
+              <td>Weave name (percale, sateen) or gsm for knits</td><td><span class="badge badge--medium">Medium</span></td></tr>
+            <tr><td class="num">5</td><td><strong>Certifications</strong></td>
+              <td><strong>GOTS</strong>: organic fibre and processing. <strong>OEKO-TEX® 100</strong>: tested for harmful substances, not organic. <strong>Better Cotton</strong>: supports better farming practices, but the product itself may not contain it.</td>
+              <td>A certificate or licence number you can look up</td><td><span class="badge badge--medium">Medium</span></td></tr>
+            <tr><td class="num">6</td><td><strong>Country of origin</strong></td>
+              <td>Where the product was made (sewn or woven), not where the cotton was grown. Egyptian cotton woven in India is normal.</td>
+              <td>Don't read it as a quality signal</td><td><span class="badge badge--cream">Info</span></td></tr>
+            <tr><td class="num">7</td><td><strong>Care instructions</strong></td>
+              <td>A hot-wash instruction on sheets is a good sign. "Wash before use" and "dry flat" often point to an unstable finish.</td>
+              <td>"Pre-shrunk"; 40–60 °C wash for sheets</td><td><span class="badge badge--low">Low</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="expand">
+        <button class="expand__head" aria-expanded="false" aria-controls="flags">
+          <span class="title">Red flags on the shelf</span><span class="expand__count">5</span>
+          <span class="expand__sub">Claims to question before you buy</span>
+          <svg class="expand__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="expand__body" id="flags" hidden>
+          <div class="cards">
+            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">1,000+ thread count, low price</h4><p>Almost always made with multi-ply yarns. Judge the fibre and weave instead.</p></div>
+            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Egyptian-quality"</h4><p>Not a fibre claim. Real Egyptian cotton names itself and shows a logo.</p></div>
+            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Cotton rich"</h4><p>A blend, often with polyester. Look for the percentages.</p></div>
+            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Heavyweight", 130 gsm</h4><p>Labels and numbers should agree. Heavyweight tees start around 200 gsm.</p></div>
+            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Organic" without a certificate</h4><p>GOTS or OCS certification backs an organic claim. OEKO-TEX® doesn't.</p></div>
+          </div>
         </div>
       </div>
-      <ul class="legend">
-        <li><i style="background:var(--success)"></i>On track</li>
-        <li><i style="background:var(--warning)"></i>Watch</li>
-        <li><i style="background:var(--error)"></i>At risk</li>
-      </ul>
-      <svg id="scatter" viewBox="0 0 420 300" role="img" aria-label="Scatter chart of backlog per agent against customer satisfaction"></svg>
+      <div class="expand">
+        <button class="expand__head" aria-expanded="false" aria-controls="glossary">
+          <span class="title">Glossary</span><span class="expand__count">8</span>
+          <span class="expand__sub">Terms used on labels and in this report</span>
+          <svg class="expand__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="expand__body" id="glossary" hidden>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr><td><strong>Staple</strong></td><td>The length of a single cotton fibre.</td></tr>
+                <tr><td><strong>ELS</strong></td><td>Extra-long staple: fibres of roughly 35 mm (1⅜ in) or more.</td></tr>
+                <tr><td><strong>Ply</strong></td><td>The number of yarns twisted together into one thread.</td></tr>
+                <tr><td><strong>Thread count</strong></td><td>Horizontal plus vertical threads per square inch of woven fabric.</td></tr>
+                <tr><td><strong>gsm</strong></td><td>Grams per square metre: the fabric's weight.</td></tr>
+                <tr><td><strong>Yarn count (Ne)</strong></td><td>The fineness of a yarn. Higher numbers mean finer yarn.</td></tr>
+                <tr><td><strong>Jersey</strong></td><td>The single knit used for most t-shirts.</td></tr>
+                <tr><td><strong>Mercerised</strong></td><td>Treated with caustic soda to add lustre, strength and better dye uptake.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="panel panel--hl">
-    <div class="panel__head">
-      <div>
-        <h3>Time to resolve, by team</h3>
-        <p class="muted">Each dot is a sampled ticket. Box shows the 25th–75th percentile, the thick line the median.</p>
-      </div>
-      <div class="toggle" role="switch" aria-checked="true" tabindex="0" id="ptsSwitch">
-        <span class="toggle__track"></span>
-        <span class="toggle__label">Show individual tickets</span>
-      </div>
-    </div>
-    <svg id="strip" viewBox="0 0 1000 330" role="img" aria-label="Strip plot of resolution hours per team with box overlay"></svg>
-  </section>
-
-  <section class="panel" id="teams">
-    <div class="panel__head">
-      <div>
-        <h3>Team overview</h3>
-        <p class="muted">Jun – 20 Nov 2026. Status combines SLA attainment and CSAT.</p>
-      </div>
-      <button class="btn btn--outline" id="sortBtn" type="button">Sort by CSAT</button>
-    </div>
-    <div class="table-scroll">
-      <table>
-        <thead><tr><th>Team</th><th class="num">Agents</th><th class="num">Tickets</th><th class="num">Median resolution</th><th class="num">CSAT</th><th>SLA met</th><th>Status</th></tr></thead>
-        <tbody id="teamRows"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <h2 style="margin-bottom:24px">Key findings</h2>
-    <div class="panel"><div class="cards" id="findings"></div></div>
-  </section>
-
-  <section class="panel" id="details">
-    <h3 style="margin-bottom:8px">Details</h3>
-    <details>
-      <summary><b>Open escalations</b><span class="muted" id="escCount"></span></summary>
-      <div class="details__body"><div class="cards" id="escalations"></div></div>
-    </details>
-    <details>
-      <summary><b>Method and data notes</b><span class="muted">· 3</span></summary>
-      <div class="details__body">
-        <ol class="notes">
-          <li>Resolution time is measured from ticket creation to the final agent reply; 60 tickets per team were sampled for the distribution chart.</li>
-          <li>CSAT is the share of 4–5 ratings on the post-contact survey, weighted by tickets per team.</li>
-          <li>Status: <em>on track</em> when SLA ≥ 95% and CSAT ≥ 90%, <em>at risk</em> when SLA &lt; 85% or CSAT &lt; 84%, otherwise <em>watch</em>. See the <a href="#teams">team overview</a>.</li>
-        </ol>
-      </div>
-    </details>
-  </section>
-
-  <footer>Sample dataset generated for the style-kit Cotton theme. Built from <code>themes/cotton/design.md</code> with the general button, segmented and switch elements.</footer>
+  <footer>
+    Figures are typical ranges and commonly cited approximations, compiled for this example of the Cotton theme. Check them against current sources before reusing them. <a href="game.html">Test yourself: Label Detective →</a>
+  </footer>
 </main>
 
-<!-- Hatch patterns for the partial (month-to-date) month: colour hatched with its tint -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <pattern id="hatch-email" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#DBE9F8"/><rect width="3" height="6" fill="#A9CBF0"/></pattern>
-    <pattern id="hatch-chat"  width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#F8DBE4"/><rect width="3" height="6" fill="#F1B6C9"/></pattern>
-    <pattern id="hatch-phone" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#D5EFE0"/><rect width="3" height="6" fill="#C9E8D4"/></pattern>
-    <pattern id="hatch-web"   width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#FBE3CF"/><rect width="3" height="6" fill="#FFCC8A"/></pattern>
-  </defs>
-</svg>
-<div class="tip" id="tip" hidden></div>
+<div class="tooltip" id="tooltip" hidden></div>
 
 <script>
-const C = { ink: "#1C1B18", muted: "#5C5A54", success: "#77BB78", warning: "#FCCF61", error: "#F14545", blue: "#A9CBF0", lineStrong: "#C9C5B8" };
-const CAT = [["#D6E7F8", "#8DBAED"], ["#E3DBF3", "#CCA8CF"], ["#D5EFE0", "#77BB78"], ["#FBE3CF", "#FFCC8A"], ["#F8DBE4", "#F1B6C9"]]; // categorical pastel + dot
-const NS = "http://www.w3.org/2000/svg";
-const $ = id => document.getElementById(id);
+  /* Use the fallback heading weight when ITC Novarese isn't installed */
+  (function () {
+    const c = document.createElement("canvas").getContext("2d");
+    c.font = "40px monospace"; const base = c.measureText("mmmmmlllli").width;
+    c.font = '40px "ITC Novarese", monospace';
+    if (c.measureText("mmmmmlllli").width === base) document.documentElement.classList.add("no-novarese");
+  })();
 
-// ---- Sample data -------------------------------------------------------
-const months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
-const PARTIAL = 5; // Nov is month to date
-const channels = [
-  { key: "email", name: "Email",    color: "#A9CBF0", data: [1980, 2050, 2210, 2140, 2060, 1310] },
-  { key: "chat",  name: "Chat",     color: "#F1B6C9", data: [1420, 1560, 1690, 1820, 1940, 1350] },
-  { key: "phone", name: "Phone",    color: "#C9E8D4", data: [ 980,  930,  890,  860,  810,  510] },
-  { key: "web",   name: "Web form", color: "#FFCC8A", data: [ 520,  560,  610,  640,  700,  470] },
-];
-let teams = [
-  { name: "Orders & delivery", agents: 14, tickets: 11540, csat: 91.2, sla: 96, backlog: 3.1, med: 6 },
-  { name: "Returns",           agents:  9, tickets:  7230, csat: 86.4, sla: 89, backlog: 5.8, med: 14 },
-  { name: "Product care",      agents:  7, tickets:  3890, csat: 93.5, sla: 97, backlog: 2.4, med: 9 },
-  { name: "Billing",           agents:  6, tickets:  4730, csat: 82.1, sla: 81, backlog: 8.9, med: 22 },
-  { name: "Accounts",          agents:  5, tickets:  2620, csat: 88.7, sla: 92, backlog: 4.6, med: 11 },
-];
-teams.forEach((t, i) => t.cat = CAT[i]);
-const escalations = [
-  { id: "ESC-2291", title: "Refund not received two weeks after return pickup", team: "Returns", prio: "High", age: "6 days" },
-  { id: "ESC-2287", title: "Duplicate charge on a split-payment order", team: "Billing", prio: "High", age: "4 days" },
-  { id: "ESC-2280", title: "Engraving request missing from shipped order", team: "Orders & delivery", prio: "Medium", age: "3 days" },
-  { id: "ESC-2274", title: "Customer locked out after email change", team: "Accounts", prio: "Medium", age: "2 days" },
-  { id: "ESC-2269", title: "Repair estimate not sent within promised window", team: "Product care", prio: "Low", age: "1 day" },
-];
+  /* ---------- Data ---------- */
+  const TYPES = [
+    { id: "asiatic", name: "Asiatic", note: "Desi", species: "<em>G. arboreum</em>, <em>G. herbaceum</em>", min: 13, max: 24,
+      feel: "Short, coarse fibre; hardy plant, often rain-fed.", use: "Denim, padding, blends, surgical cotton", tier: "Standard" },
+    { id: "upland", name: "Upland", note: "≈90% of supply", species: "<em>G. hirsutum</em>", min: 22, max: 30,
+      feel: "Sturdy and versatile; softens with washing. Shorter fibres pill more.", use: "Most t-shirts, jeans, everyday sheets and towels", tier: "Standard" },
+    { id: "egyptian", name: "Egyptian", note: "Giza", species: "<em>G. barbadense</em>", min: 33, max: 40,
+      feel: "Very soft with a slight lustre. Quality depends on the Giza variety.", use: "Luxury sheets, shirting", tier: "Premium" },
+    { id: "pima", name: "Pima", note: "Peru, US, Australia", species: "<em>G. barbadense</em>", min: 35, max: 40,
+      feel: "Smooth, strong, resists pilling; keeps colour well.", use: "Premium tees, knitwear and sheets", tier: "Premium" },
+    { id: "supima", name: "Supima®", note: "US Pima, licensed", species: "<em>G. barbadense</em>", min: 35, max: 40,
+      feel: "Pima grown in the USA, sold under a licensed trademark that can be traced.", use: "Premium tees, sheets and underwear", tier: "Premium" },
+    { id: "seaisland", name: "Sea Island", note: "rare", species: "<em>G. barbadense</em>", min: 40, max: 50,
+      feel: "The longest and silkiest fibre. Very rare and expensive.", use: "Luxury shirts and underwear", tier: "Rare" }
+  ];
+  const AXIS = { min: 10, max: 58, ticks: [10, 20, 30, 40, 50] };
+  const ELS = 35;
+  const SHARE = [
+    { name: "Upland", detail: "G. hirsutum", value: 90, color: "#8C8985" },
+    { name: "Barbadense", detail: "Pima, Egyptian, Sea Island", value: 8, color: "#F8AAB6" },
+    { name: "Asiatic", detail: "G. arboreum & G. herbaceum", value: 2, color: "#8DBAED" }
+  ];
+  const selected = new Set();
+  const $ = id => document.getElementById(id);
 
-// Seeded log-normal samples for the resolution-time distribution
-function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const rand = rng(20261120);
-const gauss = () => Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(2 * Math.PI * rand());
-teams.forEach(t => { t.res = Array.from({ length: 60 }, () => t.med * Math.exp(0.5 * gauss())); t.jit = t.res.map(() => rand() * 2 - 1); });
-const quant = (arr, q) => { const s = arr.slice().sort((a, b) => a - b), p = (s.length - 1) * q, lo = Math.floor(p); return s[lo] + (s[Math.ceil(p)] - s[lo]) * (p - lo); };
-teams.forEach(t => { t.q1 = quant(t.res, .25); t.q2 = quant(t.res, .5); t.q3 = quant(t.res, .75); });
-const status = t => t.sla >= 95 && t.csat >= 90 ? ["success", "On track"] : t.sla < 85 || t.csat < 84 ? ["error", "At risk"] : ["warning", "Watch"];
+  /* ---------- Tooltip ---------- */
+  const tip = $("tooltip");
+  function showTip(x0, y0, html) {
+    tip.innerHTML = html; tip.hidden = false;
+    const pad = 12, w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = x0 + pad, y = y0 - h - pad;
+    if (x + w > window.innerWidth - 8) x = x0 - w - pad;
+    if (y < 8) y = y0 + pad;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  const hideTip = () => { tip.hidden = true; };
 
-// ---- Helpers -----------------------------------------------------------
-const sum = a => a.reduce((s, v) => s + v, 0);
-const fmt = n => Math.round(n).toLocaleString("en-US");
-const hrs = h => h < 24 ? h.toFixed(1) + " h" : (h / 24).toFixed(1) + " d";
-const chip = (kind, text) => `<span class="chip chip--${kind}">${text}</span>`;
-const catChip = t => `<span class="chip" style="--chip-bg:${t.cat[0]};--dot:${t.cat[1]}">${t.name}</span>`;
-function el(name, attrs, parent) { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; }
-const tip = $("tip");
-const showTip = (e, html) => { tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = e.clientY + 12 + "px"; };
-const hideTip = () => tip.hidden = true;
-const hover = (node, html) => { node.addEventListener("mousemove", e => showTip(e, html)); node.addEventListener("mouseleave", hideTip); };
-
-// ---- Stat tiles --------------------------------------------------------
-const totals = months.map((_, i) => sum(channels.map(c => c.data[i])));
-const total = sum(totals);
-const allRes = teams.flatMap(t => t.res);
-const csat = sum(teams.map(t => t.csat * t.tickets)) / sum(teams.map(t => t.tickets));
-const backlog = sum(teams.map(t => t.backlog * t.agents));
-const daily = totals[4] / 22;
-$("tiles").innerHTML = [
-  ["Tickets handled", fmt(total), `<span class="muted">1 Jun – 20 Nov 2026</span>`],
-  ["Median resolution", hrs(quant(allRes, .5)), `<span class="muted">Across all teams</span>`],
-  ["Customer satisfaction", csat.toFixed(1) + "%", chip("success", "Above 85% target")],
-  ["Open backlog", fmt(backlog), `<span class="muted">${(backlog / daily).toFixed(1)} days of incoming volume</span>`],
-].map(([label, value, sub]) => `<div class="tile"><p class="label">${label}</p><p class="kpi">${value}</p><p>${sub}</p></div>`).join("");
-
-// ---- Stacked bar chart (square stacks, no gaps) ------------------------
-$("stackLegend").innerHTML = channels.map(c => `<li><i class="sq" style="background:${c.color}"></i>${c.name}</li>`).join("") +
-  `<li><i class="sq" style="background:repeating-linear-gradient(135deg, #A9CBF0 0 3px, #DBE9F8 3px 6px)"></i>Month to date</li>`;
-function drawStack(mode) {
-  const svg = $("stack"); svg.innerHTML = "";
-  const W = 640, H = 300, m = { t: 24, r: 8, b: 30, l: 52 };
-  const max = mode === "count" ? 6000 : 100;
-  const y = v => H - m.b - v / max * (H - m.t - m.b);
-  const band = (W - m.l - m.r) / months.length, bw = band * 0.56;
-  (mode === "count" ? [0, 2000, 4000, 6000] : [0, 25, 50, 75, 100]).forEach(t => {
-    if (t) el("line", { class: "hair", x1: m.l, x2: W - m.r, y1: y(t), y2: y(t) }, svg);
-    el("text", { class: "tick", x: m.l - 10, y: y(t) + 4, "text-anchor": "end" }, svg).textContent = mode === "count" ? fmt(t) : t + "%";
+  /* ---------- Filter cards ---------- */
+  const filters = $("filters");
+  TYPES.forEach(t => {
+    const b = document.createElement("button");
+    b.className = "fcard"; b.setAttribute("aria-pressed", "false"); b.dataset.id = t.id;
+    b.innerHTML = `<span class="label">${t.name}</span><div class="fcard__num">${t.min}–${t.max} mm</div><span class="sub">${t.tier} · ${t.note}</span>`;
+    b.addEventListener("click", () => { selected.has(t.id) ? selected.delete(t.id) : selected.add(t.id); update(); });
+    filters.appendChild(b);
   });
-  months.forEach((mo, i) => {
-    const x0 = m.l + i * band + (band - bw) / 2; let acc = 0;
-    channels.forEach(c => {
-      const v = mode === "count" ? c.data[i] : c.data[i] / totals[i] * 100;
-      const r = el("rect", { x: x0, y: y(acc + v), width: bw, height: y(acc) - y(acc + v), fill: i === PARTIAL ? `url(#hatch-${c.key})` : c.color, "shape-rendering": "crispEdges" }, svg);
-      hover(r, `<b>${c.name} · ${mo}${i === PARTIAL ? " (to date)" : ""}</b><br>${fmt(c.data[i])} tickets · ${(c.data[i] / totals[i] * 100).toFixed(0)}% of month`);
-      acc += v;
+
+  function renderFilterbar() {
+    const bar = $("filterbar");
+    if (!selected.size) { bar.innerHTML = `<span class="filterbar__label">Showing all types. Select cards to compare.</span>`; return; }
+    bar.innerHTML = `<span class="filterbar__label">Filtered:</span>` + [...selected].map(id => {
+      const t = TYPES.find(x => x.id === id);
+      return `<button class="fchip" data-id="${id}" aria-label="Remove ${t.name} filter">${t.name}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+    }).join("") + (selected.size >= 2 ? `<button class="clear" id="clearAll">Clear all</button>` : "");
+    bar.querySelectorAll(".fchip").forEach(c => c.addEventListener("click", () => { selected.delete(c.dataset.id); update(); }));
+    const ca = $("clearAll"); if (ca) ca.addEventListener("click", () => { selected.clear(); update(); });
+  }
+
+  /* ---------- Range chart ---------- */
+  const pct = v => ((v - AXIS.min) / (AXIS.max - AXIS.min)) * 100;
+  function renderRange() {
+    let html = TYPES.map(d => `<div class="range__row">
+        <div class="range__name">${d.name}<small>${d.note}</small></div>
+        <div class="range__track">
+          <div class="range__bar${selected.has(d.id) ? " is-on" : ""}" tabindex="0" data-id="${d.id}"
+               style="left:${pct(d.min)}%;width:${pct(d.max) - pct(d.min)}%" aria-label="${d.name}: ${d.min} to ${d.max} mm"></div>
+          <span class="range__val" style="left:${pct(d.max)}%">${d.min}–${d.max} mm</span>
+        </div></div>`).join("");
+    html += `<div class="range__axis"><span></span><div class="range__ticks">${AXIS.ticks.map(t => `<span style="left:${pct(t)}%">${t}</span>`).join("")}</div></div>`;
+    html += `<div class="range__plot"><div class="range__marker" style="left:${pct(ELS)}%"><span class="range__marker-label">ELS ≥ ${ELS} mm</span></div></div>`;
+    $("rangeChart").innerHTML = html;
+    $("rangeChart").querySelectorAll(".range__bar").forEach(bar => {
+      const d = TYPES.find(x => x.id === bar.dataset.id);
+      const label = `<strong>${d.name}</strong>${d.min}–${d.max} mm staple${d.min >= ELS - 2 ? " · extra-long" : ""}`;
+      bar.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, label));
+      bar.addEventListener("mouseleave", hideTip);
+      bar.addEventListener("focus", () => { const r = bar.getBoundingClientRect(); showTip(r.right, r.top, label); });
+      bar.addEventListener("blur", hideTip);
     });
-    if (mode === "count") el("text", { class: "lbl lbl--strong", x: x0 + bw / 2, y: y(totals[i]) - 8, "text-anchor": "middle" }, svg).textContent = fmt(totals[i]);
-    el("text", { class: "tick", x: x0 + bw / 2, y: H - 8, "text-anchor": "middle" }, svg).textContent = mo + (i === PARTIAL ? " (MTD)" : "");
+  }
+
+  /* ---------- Table ---------- */
+  function renderTable() {
+    const rows = TYPES.filter(t => !selected.size || selected.has(t.id));
+    $("typeRows").innerHTML = rows.map(t => `<tr class="fade-in">
+      <td><strong>${t.name}</strong></td><td>${t.species}</td><td class="num">${t.min}–${t.max} mm</td>
+      <td>${t.feel}</td><td>${t.use}</td><td><span class="badge badge--cream">${t.tier}</span></td></tr>`).join("");
+    $("tableSub").textContent = selected.size ? `${rows.length} of ${TYPES.length} types selected.` : `All ${TYPES.length} types.`;
+  }
+
+  function update() {
+    filters.querySelectorAll(".fcard").forEach(b => b.setAttribute("aria-pressed", selected.has(b.dataset.id)));
+    renderFilterbar(); renderRange(); renderTable();
+  }
+
+  /* ---------- Pie ---------- */
+  (function () {
+    const r = 92; let a0 = -Math.PI / 2; let svg = "";
+    SHARE.forEach(d => {
+      const a1 = a0 + (d.value / 100) * Math.PI * 2;
+      const large = a1 - a0 > Math.PI ? 1 : 0;
+      const p = `M0 0 L${(r * Math.cos(a0)).toFixed(2)} ${(r * Math.sin(a0)).toFixed(2)} A${r} ${r} 0 ${large} 1 ${(r * Math.cos(a1)).toFixed(2)} ${(r * Math.sin(a1)).toFixed(2)}Z`;
+      svg += `<path d="${p}" fill="${d.color}" data-name="${d.name}"></path>`;
+      a0 = a1;
+    });
+    $("pie").innerHTML = svg;
+    $("pie").querySelectorAll("path").forEach(p => {
+      const d = SHARE.find(x => x.name === p.dataset.name);
+      p.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, `<strong>${d.name} · ≈${d.value}%</strong>${d.detail}`));
+      p.addEventListener("mouseleave", hideTip);
+    });
+    $("legend").innerHTML = SHARE.map(d => `<div class="legend__item">
+      <span class="legend__sw" style="background:${d.color}"></span>
+      <span>${d.name}<br><span class="sub">${d.detail}</span></span>
+      <span class="legend__val">≈${d.value}%</span></div>`).join("");
+  })();
+
+  /* ---------- Multicategory toggle ---------- */
+  const opts = [...$("productToggle").querySelectorAll(".segmented__option")];
+  function select(o) {
+    opts.forEach(x => {
+      const on = x === o;
+      x.setAttribute("aria-checked", on); x.tabIndex = on ? 0 : -1;
+      $("guide-" + x.dataset.target).hidden = !on;
+    });
+  }
+  opts.forEach((o, i) => {
+    o.tabIndex = o.getAttribute("aria-checked") === "true" ? 0 : -1;
+    o.addEventListener("click", () => select(o));
+    o.addEventListener("keydown", e => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const n = opts[(i + (e.key === "ArrowRight" ? 1 : opts.length - 1)) % opts.length];
+      select(n); n.focus(); e.preventDefault();
+    });
   });
-  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(0), y2: y(0) }, svg);
-}
-$("stackMode").addEventListener("click", e => {
-  const o = e.target.closest(".segmented__option"); if (!o) return;
-  $("stackMode").querySelectorAll(".segmented__option").forEach(x => x.setAttribute("aria-checked", x === o));
-  drawStack(o.dataset.mode);
-});
 
-// ---- Scatter: backlog per agent vs CSAT --------------------------------
-(function () {
-  const svg = $("scatter"), W = 420, H = 300, m = { t: 12, r: 16, b: 42, l: 44 };
-  const x = v => m.l + v / 10 * (W - m.l - m.r), y = v => H - m.b - (v - 80) / 16 * (H - m.t - m.b);
-  [0, 2, 4, 6, 8, 10].forEach(v => el("text", { class: "tick", x: x(v), y: H - m.b + 18, "text-anchor": "middle" }, svg).textContent = v);
-  [80, 85, 90, 95].forEach(v => el("text", { class: "tick", x: m.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = v + "%");
-  el("text", { class: "tick", x: (m.l + W - m.r) / 2, y: H - 4, "text-anchor": "middle" }, svg).textContent = "Open tickets per agent";
-  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b }, svg);
-  el("line", { class: "base", x1: m.l, x2: m.l, y1: m.t, y2: H - m.b }, svg);
-  // CSAT target as the one reference line
-  el("line", { x1: m.l, x2: W - m.r, y1: y(85), y2: y(85), stroke: C.muted, "stroke-width": 1, "stroke-dasharray": "4 4" }, svg);
-  el("text", { class: "tick", x: W - m.r, y: y(85) - 6, "text-anchor": "end" }, svg).textContent = "Target 85%";
-  teams.forEach(t => {
-    const [kind, label] = status(t), cx = x(t.backlog), cy = y(t.csat), right = t.backlog < 7.5;
-    const c = el("circle", { cx, cy, r: 7, fill: C[kind], stroke: C.ink, "stroke-width": 1 }, svg);
-    el("text", { class: "lbl", x: cx + (right ? 12 : -12), y: cy + 4, "text-anchor": right ? "start" : "end" }, svg).textContent = t.name;
-    hover(c, `<b>${t.name}</b><br>${t.backlog} open per agent · CSAT ${t.csat}%<br>${label}`);
+  /* ---------- Expandables (open state remembered in sessionStorage) ---------- */
+  document.querySelectorAll(".expand__head").forEach(h => {
+    const body = $(h.getAttribute("aria-controls"));
+    const key = "cotton-expand-" + body.id;
+    const set = open => { h.setAttribute("aria-expanded", open); body.hidden = !open; };
+    try { if (sessionStorage.getItem(key) === "1") set(true); } catch (e) {}
+    h.addEventListener("click", () => {
+      const open = h.getAttribute("aria-expanded") !== "true"; set(open);
+      try { sessionStorage.setItem(key, open ? "1" : "0"); } catch (e) {}
+    });
   });
-})();
 
-// ---- Strip plot with box overlay --------------------------------------
-function drawStrip(showPts) {
-  const svg = $("strip"); svg.innerHTML = "";
-  const W = 1000, H = 330, m = { t: 12, r: 16, b: 40, l: 56 }, max = 72;
-  const y = v => H - m.b - Math.min(v, max) / max * (H - m.t - m.b);
-  const band = (W - m.l - m.r) / teams.length;
-  [0, 24, 48, 72].forEach(v => {
-    if (v) el("line", { class: "hair", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, svg);
-    el("text", { class: "tick", x: m.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = v + " h";
-  });
-  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(0), y2: y(0) }, svg);
-  teams.forEach((t, i) => {
-    const cx = m.l + band * (i + .5), bw = band * .36;
-    if (showPts) t.res.forEach((v, j) => el("circle", { cx: cx + t.jit[j] * band * .3, cy: y(v), r: 3.5, fill: C.blue }, svg));
-    el("rect", { x: cx - bw / 2, y: y(t.q3), width: bw, height: y(t.q1) - y(t.q3), fill: "none", stroke: C.ink, "stroke-width": 1.5 }, svg);
-    el("line", { x1: cx - bw / 2, x2: cx + bw / 2, y1: y(t.q2), y2: y(t.q2), stroke: C.ink, "stroke-width": 3 }, svg);
-    el("text", { class: "lbl lbl--strong", x: cx + bw / 2 + 8, y: y(t.q2) + 4 }, svg).textContent = t.q2.toFixed(1) + " h";
-    el("text", { class: "tick", x: cx, y: H - 12, "text-anchor": "middle" }, svg).textContent = t.name;
-    const hit = el("rect", { x: cx - band / 2, y: m.t, width: band, height: H - m.t - m.b, fill: "transparent" }, svg);
-    hover(hit, `<b>${t.name}</b><br>Median ${t.q2.toFixed(1)} h · middle half ${t.q1.toFixed(1)}–${t.q3.toFixed(1)} h<br>${t.res.length} sampled tickets`);
-  });
-}
-const sw = $("ptsSwitch");
-const flip = () => { const on = sw.getAttribute("aria-checked") !== "true"; sw.setAttribute("aria-checked", on); drawStrip(on); };
-sw.addEventListener("click", flip);
-sw.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+  /* ---------- Nav: mark the section in view ---------- */
+  const navLinks = [...document.querySelectorAll(".tabs a")];
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      navLinks.forEach(a => a.getAttribute("href") === "#" + en.target.id
+        ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("main section[id]").forEach(s => io.observe(s));
 
-// ---- Table ------------------------------------------------------------
-function drawTable() {
-  $("teamRows").innerHTML = teams.map(t => {
-    const [kind, label] = status(t);
-    return `<tr><td>${catChip(t)}</td><td class="num">${t.agents}</td><td class="num">${fmt(t.tickets)}</td><td class="num">${hrs(t.q2)}</td><td class="num">${t.csat.toFixed(1)}%</td>
-      <td><div class="sla"><div class="meter" aria-hidden="true"><span style="width:${t.sla}%"></span></div>${t.sla}%</div></td><td>${chip(kind, label)}</td></tr>`;
-  }).join("");
-}
-let byCsat = false;
-teams.sort((a, b) => b.tickets - a.tickets);
-$("sortBtn").addEventListener("click", e => {
-  byCsat = !byCsat;
-  teams.sort(byCsat ? (a, b) => b.csat - a.csat : (a, b) => b.tickets - a.tickets);
-  e.currentTarget.textContent = byCsat ? "Sort by tickets" : "Sort by CSAT";
-  drawTable();
-});
-$("csvBtn").addEventListener("click", () => {
-  const rows = [["Team", "Agents", "Tickets", "Median resolution (h)", "CSAT (%)", "SLA met (%)", "Status"],
-    ...teams.map(t => [t.name, t.agents, t.tickets, t.q2.toFixed(1), t.csat, t.sla, status(t)[1]])];
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n")], { type: "text/csv" }));
-  a.download = "service-review-teams.csv"; a.click(); URL.revokeObjectURL(a.href);
-});
-
-// ---- Findings + escalations --------------------------------------------
-const chatShare = m => channels[1].data[m] / totals[m] * 100;
-const billing = teams.find(t => t.name === "Billing"), slow = teams.slice().sort((a, b) => b.q2 - a.q2)[0];
-$("findings").innerHTML = [
-  ["Chat is taking over", `Chat grew from ${chatShare(0).toFixed(0)}% to ${chatShare(4).toFixed(0)}% of monthly tickets between June and October, while phone volume fell every month.`, chip("info", "Trend")],
-  ["Billing needs attention", `Billing has the highest backlog (${billing.backlog} per agent) and the lowest CSAT (${billing.csat}%), and met its SLA on only ${billing.sla}% of tickets.`, chip("error", "At risk")],
-  ["Resolution time varies widely", `${slow.name} takes a median ${slow.q2.toFixed(1)} h to resolve a ticket, about ${(slow.q2 / Math.min(...teams.map(t => t.q2))).toFixed(1)}× the fastest team.`, chip("warning", "Watch")],
-].map(([h, p, c]) => `<div class="card"><h4>${h}</h4><p>${p}</p><div class="esc-meta">${c}</div></div>`).join("");
-
-$("escCount").textContent = "· " + escalations.length;
-const prio = { High: "error", Medium: "warning", Low: "neutral" };
-$("escalations").innerHTML = escalations.map(e => `<div class="card"><p class="esc-id">${e.id} · open ${e.age}</p><h4 style="margin-top:6px">${e.title}</h4>
-  <div class="esc-meta">${catChip(teams.find(t => t.name === e.team))}${chip(prio[e.prio], e.prio + " priority")}</div></div>`).join("");
-
-// ---- Nav: active item follows clicks -----------------------------------
-$("nav").addEventListener("click", e => {
-  const a = e.target.closest("a"); if (!a) return;
-  $("nav").querySelectorAll("a").forEach(x => { x.classList.toggle("is-active", x === a); if (x === a) x.setAttribute("aria-current", "true"); else x.removeAttribute("aria-current"); });
-  if (a.getAttribute("href") === "#details") document.querySelector("#details details").open = true;
-});
-
-drawStack("count"); drawStrip(true); drawTable();
+  update();
 </script>
 </body>
 </html>
