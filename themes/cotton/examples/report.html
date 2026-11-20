@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Service Review · Cotton theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- General elements, restyled below as themes/cotton/design.md describes -->
+<link rel="stylesheet" href="../../../elements/buttons/buttons.css">
+<link rel="stylesheet" href="../../../elements/toggles/segmented.css">
+<link rel="stylesheet" href="../../../elements/toggles/switch.css">
+<style>
+  :root {
+    /* themes/cotton/design.md — neutrals */
+    --ground: #F0EEE4;        /* page background */
+    --surface: #FFFFFF;       /* cards, panels, header bar */
+    --cream: #FAF7F2;         /* hover, inset areas */
+    --ink: #1C1B18;           /* body text, primary button, active nav */
+    --muted: #5C5A54;         /* secondary text, labels, table headers */
+    --line: #E0DDD4;
+    --hair: rgba(224, 221, 212, 0.6);   /* line at 60% */
+    --line-strong: #C9C5B8;
+    /* accent */
+    --blue: #8DBAED;
+    --blue-tint: #D6E7F8;
+    --action: #358ADA;
+    --deep: #2E6DA8;
+    /* status: solid / tint */
+    --success: #77BB78;  --success-tint: #C7E299;
+    --warning: #FCCF61;  --warning-tint: #FFE495;
+    --info: #CCA8CF;     --info-tint: #EADBEB;
+    --error: #F14545;    --error-tint: #F9DCE4;  --error-text: #8A2A3A;
+    --neutral: #C9C5B8;  --neutral-tint: #E7E3D8;
+
+    --shadow: 0 1px 3px rgba(28, 27, 24, 0.06);
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px/1.4 var(--font); }
+  p { margin: 0; }
+  h1, h2, h3 { margin: 0; font-weight: 600; }
+  h1 { font-size: 30px; line-height: 1.2; letter-spacing: -0.02em; }
+  h2 { font-size: 24px; line-height: 1.25; }
+  h3 { font-size: 18px; line-height: 1.3; }
+  a { color: var(--deep); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--deep); outline-offset: 2px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .small { font-size: 12px; }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header: full-width white bar, 1px bottom line */
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .topbar__in { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; min-height: 60px; padding-block: 10px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 600; }
+  .brand:hover { text-decoration: none; }
+  .accent-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); flex: none; }
+  .nav { display: flex; flex-wrap: wrap; gap: 4px; }
+  .nav a { padding: 6px 12px; border-radius: 8px; color: var(--ink); font-size: 14px; font-weight: 500; }
+  .nav a:hover { background: var(--blue-tint); text-decoration: none; }
+  .nav a.is-active { background: var(--ink); color: var(--surface); }
+
+  main.wrap { padding-top: 32px; padding-bottom: 56px; display: grid; gap: 32px; }
+  .title-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: end; justify-content: space-between; }
+  .title-row .muted { margin-top: 8px; max-width: 70ch; }
+
+  /* Notices: 8px radius, ~12×6 padding, tint background, ink text */
+  .notice { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 8px; background: var(--blue-tint); font-size: 14px; }
+  .notice .swatch-hatch { width: 14px; height: 14px; border-radius: 3px; flex: none; background: repeating-linear-gradient(135deg, #A9CBF0 0 3px, #DBE9F8 3px 6px); }
+
+  /* Panels and stat tiles: 16px radius, white, no border, one faint shadow */
+  .panel { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 32px; min-width: 0; }
+  .panel--hl { box-shadow: var(--shadow), 0 0 0 2px var(--blue-tint); }
+  .panel__head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: start; justify-content: space-between; margin-bottom: 20px; }
+  .panel__head .muted { margin-top: 4px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; }
+  .tile { background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 24px; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; font-weight: 400; color: var(--muted); }
+  .kpi { margin: 8px 0 6px; font-size: 36px; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+  .grid2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; }
+  @media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Small cards: 12px radius, 1px line border, 16px padding, no shadow */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); }
+  .card h4 { margin: 0 0 6px; font-size: 15px; font-weight: 500; }
+  .card p { font-size: 14px; }
+
+  /* Chips: full pill, 10×2 padding, 8px dot of the solid colour */
+  .chip { --chip-bg: var(--neutral-tint); --dot: var(--neutral); display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; background: var(--chip-bg); color: var(--ink); font-size: 12px; line-height: 1.4; white-space: nowrap; }
+  .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex: none; }
+  .chip--success { --chip-bg: var(--success-tint); --dot: var(--success); }
+  .chip--warning { --chip-bg: var(--warning-tint); --dot: var(--warning); }
+  .chip--error   { --chip-bg: var(--error-tint);   --dot: var(--error); color: var(--error-text); }
+  .chip--info    { --chip-bg: var(--info-tint);    --dot: var(--info); }
+
+  /* Legends: dot + text label, always */
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 12px; padding: 0; list-style: none; font-size: 12px; color: var(--muted); }
+  .legend li { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .legend i.sq { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Charts: flat fills, no gradients, minimal lines */
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tick { font: 400 12px var(--font); fill: var(--muted); }
+  .lbl { font: 400 12px var(--font); fill: var(--ink); }
+  .lbl--strong { font-weight: 500; }
+  .hair { stroke: var(--hair); stroke-width: 1; }
+  .base { stroke: var(--line-strong); stroke-width: 1; }
+  .tip { position: fixed; z-index: 5; pointer-events: none; padding: 6px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); font-size: 12px; }
+
+  /* Buttons: 8px radius, ~12×6 padding, ink primary, no shadow */
+  .btn { --btn-radius: 8px; --btn-primary: var(--ink); --btn-primary-fg: var(--surface); --btn-bg: var(--surface); --btn-fg: var(--ink); --btn-border: var(--line-strong); --btn-accent: var(--cream);
+         height: auto; padding: 6px 12px; box-shadow: none; font: 500 14px/20px var(--font); }
+  .btn:focus-visible { box-shadow: none; outline: 2px solid var(--deep); outline-offset: 2px; }
+  .btn:disabled { opacity: 0.55; }
+
+  /* Segmented toggle: 8px corners, cream track, white selected option */
+  .segmented { --seg-track: var(--cream); --seg-selected-bg: var(--surface); --seg-selected-text: var(--ink); --seg-text: var(--muted); --seg-text-hover: var(--ink);
+               display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--line); border-radius: 8px; font-family: var(--font); }
+  .segmented__option { height: 28px; padding: 0 12px; border-radius: 6px; font-size: 14px; }
+  .segmented__option[aria-checked="true"] { box-shadow: 0 0 0 1px var(--line-strong); }
+  .segmented__option:focus-visible { outline: 2px solid var(--deep); outline-offset: 2px; }
+
+  /* Switch: action blue when on, flat knob */
+  .toggle { --toggle-track-off: var(--line-strong); --toggle-track-on: var(--action); --toggle-label: var(--ink); --toggle-label-size: 14px; font-family: var(--font); }
+  .toggle__track::after { box-shadow: none; }
+  .toggle:focus-visible .toggle__track { box-shadow: none; outline: 2px solid var(--deep); outline-offset: 2px; }
+
+  /* Tables: no outer border or zebra; hairline row tops; 16px vertical / 24px right padding */
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; min-width: 760px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 16px 24px 16px 0; text-align: left; vertical-align: middle; }
+  th.num, td.num { text-align: right; }
+  thead th { padding-top: 0; font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted); border-bottom: 1px solid var(--line-strong); }
+  tbody td { border-top: 1px solid var(--hair); }
+  tbody tr:first-child td { border-top: 0; }
+  tbody tr:hover td { background: var(--cream); }
+  .meter { width: 120px; height: 8px; background: var(--neutral-tint); border-radius: 4px; overflow: hidden; }
+  .meter span { display: block; height: 100%; background: #A9CBF0; }
+  .sla { display: flex; align-items: center; gap: 12px; }
+
+  /* Collapsible sections: bold title + muted "· count" */
+  details { border-top: 1px solid var(--hair); }
+  details:first-of-type { border-top: 0; }
+  summary { display: flex; align-items: center; gap: 10px; padding: 16px 0; cursor: pointer; list-style: none; border-radius: 8px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: ""; width: 7px; height: 7px; margin: 0 4px 0 2px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); transition: transform 150ms ease; flex: none; }
+  details[open] > summary::before { transform: rotate(45deg); }
+  summary b { font-weight: 600; }
+  .details__body { padding: 0 0 24px; }
+  .esc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; align-items: center; }
+  .esc-id { font: 400 12px var(--mono); color: var(--muted); }
+  .notes { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+
+  footer { color: var(--muted); font-size: 12px; }
+  code { font: 400 12px var(--mono); }
+</style>
+</head>
+<body id="top">
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="#top"><span class="accent-dot" aria-hidden="true"></span>Service Insights</a>
+    <nav class="nav" aria-label="Report sections" id="nav">
+      <a href="#top" class="is-active" aria-current="true">Overview</a>
+      <a href="#channels">Channels</a>
+      <a href="#teams">Teams</a>
+      <a href="#details">Escalations</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="title-row">
+    <div>
+      <h1>Customer Service Review · Jun–Nov 2026</h1>
+      <p class="muted">Ticket volume, resolution time and satisfaction across five service teams. Sample data for demonstration only.</p>
+    </div>
+    <button class="btn" id="csvBtn" type="button">Download CSV</button>
+  </section>
+
+  <p><span class="notice"><span class="swatch-hatch" aria-hidden="true"></span>November is month to date (1–20 Nov) and is shown hatched in the charts.</span></p>
+
+  <section class="tiles" id="tiles" aria-label="Key figures"></section>
+
+  <section class="grid2">
+    <div class="panel" id="channels">
+      <div class="panel__head">
+        <div>
+          <h3>Tickets by channel</h3>
+          <p class="muted">Monthly tickets, stacked by contact channel</p>
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="Chart values" id="stackMode">
+          <button class="segmented__option" role="radio" aria-checked="true" data-mode="count" type="button">Count</button>
+          <button class="segmented__option" role="radio" aria-checked="false" data-mode="share" type="button">Share</button>
+        </div>
+      </div>
+      <ul class="legend" id="stackLegend"></ul>
+      <svg id="stack" viewBox="0 0 640 300" role="img" aria-label="Stacked bar chart of monthly tickets by channel"></svg>
+    </div>
+
+    <div class="panel">
+      <div class="panel__head">
+        <div>
+          <h3>Backlog and satisfaction</h3>
+          <p class="muted">Open tickets per agent against CSAT, by team</p>
+        </div>
+      </div>
+      <ul class="legend">
+        <li><i style="background:var(--success)"></i>On track</li>
+        <li><i style="background:var(--warning)"></i>Watch</li>
+        <li><i style="background:var(--error)"></i>At risk</li>
+      </ul>
+      <svg id="scatter" viewBox="0 0 420 300" role="img" aria-label="Scatter chart of backlog per agent against customer satisfaction"></svg>
+    </div>
+  </section>
+
+  <section class="panel panel--hl">
+    <div class="panel__head">
+      <div>
+        <h3>Time to resolve, by team</h3>
+        <p class="muted">Each dot is a sampled ticket. Box shows the 25th–75th percentile, the thick line the median.</p>
+      </div>
+      <div class="toggle" role="switch" aria-checked="true" tabindex="0" id="ptsSwitch">
+        <span class="toggle__track"></span>
+        <span class="toggle__label">Show individual tickets</span>
+      </div>
+    </div>
+    <svg id="strip" viewBox="0 0 1000 330" role="img" aria-label="Strip plot of resolution hours per team with box overlay"></svg>
+  </section>
+
+  <section class="panel" id="teams">
+    <div class="panel__head">
+      <div>
+        <h3>Team overview</h3>
+        <p class="muted">Jun – 20 Nov 2026. Status combines SLA attainment and CSAT.</p>
+      </div>
+      <button class="btn btn--outline" id="sortBtn" type="button">Sort by CSAT</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Team</th><th class="num">Agents</th><th class="num">Tickets</th><th class="num">Median resolution</th><th class="num">CSAT</th><th>SLA met</th><th>Status</th></tr></thead>
+        <tbody id="teamRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:24px">Key findings</h2>
+    <div class="panel"><div class="cards" id="findings"></div></div>
+  </section>
+
+  <section class="panel" id="details">
+    <h3 style="margin-bottom:8px">Details</h3>
+    <details>
+      <summary><b>Open escalations</b><span class="muted" id="escCount"></span></summary>
+      <div class="details__body"><div class="cards" id="escalations"></div></div>
+    </details>
+    <details>
+      <summary><b>Method and data notes</b><span class="muted">· 3</span></summary>
+      <div class="details__body">
+        <ol class="notes">
+          <li>Resolution time is measured from ticket creation to the final agent reply; 60 tickets per team were sampled for the distribution chart.</li>
+          <li>CSAT is the share of 4–5 ratings on the post-contact survey, weighted by tickets per team.</li>
+          <li>Status: <em>on track</em> when SLA ≥ 95% and CSAT ≥ 90%, <em>at risk</em> when SLA &lt; 85% or CSAT &lt; 84%, otherwise <em>watch</em>. See the <a href="#teams">team overview</a>.</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <footer>Sample dataset generated for the style-kit Cotton theme. Built from <code>themes/cotton/design.md</code> with the general button, segmented and switch elements.</footer>
+</main>
+
+<!-- Hatch patterns for the partial (month-to-date) month: colour hatched with its tint -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="hatch-email" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#DBE9F8"/><rect width="3" height="6" fill="#A9CBF0"/></pattern>
+    <pattern id="hatch-chat"  width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#F8DBE4"/><rect width="3" height="6" fill="#F1B6C9"/></pattern>
+    <pattern id="hatch-phone" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#D5EFE0"/><rect width="3" height="6" fill="#C9E8D4"/></pattern>
+    <pattern id="hatch-web"   width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#FBE3CF"/><rect width="3" height="6" fill="#FFCC8A"/></pattern>
+  </defs>
+</svg>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const C = { ink: "#1C1B18", muted: "#5C5A54", success: "#77BB78", warning: "#FCCF61", error: "#F14545", blue: "#A9CBF0", lineStrong: "#C9C5B8" };
+const CAT = [["#D6E7F8", "#8DBAED"], ["#E3DBF3", "#CCA8CF"], ["#D5EFE0", "#77BB78"], ["#FBE3CF", "#FFCC8A"], ["#F8DBE4", "#F1B6C9"]]; // categorical pastel + dot
+const NS = "http://www.w3.org/2000/svg";
+const $ = id => document.getElementById(id);
+
+// ---- Sample data -------------------------------------------------------
+const months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
+const PARTIAL = 5; // Nov is month to date
+const channels = [
+  { key: "email", name: "Email",    color: "#A9CBF0", data: [1980, 2050, 2210, 2140, 2060, 1310] },
+  { key: "chat",  name: "Chat",     color: "#F1B6C9", data: [1420, 1560, 1690, 1820, 1940, 1350] },
+  { key: "phone", name: "Phone",    color: "#C9E8D4", data: [ 980,  930,  890,  860,  810,  510] },
+  { key: "web",   name: "Web form", color: "#FFCC8A", data: [ 520,  560,  610,  640,  700,  470] },
+];
+let teams = [
+  { name: "Orders & delivery", agents: 14, tickets: 11540, csat: 91.2, sla: 96, backlog: 3.1, med: 6 },
+  { name: "Returns",           agents:  9, tickets:  7230, csat: 86.4, sla: 89, backlog: 5.8, med: 14 },
+  { name: "Product care",      agents:  7, tickets:  3890, csat: 93.5, sla: 97, backlog: 2.4, med: 9 },
+  { name: "Billing",           agents:  6, tickets:  4730, csat: 82.1, sla: 81, backlog: 8.9, med: 22 },
+  { name: "Accounts",          agents:  5, tickets:  2620, csat: 88.7, sla: 92, backlog: 4.6, med: 11 },
+];
+teams.forEach((t, i) => t.cat = CAT[i]);
+const escalations = [
+  { id: "ESC-2291", title: "Refund not received two weeks after return pickup", team: "Returns", prio: "High", age: "6 days" },
+  { id: "ESC-2287", title: "Duplicate charge on a split-payment order", team: "Billing", prio: "High", age: "4 days" },
+  { id: "ESC-2280", title: "Engraving request missing from shipped order", team: "Orders & delivery", prio: "Medium", age: "3 days" },
+  { id: "ESC-2274", title: "Customer locked out after email change", team: "Accounts", prio: "Medium", age: "2 days" },
+  { id: "ESC-2269", title: "Repair estimate not sent within promised window", team: "Product care", prio: "Low", age: "1 day" },
+];
+
+// Seeded log-normal samples for the resolution-time distribution
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const rand = rng(20261120);
+const gauss = () => Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(2 * Math.PI * rand());
+teams.forEach(t => { t.res = Array.from({ length: 60 }, () => t.med * Math.exp(0.5 * gauss())); t.jit = t.res.map(() => rand() * 2 - 1); });
+const quant = (arr, q) => { const s = arr.slice().sort((a, b) => a - b), p = (s.length - 1) * q, lo = Math.floor(p); return s[lo] + (s[Math.ceil(p)] - s[lo]) * (p - lo); };
+teams.forEach(t => { t.q1 = quant(t.res, .25); t.q2 = quant(t.res, .5); t.q3 = quant(t.res, .75); });
+const status = t => t.sla >= 95 && t.csat >= 90 ? ["success", "On track"] : t.sla < 85 || t.csat < 84 ? ["error", "At risk"] : ["warning", "Watch"];
+
+// ---- Helpers -----------------------------------------------------------
+const sum = a => a.reduce((s, v) => s + v, 0);
+const fmt = n => Math.round(n).toLocaleString("en-US");
+const hrs = h => h < 24 ? h.toFixed(1) + " h" : (h / 24).toFixed(1) + " d";
+const chip = (kind, text) => `<span class="chip chip--${kind}">${text}</span>`;
+const catChip = t => `<span class="chip" style="--chip-bg:${t.cat[0]};--dot:${t.cat[1]}">${t.name}</span>`;
+function el(name, attrs, parent) { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; }
+const tip = $("tip");
+const showTip = (e, html) => { tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = e.clientY + 12 + "px"; };
+const hideTip = () => tip.hidden = true;
+const hover = (node, html) => { node.addEventListener("mousemove", e => showTip(e, html)); node.addEventListener("mouseleave", hideTip); };
+
+// ---- Stat tiles --------------------------------------------------------
+const totals = months.map((_, i) => sum(channels.map(c => c.data[i])));
+const total = sum(totals);
+const allRes = teams.flatMap(t => t.res);
+const csat = sum(teams.map(t => t.csat * t.tickets)) / sum(teams.map(t => t.tickets));
+const backlog = sum(teams.map(t => t.backlog * t.agents));
+const daily = totals[4] / 22;
+$("tiles").innerHTML = [
+  ["Tickets handled", fmt(total), `<span class="muted">1 Jun – 20 Nov 2026</span>`],
+  ["Median resolution", hrs(quant(allRes, .5)), `<span class="muted">Across all teams</span>`],
+  ["Customer satisfaction", csat.toFixed(1) + "%", chip("success", "Above 85% target")],
+  ["Open backlog", fmt(backlog), `<span class="muted">${(backlog / daily).toFixed(1)} days of incoming volume</span>`],
+].map(([label, value, sub]) => `<div class="tile"><p class="label">${label}</p><p class="kpi">${value}</p><p>${sub}</p></div>`).join("");
+
+// ---- Stacked bar chart (square stacks, no gaps) ------------------------
+$("stackLegend").innerHTML = channels.map(c => `<li><i class="sq" style="background:${c.color}"></i>${c.name}</li>`).join("") +
+  `<li><i class="sq" style="background:repeating-linear-gradient(135deg, #A9CBF0 0 3px, #DBE9F8 3px 6px)"></i>Month to date</li>`;
+function drawStack(mode) {
+  const svg = $("stack"); svg.innerHTML = "";
+  const W = 640, H = 300, m = { t: 24, r: 8, b: 30, l: 52 };
+  const max = mode === "count" ? 6000 : 100;
+  const y = v => H - m.b - v / max * (H - m.t - m.b);
+  const band = (W - m.l - m.r) / months.length, bw = band * 0.56;
+  (mode === "count" ? [0, 2000, 4000, 6000] : [0, 25, 50, 75, 100]).forEach(t => {
+    if (t) el("line", { class: "hair", x1: m.l, x2: W - m.r, y1: y(t), y2: y(t) }, svg);
+    el("text", { class: "tick", x: m.l - 10, y: y(t) + 4, "text-anchor": "end" }, svg).textContent = mode === "count" ? fmt(t) : t + "%";
+  });
+  months.forEach((mo, i) => {
+    const x0 = m.l + i * band + (band - bw) / 2; let acc = 0;
+    channels.forEach(c => {
+      const v = mode === "count" ? c.data[i] : c.data[i] / totals[i] * 100;
+      const r = el("rect", { x: x0, y: y(acc + v), width: bw, height: y(acc) - y(acc + v), fill: i === PARTIAL ? `url(#hatch-${c.key})` : c.color, "shape-rendering": "crispEdges" }, svg);
+      hover(r, `<b>${c.name} · ${mo}${i === PARTIAL ? " (to date)" : ""}</b><br>${fmt(c.data[i])} tickets · ${(c.data[i] / totals[i] * 100).toFixed(0)}% of month`);
+      acc += v;
+    });
+    if (mode === "count") el("text", { class: "lbl lbl--strong", x: x0 + bw / 2, y: y(totals[i]) - 8, "text-anchor": "middle" }, svg).textContent = fmt(totals[i]);
+    el("text", { class: "tick", x: x0 + bw / 2, y: H - 8, "text-anchor": "middle" }, svg).textContent = mo + (i === PARTIAL ? " (MTD)" : "");
+  });
+  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(0), y2: y(0) }, svg);
+}
+$("stackMode").addEventListener("click", e => {
+  const o = e.target.closest(".segmented__option"); if (!o) return;
+  $("stackMode").querySelectorAll(".segmented__option").forEach(x => x.setAttribute("aria-checked", x === o));
+  drawStack(o.dataset.mode);
+});
+
+// ---- Scatter: backlog per agent vs CSAT --------------------------------
+(function () {
+  const svg = $("scatter"), W = 420, H = 300, m = { t: 12, r: 16, b: 42, l: 44 };
+  const x = v => m.l + v / 10 * (W - m.l - m.r), y = v => H - m.b - (v - 80) / 16 * (H - m.t - m.b);
+  [0, 2, 4, 6, 8, 10].forEach(v => el("text", { class: "tick", x: x(v), y: H - m.b + 18, "text-anchor": "middle" }, svg).textContent = v);
+  [80, 85, 90, 95].forEach(v => el("text", { class: "tick", x: m.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = v + "%");
+  el("text", { class: "tick", x: (m.l + W - m.r) / 2, y: H - 4, "text-anchor": "middle" }, svg).textContent = "Open tickets per agent";
+  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b }, svg);
+  el("line", { class: "base", x1: m.l, x2: m.l, y1: m.t, y2: H - m.b }, svg);
+  // CSAT target as the one reference line
+  el("line", { x1: m.l, x2: W - m.r, y1: y(85), y2: y(85), stroke: C.muted, "stroke-width": 1, "stroke-dasharray": "4 4" }, svg);
+  el("text", { class: "tick", x: W - m.r, y: y(85) - 6, "text-anchor": "end" }, svg).textContent = "Target 85%";
+  teams.forEach(t => {
+    const [kind, label] = status(t), cx = x(t.backlog), cy = y(t.csat), right = t.backlog < 7.5;
+    const c = el("circle", { cx, cy, r: 7, fill: C[kind], stroke: C.ink, "stroke-width": 1 }, svg);
+    el("text", { class: "lbl", x: cx + (right ? 12 : -12), y: cy + 4, "text-anchor": right ? "start" : "end" }, svg).textContent = t.name;
+    hover(c, `<b>${t.name}</b><br>${t.backlog} open per agent · CSAT ${t.csat}%<br>${label}`);
+  });
+})();
+
+// ---- Strip plot with box overlay --------------------------------------
+function drawStrip(showPts) {
+  const svg = $("strip"); svg.innerHTML = "";
+  const W = 1000, H = 330, m = { t: 12, r: 16, b: 40, l: 56 }, max = 72;
+  const y = v => H - m.b - Math.min(v, max) / max * (H - m.t - m.b);
+  const band = (W - m.l - m.r) / teams.length;
+  [0, 24, 48, 72].forEach(v => {
+    if (v) el("line", { class: "hair", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, svg);
+    el("text", { class: "tick", x: m.l - 10, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = v + " h";
+  });
+  el("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(0), y2: y(0) }, svg);
+  teams.forEach((t, i) => {
+    const cx = m.l + band * (i + .5), bw = band * .36;
+    if (showPts) t.res.forEach((v, j) => el("circle", { cx: cx + t.jit[j] * band * .3, cy: y(v), r: 3.5, fill: C.blue }, svg));
+    el("rect", { x: cx - bw / 2, y: y(t.q3), width: bw, height: y(t.q1) - y(t.q3), fill: "none", stroke: C.ink, "stroke-width": 1.5 }, svg);
+    el("line", { x1: cx - bw / 2, x2: cx + bw / 2, y1: y(t.q2), y2: y(t.q2), stroke: C.ink, "stroke-width": 3 }, svg);
+    el("text", { class: "lbl lbl--strong", x: cx + bw / 2 + 8, y: y(t.q2) + 4 }, svg).textContent = t.q2.toFixed(1) + " h";
+    el("text", { class: "tick", x: cx, y: H - 12, "text-anchor": "middle" }, svg).textContent = t.name;
+    const hit = el("rect", { x: cx - band / 2, y: m.t, width: band, height: H - m.t - m.b, fill: "transparent" }, svg);
+    hover(hit, `<b>${t.name}</b><br>Median ${t.q2.toFixed(1)} h · middle half ${t.q1.toFixed(1)}–${t.q3.toFixed(1)} h<br>${t.res.length} sampled tickets`);
+  });
+}
+const sw = $("ptsSwitch");
+const flip = () => { const on = sw.getAttribute("aria-checked") !== "true"; sw.setAttribute("aria-checked", on); drawStrip(on); };
+sw.addEventListener("click", flip);
+sw.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+
+// ---- Table ------------------------------------------------------------
+function drawTable() {
+  $("teamRows").innerHTML = teams.map(t => {
+    const [kind, label] = status(t);
+    return `<tr><td>${catChip(t)}</td><td class="num">${t.agents}</td><td class="num">${fmt(t.tickets)}</td><td class="num">${hrs(t.q2)}</td><td class="num">${t.csat.toFixed(1)}%</td>
+      <td><div class="sla"><div class="meter" aria-hidden="true"><span style="width:${t.sla}%"></span></div>${t.sla}%</div></td><td>${chip(kind, label)}</td></tr>`;
+  }).join("");
+}
+let byCsat = false;
+teams.sort((a, b) => b.tickets - a.tickets);
+$("sortBtn").addEventListener("click", e => {
+  byCsat = !byCsat;
+  teams.sort(byCsat ? (a, b) => b.csat - a.csat : (a, b) => b.tickets - a.tickets);
+  e.currentTarget.textContent = byCsat ? "Sort by tickets" : "Sort by CSAT";
+  drawTable();
+});
+$("csvBtn").addEventListener("click", () => {
+  const rows = [["Team", "Agents", "Tickets", "Median resolution (h)", "CSAT (%)", "SLA met (%)", "Status"],
+    ...teams.map(t => [t.name, t.agents, t.tickets, t.q2.toFixed(1), t.csat, t.sla, status(t)[1]])];
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n")], { type: "text/csv" }));
+  a.download = "service-review-teams.csv"; a.click(); URL.revokeObjectURL(a.href);
+});
+
+// ---- Findings + escalations --------------------------------------------
+const chatShare = m => channels[1].data[m] / totals[m] * 100;
+const billing = teams.find(t => t.name === "Billing"), slow = teams.slice().sort((a, b) => b.q2 - a.q2)[0];
+$("findings").innerHTML = [
+  ["Chat is taking over", `Chat grew from ${chatShare(0).toFixed(0)}% to ${chatShare(4).toFixed(0)}% of monthly tickets between June and October, while phone volume fell every month.`, chip("info", "Trend")],
+  ["Billing needs attention", `Billing has the highest backlog (${billing.backlog} per agent) and the lowest CSAT (${billing.csat}%), and met its SLA on only ${billing.sla}% of tickets.`, chip("error", "At risk")],
+  ["Resolution time varies widely", `${slow.name} takes a median ${slow.q2.toFixed(1)} h to resolve a ticket, about ${(slow.q2 / Math.min(...teams.map(t => t.q2))).toFixed(1)}× the fastest team.`, chip("warning", "Watch")],
+].map(([h, p, c]) => `<div class="card"><h4>${h}</h4><p>${p}</p><div class="esc-meta">${c}</div></div>`).join("");
+
+$("escCount").textContent = "· " + escalations.length;
+const prio = { High: "error", Medium: "warning", Low: "neutral" };
+$("escalations").innerHTML = escalations.map(e => `<div class="card"><p class="esc-id">${e.id} · open ${e.age}</p><h4 style="margin-top:6px">${e.title}</h4>
+  <div class="esc-meta">${catChip(teams.find(t => t.name === e.team))}${chip(prio[e.prio], e.prio + " priority")}</div></div>`).join("");
+
+// ---- Nav: active item follows clicks -----------------------------------
+$("nav").addEventListener("click", e => {
+  const a = e.target.closest("a"); if (!a) return;
+  $("nav").querySelectorAll("a").forEach(x => { x.classList.toggle("is-active", x === a); if (x === a) x.setAttribute("aria-current", "true"); else x.removeAttribute("aria-current"); });
+  if (a.getAttribute("href") === "#details") document.querySelector("#details details").open = true;
+});
+
+drawStack("count"); drawStrip(true); drawTable();
+</script>
+</body>
+</html>

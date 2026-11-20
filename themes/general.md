@@ -11,3 +11,24 @@ Text must never touch or come close to the edge of the shape it sits in (card, b
 - When a corner has radius `r`, the curve reaches about `0.3 × r` inward at the diagonal. So for text that runs near that corner, set the padding on the adjacent sides to at least `0.3 × r + 2px`, or keep text out of the corner area (e.g. extra `padding-left` / `padding-bottom` next to a large bottom-left radius).
 - Check every line of text, including the first and last line and long lines that run toward a curved side. Large display headings need the same clearance as body text.
 - After building, look at the rendered result and verify the clearance. If text is close to a curve, increase padding or reduce the radius on that corner.
+
+## Element Alignment 
+
+Elements, e.g. boxes or bubbles, that appear in the same row should be aligned in height. at minimum, their top edge should be the same height. if they are similar in content, e.g. if both show diagrams, the bottom edge should also align even if the content inside one is a bit shorter than the other. 
+
+## Statistical Reports 
+
+Use this section only if you are generating a numerical report, otherwise ignore. 
+
+#### Design 
+1. For stacked charts the stacks need to be square with no spaces between them. 
+
+#### Content 
+You can use your discretion to select the best charts to provide the requested results. Below are general rules of thumb that are to be treated as recommendations. 
+
+1. To compare distributions across categories, e.g. latency across models, you can use 
+a) a strip plot (jitter plot) with median, 75% and 25% plotted on top. namely, a box plot laid over jittered points. 
+b) a violin plot if the distribution matters more than percentiles 
+2. histograms are useful to present a distribution. you can use them to compare distributions between 1-3 groups as well. use only if you have enough data points. 
+3. when comparing two variables against each other, or how an instance scores against two variables, scatter chart can be used. For example, to test correlation between item price and number of purchases, or to plot the tradeoff between model latency and model accuracy of specific AI models. In the second case also add a label for the instances (e.g. models) that are being evaluated. 
+4. 
