@@ -6,266 +6,271 @@
 <title>Label Detective · Cotton theme</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <!-- General elements, restyled below as themes/cotton/design.md describes -->
 <link rel="stylesheet" href="../../../elements/buttons/buttons.css">
 <link rel="stylesheet" href="../../../elements/menus/dropdown-menu.css">
 <style>
+  /* ============ themes/cotton/design.md ============ */
   :root {
-    /* themes/cotton/design.md: colours */
-    --cream: #FAF7F2;
-    --white: #FFFFFF;
-    --darkgrey: #1C1B18;
-    --mediumgrey: #756F68;
-    --label: #4B5563;
-    --border: #E5E7EB;
-    --border-input: #D1D5DB;   /* gray-300: dropdown trigger */
-    --lightgrey: #E0DDD4;
-    --pink: #F8AAB6;
-    --pink-50: #FDF2F8;
-    --pink-1: #DB5B77;
-    --blue: #8DBAED;
-    --blue-lightest: #E5F3FC;
-    --action-border: #C1E1F7;
-    --action-text: #234BCF;
-    --green-100: #DBF7D5;  --green-700: #1E8015;
-    --amber-100: #FEF3C7;  --amber-700: #B45309;
-    --error: #EE1717;
-
+    --cream: #FAF7F2; --white: #FFFFFF; --offwhite: #F0EEE4;
+    --line: #E0DDD4; --hair: rgba(224, 221, 212, 0.6);
+    --ink: #1C1B18; --mid: #756F68; --soft: #8C8985;
+    --pink-fill: #FDE0E5;   --pink: #F8AAB6;
+    --yellow-fill: #FFF8CE; --yellow: #FCCF61;
+    --blue-fill: #E5F3FC;   --blue: #8DBAED;   --blue-lighter: #D6E7F8;
+    --green-fill: #E4F3E1;  --green: #9CCB8E;
+    --purple-fill: #F4ECF5; --purple: #CCA8CF;
+    --deep: #2E6DA8;
+    --overlay: inset 0 0 0 100vmax rgba(0, 0, 0, 0.2);
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    --radius: 10px;
-
-    --font: "Euclid Ignited", "Euclid Circular B", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --display: "ITC Novarese", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --display-weight: 400;
+    --r: 10px; --r-md: 8px;
+    --sans: "Euclid Ignited", "Euclid Circular B", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --serif: "ITC Novarese", "Lora", Georgia, serif;
     --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
   }
-  .no-novarese { --display-weight: 600; }
+  /* categories: product kind. One meaning per colour: purple and yellow mean product kind and
+     nothing else. Right / wrong is a state, so it stays neutral (no green or pink verdicts). */
+  .kind-sheets { --f: var(--purple-fill); --b: var(--purple); }
+  .kind-tees   { --f: var(--yellow-fill); --b: var(--yellow); }
 
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html { background: var(--cream); }
-  body { margin: 0; background: var(--cream); color: var(--darkgrey); font: 400 15px/1.4 var(--font); }
-  a { color: var(--action-text); text-decoration: none; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  p { margin: 0; }
+  a { color: var(--deep); text-decoration: none; }
   a:hover { text-decoration: underline; }
   :focus { outline: none; }
-  :focus-visible { outline: 2px solid var(--darkgrey); outline-offset: 2px; }
-  p { margin: 0; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); }
+  .muted { color: var(--mid); font-size: 14px; }
+  .fade-in { animation: fadeIn 0.4s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  .bubble { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow-sm); }
 
-  .title { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -0.01em; margin: 0; }
-  h1.title { font-size: 36px; line-height: 1.15; margin-bottom: 10px; }
-  h2.title { font-size: 24px; line-height: 1.2; margin-bottom: 6px; }
-  .sub { color: var(--mediumgrey); font-size: 14px; }
-  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--label); }
-  .fade-in { animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  /* Buttons */
+  /* buttons */
   .btn {
-    --btn-radius: 8px;
-    --btn-primary: var(--pink);
-    --btn-primary-fg: var(--darkgrey);
-    --btn-bg: var(--white);
-    --btn-fg: var(--darkgrey);
-    --btn-border: var(--border);
-    --btn-accent: #F9FAFB;
-    font-family: var(--font); letter-spacing: 0.025em; box-shadow: none;
+    --btn-radius: var(--r-md); --btn-primary: var(--pink); --btn-primary-fg: var(--ink);
+    --btn-bg: var(--white); --btn-fg: var(--ink); --btn-border: var(--line); --btn-accent: var(--white);
+    font-family: var(--sans); letter-spacing: 0.025em; box-shadow: none;
   }
-  .btn:hover { background: var(--pink-1); color: var(--white); }
-  .btn--action { background: var(--blue-lightest); border-color: var(--action-border); color: var(--action-text); }
-  .btn--action:hover { background: #D3EAFA; color: var(--action-text); }
-  .btn:focus-visible { box-shadow: none; outline: 2px solid var(--darkgrey); outline-offset: 2px; }
+  /* hover = the same fill, darkened by the 20% black overlay. The shared .btn:hover
+     lightens --btn-primary (90% mix), so restore the full fill here. */
+  .btn:hover { background: var(--btn-primary); box-shadow: var(--overlay); text-decoration: none; }
+  .btn--outline:hover { background: var(--btn-bg); }
+  /* blue action button: colour set through the variables, so hover stays blue */
+  .btn--action { --btn-primary: var(--blue-fill); --btn-primary-fg: var(--deep); border-color: var(--line); }
+  /* the theme defines a darker blue (#D6E7F8), so hover uses it instead of the black overlay */
+  .btn--action:hover:not(:disabled) { background: var(--blue-lighter); box-shadow: none; }
+  .btn--action:disabled:hover { background: var(--btn-primary); box-shadow: none; }
+  .btn:focus-visible { box-shadow: none; outline: 2px solid var(--ink); outline-offset: 2px; }
   .btn:disabled { opacity: 0.55; }
 
-  /* Dropdown (design.md "store selector"): cream trigger, white menu, cream selected row */
-  .select { position: relative; display: inline-block; }
+  /* dropdown filter (design.md store selector) */
+  .select { display: flex; align-items: center; gap: 10px; }
   .select__trigger {
-    position: relative; background: var(--cream); border: 1px solid var(--border-input); border-radius: var(--radius);
-    padding: 8px 34px 8px 16px; font: inherit; font-size: 14px; color: var(--darkgrey); cursor: pointer; text-align: left;
+    position: relative; background: var(--cream); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 8px 34px 8px 14px; font: inherit; font-size: 14px; color: var(--ink); cursor: pointer; white-space: nowrap;
   }
-  .select__trigger:hover { border-color: var(--darkgrey); }
-  .select__trigger:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(28, 27, 24, 0.2); border-color: var(--darkgrey); }
-  .select__trigger svg { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #9CA3AF; }
-  .select__suffix { color: #6B7280; margin-left: 4px; }
+  .select__trigger:hover { box-shadow: var(--overlay); }
+  .select__trigger:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .select__trigger svg { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--soft); }
+  .suffix { color: var(--mid); margin-left: 4px; }
   .menu {
-    --menu-bg: var(--white);
-    --menu-fg: var(--darkgrey);
-    --menu-border: var(--border);
-    --menu-accent: #F9FAFB;
-    --menu-accent-fg: var(--darkgrey);
-    --menu-muted: #6B7280;
-    border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 4px 0; font-family: var(--font);
-    max-height: 288px; overflow: auto;
+    --menu-bg: var(--white); --menu-fg: var(--ink); --menu-border: var(--line);
+    --menu-accent: var(--white); --menu-accent-fg: var(--ink); --menu-muted: var(--mid);
+    border-radius: var(--r); box-shadow: var(--shadow-lg); padding: 4px 0; font-family: var(--sans); max-height: 288px; overflow: auto;
   }
-  .menu[popover] { margin: 4px 0 0; }
-  .menu__item { border-radius: 0; padding: 6px 12px; font-size: 14px; cursor: pointer; gap: 4px; }
+  .menu__item { border-radius: 0; padding: 7px 14px; font-size: 14px; cursor: pointer; gap: 4px; }
+  .menu__item:hover, .menu__item:focus-visible { box-shadow: var(--overlay); }
   .menu__item[aria-checked="true"] { background: var(--cream); }
 
-  /* Header */
-  .topbar { background: var(--cream); border-bottom: 1px solid var(--border); }
-  .topbar__inner {
-    max-width: 1400px; margin: 0 auto; padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  /* header */
+  .topbar { background: var(--white); border-bottom: 1px solid var(--line); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .brand .serif { font-size: 20px; }
+
+  /* intro + scoreboard */
+  .intro { padding: 56px 0 32px; }
+  .intro h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 14px; }   /* full width, max two lines */
+  .intro__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+  .intro h1 em { color: var(--mid); }
+  .intro p { color: var(--mid); font-size: 16px; line-height: 1.6; max-width: 560px; }
+  .score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .score > div { padding: 18px 24px; border-left: 1px solid var(--line); min-width: 112px; }
+  .score > div:first-child { border-left: 0; }
+  .score b { display: block; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-top: 6px; font-variant-numeric: tabular-nums; }
+
+  /* board */
+  .board { padding: 28px 32px 32px; }
+  .board__bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 22px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .round { display: flex; align-items: center; gap: 16px; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--white); border: 1px solid var(--line); }
+  .dots .is-now { border-color: var(--ink); }
+  /* progress, not traffic lights: right = ink, missed = grey */
+  .dots .is-ok { background: var(--ink); border-color: var(--ink); }
+  .dots .is-miss { background: var(--line); border-color: var(--soft); }
+
+  .play { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+
+  /* product: embedded image bubble */
+  .frame { padding: 6px; }
+  .frame__img { position: relative; border-radius: var(--r-md); overflow: hidden; aspect-ratio: 5 / 3.4; background: var(--f); display: grid; place-items: center; }
+  .frame__img svg { width: 58%; height: auto; }
+  .frame__cap { padding: 16px 12px 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .frame__cap h2 { font-size: 26px; line-height: 1.15; margin: 0 0 4px; }
+
+  /* sewn-in label */
+  .tagbox { display: flex; flex-direction: column; gap: 16px; }
+  .tag {
+    background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 22px 18px 18px; box-shadow: var(--shadow-sm);
+    outline: 1px dashed var(--line); outline-offset: -7px;
   }
-  .apptitle { color: var(--mediumgrey); font-size: 14px; letter-spacing: 0.025em; }
-
-  main { max-width: 980px; margin: 0 auto; padding: 36px 16px 64px; }
-
-  .bubble { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; margin: 28px 0 24px; }
-  .tile { padding: 24px; }
-  .tile__num { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.15; margin-top: 8px; }
-  .tile__num small { font-size: 18px; color: var(--mediumgrey); font-weight: 500; }
-  .panel { padding: 32px; }
-
-  .setup { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 24px; }
-  .setup .label { display: block; margin-bottom: 6px; }
-
-  /* Progress: square segments, no gaps */
-  .progress { display: flex; height: 6px; margin-bottom: 28px; background: var(--lightgrey); }
-  .progress span { flex: 1; }
-  .progress .is-right { background: var(--green-700); }
-  .progress .is-wrong { background: var(--error); }
-  .progress .is-now { background: var(--blue); }
-
-  .play { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 16px; white-space: nowrap; border: 1px solid var(--lightgrey); background: var(--cream); margin-bottom: 12px; }
-
-  /* The sewn-in label: image-bubble frame (white mat, 6px padding, concentric radii) */
-  .tag { padding: 6px; }
-  .tag__inner { background: var(--cream); border-radius: 8px; padding: 14px; }
-  .tag__hole { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--lightgrey); background: var(--white); margin: 0 auto 12px; }
-  .tag__lines { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .tag__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; padding-inline: 6px; }
+  .tag__lines { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
   .tag__line {
-    width: 100%; text-align: left; font: 500 14px/1.4 var(--mono); color: var(--darkgrey);
-    background: var(--white); border: 2px solid transparent; border-radius: 8px; padding: 9px 12px;
-    cursor: pointer; display: flex; justify-content: space-between; gap: 12px; align-items: center;
-    box-shadow: var(--shadow-sm); transition: background 150ms ease, border-color 150ms ease;
+    width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; text-align: left; cursor: pointer;
+    font: 500 13px/1.4 var(--mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink);
+    background: var(--white); border: 1px solid transparent; border-radius: 6px; padding: 10px 10px;
   }
-  .tag__line:hover:not(:disabled) { background: var(--pink-50); }
+  .tag__line:hover:not(:disabled) { box-shadow: var(--overlay); }
   .tag__line:disabled { cursor: default; }
-  .tag__line .mark { font: 500 12px var(--font); white-space: nowrap; letter-spacing: 0.025em; }
-  .tag__line.is-flag { border-color: var(--pink); }
-  .tag__line.is-flag .mark { color: var(--darkgrey); }
-  .tag__line.is-miss { border-color: var(--lightgrey); color: var(--mediumgrey); }
+  .tag__mark { font-family: var(--sans); text-transform: none; letter-spacing: 0; font-size: 13px; }
+  /* a revealed red flag is a highlight on a neutral line: darker neutral, never pink, and no extra "Red flag" tag */
+  .tag__line.is-flag { background: var(--offwhite); border-color: var(--soft); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tag__line.is-pick { border-color: var(--line); color: var(--mid); }
+  .hint { font-size: 13px; color: var(--mid); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+  .verdict { border-radius: var(--r); border: 1px solid var(--line); padding: 16px 18px; background: var(--cream); }
+  .verdict h3 { font-size: 18px; margin: 0 0 4px; }
+  .verdict p { font-size: 14px; line-height: 1.55; }
 
-  .notice { border-radius: 8px; padding: 12px 16px; font-size: 14px; border: 1px solid; margin-top: 20px; }
-  .notice strong { display: block; font-weight: 500; margin-bottom: 2px; }
-  .notice--success { background: var(--green-100); border-color: #B7EBAA; color: var(--darkgrey); }
-  .notice--success strong { color: var(--green-700); }
-  .notice--error { background: var(--white); border-color: var(--error); }
-  .notice--error strong { color: var(--error); }
-
-  .results__list { list-style: none; margin: 20px 0 0; padding: 0; }
-  .results__list li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; border-top: 1px solid rgba(224, 221, 212, 0.6); font-size: 14px; }
+  /* results */
+  .results { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 40px; align-items: start; }
+  .results h2 { font-size: 34px; line-height: 1.1; margin: 0 0 12px; }
+  .results__list { list-style: none; margin: 0; padding: 0; }
+  .results__list li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; border-top: 1px solid var(--hair); font-size: 14px; }
   .results__list li:first-child { border-top: 0; }
-  .pill { display: inline-flex; padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 16px; }
-  .pill--ok { background: var(--green-100); color: var(--green-700); }
-  .pill--miss { background: var(--white); color: var(--error); border: 1px solid var(--error); }
 
-  .footnote { margin-top: 24px; font-size: 12px; color: var(--mediumgrey); }
+  footer { padding: 28px 0 48px; font-size: 13px; color: var(--mid); }
 
-  @media (max-width: 720px) {
-    .play { grid-template-columns: 1fr; gap: 24px; }
-    .panel { padding: 24px; }
-    h1.title { font-size: 30px; }
-    .select__trigger { font-size: 12px; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 780px) {
+    .intro__row { grid-template-columns: 1fr; }
+    .play, .results { grid-template-columns: 1fr; gap: 24px; }
+    .board { padding: 20px; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding-inline: 16px; }
+    .score > div { padding: 14px 16px; min-width: 0; }
+    .score b { font-size: 26px; }
+    .select__trigger { font-size: 12px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+    .select .label { display: none; }
   }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="topbar__inner">
-    <span class="apptitle">Label Detective · a cotton game</span>
+  <div class="wrap">
+    <div class="brand"><span class="serif">Label Detective</span><span class="muted">a cotton game</span></div>
     <a href="report.html">Read the cotton guide →</a>
   </div>
 </header>
 
-<main>
-  <span class="label">Game · 8 labels per round</span>
-  <h1 class="title">Spot the red flag</h1>
-  <p class="sub">Each card is a sewn-in label. Tap the line that misleads, or choose <strong>Looks honest</strong> if nothing does. Every answer comes with a short explanation.</p>
-
-  <section class="tiles" aria-label="Scoreboard">
-    <div class="bubble tile"><span class="label">Label</span><div class="tile__num" id="tRound">1<small> / 8</small></div></div>
-    <div class="bubble tile"><span class="label">Score</span><div class="tile__num" id="tScore">0</div></div>
-    <div class="bubble tile"><span class="label">Streak</span><div class="tile__num" id="tStreak">0</div></div>
-    <div class="bubble tile"><span class="label">Best streak</span><div class="tile__num" id="tBest">0</div></div>
+<main class="wrap">
+  <section class="intro">
+    <h1 class="serif">Spot the red flag. <em>Or trust the label.</em></h1>
+    <div class="intro__row">
+      <p>Each round shows a product and its sewn-in label. Tap the line that misleads, or choose <strong>Looks honest</strong> if nothing does.</p>
+    <div class="bubble score" aria-label="Scoreboard">
+      <div><span class="label">Score</span><b id="tScore">0</b></div>
+      <div><span class="label">Streak</span><b id="tStreak">0</b></div>
+      <div><span class="label">Best</span><b id="tBest">0</b></div>
+    </div>
+    </div>
   </section>
 
-  <section class="bubble panel" aria-live="polite">
-    <div class="setup">
-      <div>
-        <h2 class="title">Pick a shelf</h2>
-        <p class="sub">Changing the shelf starts a new round.</p>
-      </div>
+  <section class="bubble board" aria-live="polite">
+    <div class="board__bar">
+      <div class="round"><span class="label" id="roundLabel">Label 1 of 8</span><div class="dots" id="dots" aria-hidden="true"></div></div>
       <div class="select">
         <span class="label" id="shelfLabel">Shelf</span>
         <button class="select__trigger" id="shelfTrigger" popovertarget="shelfMenu" aria-haspopup="menu" aria-labelledby="shelfLabel shelfTrigger">
-          <span id="shelfText">Mixed</span><span class="select__suffix" id="shelfCount">· 14 labels</span>
+          <span id="shelfText">Mixed</span><span class="suffix" id="shelfCount"></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="menu" id="shelfMenu" popover role="menu" aria-labelledby="shelfLabel">
-          <button class="menu__item" role="menuitemradio" aria-checked="true" data-pool="mixed">Mixed <span class="select__suffix"></span></button>
-          <button class="menu__item" role="menuitemradio" aria-checked="false" data-pool="sheets">Bed sheets <span class="select__suffix"></span></button>
-          <button class="menu__item" role="menuitemradio" aria-checked="false" data-pool="tees">T-shirts <span class="select__suffix"></span></button>
+          <button class="menu__item" role="menuitemradio" aria-checked="true" data-pool="mixed">Mixed<span class="suffix"></span></button>
+          <button class="menu__item" role="menuitemradio" aria-checked="false" data-pool="sheets">Bed sheets<span class="suffix"></span></button>
+          <button class="menu__item" role="menuitemradio" aria-checked="false" data-pool="tees">T-shirts<span class="suffix"></span></button>
         </div>
       </div>
     </div>
 
-    <div class="progress" id="progress" aria-hidden="true"></div>
+    <div class="play" id="play">
+      <figure class="bubble frame" id="product" style="margin:0">
+        <div class="frame__img" id="art"></div>
+        <figcaption class="frame__cap">
+          <div><h2 class="serif" id="pName"></h2><p class="muted" id="pPrice"></p></div>
+          <span class="muted" id="pKind"></span>
+        </figcaption>
+      </figure>
 
-    <div class="play fade-in" id="play">
-      <div>
-        <span class="badge" id="kind"></span>
-        <h2 class="title" id="product"></h2>
-        <p class="sub" id="price"></p>
+      <div class="tagbox">
+        <div class="tag">
+          <div class="tag__head"><span class="label">Sewn-in label</span><span class="hint" id="hint">Tap a line</span></div>
+          <ul class="tag__lines" id="lines"></ul>
+        </div>
         <div class="actions">
           <button class="btn btn--action" id="honestBtn">Looks honest</button>
           <button class="btn" id="nextBtn" hidden>Next label</button>
         </div>
         <div id="feedback"></div>
       </div>
-      <div class="bubble tag" aria-label="Product label">
-        <div class="tag__inner">
-          <div class="tag__hole" aria-hidden="true"></div>
-          <ul class="tag__lines" id="lines"></ul>
-        </div>
-      </div>
     </div>
 
-    <div class="fade-in" id="results" hidden>
-      <span class="label">Round complete</span>
-      <h2 class="title" id="resultTitle"></h2>
-      <p class="sub" id="resultSub"></p>
+    <div class="results fade-in" id="results" hidden>
+      <div>
+        <h2 class="serif" id="resultTitle"></h2>
+        <p class="muted" id="resultSub"></p>
+        <div class="actions" style="margin-top:24px"><button class="btn" id="againBtn">Play again</button><a class="btn btn--outline" href="report.html">Read the guide</a></div>
+      </div>
       <ul class="results__list" id="resultList"></ul>
-      <div class="actions"><button class="btn" id="againBtn">Play again</button></div>
     </div>
   </section>
-
-  <p class="footnote">Labels and products are made up for practice. The explanations follow the cotton guide.</p>
 </main>
 
-<script>
-  /* Use the fallback heading weight when ITC Novarese isn't installed */
-  (function () {
-    const c = document.createElement("canvas").getContext("2d");
-    c.font = "40px monospace"; const base = c.measureText("mmmmmlllli").width;
-    c.font = '40px "ITC Novarese", monospace';
-    if (c.measureText("mmmmmlllli").width === base) document.documentElement.classList.add("no-novarese");
-  })();
+<footer><div class="wrap">Labels and products are made up for practice. The explanations follow the cotton guide.</div></footer>
 
-  /* flags: indexes of misleading lines; empty = honest label */
+<script>
+  const $ = id => document.getElementById(id);
+
+  /* product illustrations: drawn in the category's pastel on its pale fill */
+  const ART = {
+    sheets: `<svg viewBox="0 0 200 130" fill="none" stroke="var(--b)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="20" y="62" width="160" height="40" rx="8" fill="#FFFFFF"/>
+      <path d="M20 74 h160" /><rect x="36" y="30" width="56" height="30" rx="10" fill="#FFFFFF"/><rect x="108" y="30" width="56" height="30" rx="10" fill="#FFFFFF"/>
+      <path d="M26 102 v10 M174 102 v10" /></svg>`,
+    tees: `<svg viewBox="0 0 200 150" fill="none" stroke="var(--b)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M72 18 Q100 34 128 18 L170 38 L156 70 L138 62 L138 136 L62 136 L62 62 L44 70 L30 38 Z" fill="#FFFFFF"/>
+      <path d="M84 22 Q100 40 116 22" /></svg>`
+  };
+
+  /* flags: indexes of misleading lines; empty = honest */
   const LABELS = [
     { kind: "sheets", product: "Queen sheet set", price: "€39",
       lines: ["100% cotton", "1200 thread count", "4-ply yarns", "Sateen weave"], flags: [1, 2],
       why: "1,200 with 4-ply yarns is really about 300 threads, multiplied by the ply. Count single-ply threads only." },
     { kind: "sheets", product: "Percale duvet cover", price: "€95",
-      lines: ["100% Egyptian cotton", "Giza 87 · Cotton Egypt Assoc. certified", "Thread count 400", "Made in India"], flags: [],
+      lines: ["100% Egyptian cotton", "Giza 87 · CEA certified", "Thread count 400", "Made in India"], flags: [],
       why: "Certified Giza with a sensible thread count. 'Made in India' is where it was woven, which is common for Egyptian cotton." },
     { kind: "sheets", product: "Fitted sheet", price: "€60",
       lines: ["Supima® cotton", "Single-ply", "Sateen, TC 300", "Wash at 60 °C"], flags: [],
@@ -275,19 +280,19 @@
       why: "'Egyptian-feel' describes a feeling, not the fibre. Real Egyptian cotton names itself and shows a certification." },
     { kind: "sheets", product: "Easy-care sheet set", price: "€25",
       lines: ["Cotton rich", "Thread count 250", "Non-iron finish"], flags: [0],
-      why: "'Cotton rich' hides a blend. The law requires a percentage for each fibre, so ask for it." },
+      why: "'Cotton rich' hides a blend. The law requires a percentage for each fibre, so look for it." },
     { kind: "sheets", product: "Organic percale set", price: "€80",
-      lines: ["100% organic cotton", "GOTS certified · licence no. on tag", "Percale, TC 220"], flags: [],
+      lines: ["100% organic cotton", "GOTS certified · lic. 7731", "Percale, TC 220"], flags: [],
       why: "GOTS backs the organic claim, and 200–300 is the normal range for percale." },
     { kind: "sheets", product: "Hotel collection sheets", price: "€30",
       lines: ["100% cotton", "Hotel quality", "Thread count 1000", "Single-ply"], flags: [2],
-      why: "Single-ply yarn can't reach 1,000 threads per square inch in cotton. The number is inflated." },
+      why: "Single-ply cotton can't reach 1,000 threads per square inch. The number is inflated." },
     { kind: "tees", product: "Classic crew tee", price: "€18",
       lines: ["100% combed ring-spun cotton", "180 gsm", "Pre-shrunk"], flags: [],
       why: "Combed ring-spun yarn at a mid-weight 180 gsm, and pre-shrunk: a solid everyday tee." },
     { kind: "tees", product: "Pima Touch tee", price: "€9",
       lines: ["Pima Touch", "60% cotton / 40% polyester", "160 gsm"], flags: [0],
-      why: "The fibre content says it's a polyester blend. 'Pima Touch' is a product name, not a Pima fibre claim." },
+      why: "The fibre content shows a polyester blend. 'Pima Touch' is a product name, not a Pima fibre claim." },
     { kind: "tees", product: "Essential tee", price: "€6",
       lines: ["100% cotton", "Open-end yarn", "Ultra-soft luxury feel"], flags: [2],
       why: "Open-end yarn is the coarser, cheaper way to spin. 'Ultra-soft luxury' doesn't match it." },
@@ -305,125 +310,107 @@
       why: "Supima is a traceable trademark, compact jersey is well made, and the country of origin is simply where it was made." }
   ];
   const ROUND = 8;
+  const KIND = { sheets: "Bed sheets", tees: "T-shirt" };
 
-  const $ = id => document.getElementById(id);
   let pool = "mixed", deck = [], idx = 0, score = 0, streak = 0, best = 0, log = [], answered = false;
-
-  const poolSize = p => LABELS.filter(l => p === "mixed" || l.kind === p).length;
-  function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-    return a;
-  }
+  const poolOf = p => LABELS.filter(l => p === "mixed" || l.kind === p);
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   function start() {
-    const src = LABELS.filter(l => pool === "mixed" || l.kind === pool);
-    deck = shuffle([...src]).slice(0, Math.min(ROUND, src.length));
+    deck = shuffle([...poolOf(pool)]).slice(0, ROUND);
     idx = 0; score = 0; streak = 0; log = [];
     $("play").hidden = false; $("results").hidden = true;
     render();
   }
 
-  function renderProgress() {
-    $("progress").innerHTML = deck.map((_, i) => {
-      const cls = i < log.length ? (log[i].ok ? "is-right" : "is-wrong") : i === idx ? "is-now" : "";
-      return `<span class="${cls}"></span>`;
-    }).join("");
-  }
-
-  function renderTiles() {
-    $("tRound").innerHTML = `${Math.min(idx + 1, deck.length)}<small> / ${deck.length}</small>`;
-    $("tScore").textContent = score;
-    $("tStreak").textContent = streak;
-    $("tBest").textContent = best;
+  function renderBar() {
+    $("roundLabel").textContent = log.length === deck.length ? "Round complete" : `Label ${idx + 1} of ${deck.length}`;
+    $("dots").innerHTML = deck.map((_, i) =>
+      `<span class="${i < log.length ? (log[i].ok ? "is-ok" : "is-miss") : i === idx ? "is-now" : ""}"></span>`).join("");
+    $("tScore").textContent = score; $("tStreak").textContent = streak; $("tBest").textContent = best;
   }
 
   function render() {
     const l = deck[idx];
     answered = false;
-    $("kind").textContent = l.kind === "sheets" ? "Bed sheets" : "T-shirt";
-    $("product").textContent = l.product;
-    $("price").textContent = "Shelf price: " + l.price;
+    const prod = $("product");
+    prod.className = `bubble frame kind-${l.kind} fade-in`;
+    $("art").innerHTML = ART[l.kind];
+    $("pName").textContent = l.product;
+    $("pPrice").textContent = "Shelf price " + l.price;
+    $("pKind").textContent = KIND[l.kind];
     $("lines").innerHTML = l.lines.map((t, i) =>
-      `<li><button class="tag__line" data-i="${i}"><span>${t}</span><span class="mark"></span></button></li>`).join("");
+      `<li><button class="tag__line" data-i="${i}"><span>${t}</span><span class="tag__mark"></span></button></li>`).join("");
     $("lines").querySelectorAll(".tag__line").forEach(b => b.addEventListener("click", () => answer(+b.dataset.i)));
+    $("hint").textContent = "Tap a line";
     $("honestBtn").disabled = false;
     $("nextBtn").hidden = true;
     $("feedback").innerHTML = "";
-    $("play").classList.remove("fade-in"); void $("play").offsetWidth; $("play").classList.add("fade-in");
-    renderTiles(); renderProgress();
+    renderBar();
   }
 
-  function answer(pick) { /* pick = line index, or -1 for "Looks honest" */
+  function answer(pick) {   /* pick: line index, or -1 for "Looks honest" */
     if (answered) return;
     answered = true;
     const l = deck[idx];
     const ok = pick === -1 ? l.flags.length === 0 : l.flags.includes(pick);
-    if (ok) { score += 10 + streak * 2; streak++; best = Math.max(best, streak); } else { streak = 0; }
+    if (ok) { score += 10 + streak * 2; streak++; best = Math.max(best, streak); } else streak = 0;
     log.push({ product: l.product, ok });
 
     $("lines").querySelectorAll(".tag__line").forEach(b => {
       const i = +b.dataset.i;
       b.disabled = true;
-      if (l.flags.includes(i)) { b.classList.add("is-flag"); b.querySelector(".mark").textContent = "Red flag"; }
-      else if (i === pick) { b.classList.add("is-miss"); b.querySelector(".mark").textContent = "Your pick"; }
+      if (l.flags.includes(i)) { b.classList.add("is-flag"); b.querySelector(".tag__mark").innerHTML = `${i === pick ? "your pick" : ""}<span class="sr-only"> red flag</span>`; }
+      else if (i === pick) { b.classList.add("is-pick"); b.querySelector(".tag__mark").textContent = "your pick"; }
     });
+    $("hint").textContent = l.flags.length ? `${l.flags.length} red flag${l.flags.length > 1 ? "s" : ""}` : "No red flags";
     $("honestBtn").disabled = true;
 
-    const title = ok ? (l.flags.length ? "Spotted it." : "Correct, it's honest.")
-                     : (l.flags.length ? "Not quite." : "This one was honest.");
-    $("feedback").innerHTML = `<div class="notice ${ok ? "notice--success" : "notice--error"} fade-in" role="status">
-      <strong>${title}</strong>${l.why}</div>`;
+    const title = ok ? (l.flags.length ? "Well spotted." : "Right, it's honest.") : (l.flags.length ? "Not quite." : "This one was honest.");
+    $("feedback").innerHTML = `<div class="verdict fade-in" role="status">
+      <div><h3 class="serif">${title}</h3><p>${l.why}</p></div></div>`;
 
     $("nextBtn").textContent = idx === deck.length - 1 ? "See results" : "Next label";
     $("nextBtn").hidden = false;
     $("nextBtn").focus();
-    renderTiles(); renderProgress();
-  }
-
-  function next() {
-    idx++;
-    if (idx >= deck.length) return finish();
-    render();
+    renderBar();
   }
 
   function finish() {
     const right = log.filter(x => x.ok).length;
-    renderProgress();
-    $("tRound").innerHTML = `${deck.length}<small> / ${deck.length}</small>`;
     $("play").hidden = true; $("results").hidden = false;
-    $("resultTitle").textContent = `${right} of ${deck.length} labels read correctly · ${score} points`;
-    $("resultSub").textContent = right === deck.length ? "A true label detective. Nothing gets past you."
-      : right >= deck.length * 0.6 ? "A sharp eye. Check the label checklist in the guide for the ones you missed."
-      : "Labels can be tricky. The cotton guide explains what to look for.";
+    $("resultTitle").textContent = `${right} of ${deck.length} read right`;
+    $("resultSub").textContent = `${score} points, best streak ${best}. ` + (right === deck.length ? "Nothing gets past you."
+      : right >= deck.length * 0.6 ? "A sharp eye. The label checklist in the guide covers the ones you missed."
+      : "Labels can be tricky. The cotton guide explains what to look for.");
     $("resultList").innerHTML = log.map(x =>
-      `<li><span>${x.product}</span><span class="pill ${x.ok ? "pill--ok" : "pill--miss"}">${x.ok ? "Correct" : "Missed"}</span></li>`).join("");
+      `<li><span>${x.product}</span><span class="muted">${x.ok ? "Correct" : "Missed"}</span></li>`).join("");
+    renderBar();
     $("againBtn").focus();
   }
 
   $("honestBtn").addEventListener("click", () => answer(-1));
-  $("nextBtn").addEventListener("click", next);
+  $("nextBtn").addEventListener("click", () => { idx++; idx >= deck.length ? finish() : render(); });
   $("againBtn").addEventListener("click", start);
 
-  /* ---------- Shelf dropdown ---------- */
+  /* shelf dropdown */
   const menu = $("shelfMenu"), trigger = $("shelfTrigger");
   const items = [...menu.querySelectorAll(".menu__item")];
-  items.forEach(it => { it.querySelector(".select__suffix").textContent = "· " + poolSize(it.dataset.pool); });
-  /* Position under the trigger (works without CSS anchor positioning) */
+  items.forEach(it => { it.querySelector(".suffix").textContent = "· " + poolOf(it.dataset.pool).length; });
+  $("shelfCount").textContent = "· " + poolOf(pool).length;
   menu.addEventListener("toggle", e => {
     if (e.newState !== "open") return;
     const r = trigger.getBoundingClientRect();
-    menu.style.position = "fixed"; menu.style.inset = "auto";
-    menu.style.top = (r.bottom) + "px";
-    menu.style.left = Math.max(8, r.right - Math.max(menu.offsetWidth, r.width)) + "px";
-    menu.style.minWidth = r.width + "px";
+    Object.assign(menu.style, { position: "fixed", inset: "auto", margin: "0", minWidth: r.width + "px", top: r.bottom + 4 + "px" });
+    menu.style.left = Math.max(8, r.right - menu.offsetWidth) + "px";
     (items.find(i => i.getAttribute("aria-checked") === "true") || items[0]).focus();
   });
   items.forEach((it, i) => {
     it.addEventListener("click", () => {
       items.forEach(x => x.setAttribute("aria-checked", x === it));
       pool = it.dataset.pool;
-      $("shelfText").textContent = it.firstChild.textContent.trim();
-      $("shelfCount").textContent = "· " + poolSize(pool) + " labels";
+      $("shelfText").textContent = it.firstChild.textContent;
+      $("shelfCount").textContent = "· " + poolOf(pool).length;
       menu.hidePopover(); trigger.focus(); start();
     });
     it.addEventListener("keydown", e => {
@@ -432,7 +419,7 @@
       }
     });
   });
-  window.addEventListener("resize", () => { try { menu.hidePopover(); } catch (e) {} });
+  addEventListener("resize", () => { try { menu.hidePopover(); } catch (e) {} });
 
   start();
 </script>

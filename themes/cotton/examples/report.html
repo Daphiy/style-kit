@@ -6,399 +6,494 @@
 <title>Cotton, Decoded · Cotton theme</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <!-- General elements, restyled below as themes/cotton/design.md describes -->
 <link rel="stylesheet" href="../../../elements/buttons/buttons.css">
 <link rel="stylesheet" href="../../../elements/toggles/segmented.css">
 <style>
+  /* ============ themes/cotton/design.md ============ */
   :root {
-    /* themes/cotton/design.md: colours */
-    --cream: #FAF7F2;          /* --swa-cream: page background, header */
-    --white: #FFFFFF;          /* cards, panels, every "bubble" */
-    --darkgrey: #1C1B18;       /* --swa-darkgrey: text, headings */
-    --mediumgrey: #756F68;     /* --swa-mediumgrey: secondary text, chevrons */
-    --grey-500: #8C8985;       /* --swa-grey-500: tertiary (graphics only here, below AA for text) */
-    --label: #756F68;          /* labels: medium grey */
-    --border: #E0DDD4;         /* light grey: every border and divider (borders are never coloured) */
-    --lightgrey: #E0DDD4;
-    --offwhite: #F0EEE4;       /* slightly deeper off-white */
-    --pink: #F8AAB6;           /* --swa-pink: main accent, selection, primary button */
-    --pink-lighter: #FDE0E5;
-    --blue: #8DBAED;           /* --swa-blue: navigation, filters, actions */
-    --blue-lightest: #E5F3FC;  /* filter chips, action buttons */
-    --deep: #2E6DA8;           /* links, focus outline */
-    --action-border: var(--border);
-    --action-text: var(--deep);
-    /* confirm, warning, error: pale wash + ink text */
-    --green-100: #E4F3E1;  --green-700: var(--darkgrey);  --green: #9CCB8E;
-    --amber-100: #FFF8CE;  --amber-700: var(--darkgrey);  --yellow: #FCCF61;
-    --error: #BE1212;      --error-wash: #FDE7E7;         --error-solid: #F14545;
+    /* neutrals */
+    --cream: #FAF7F2;        /* page */
+    --white: #FFFFFF;        /* cards, header bar */
+    --offwhite: #F0EEE4;     /* slightly deeper off-white */
+    --line: #E0DDD4;         /* default border and divider; coloured only on an element of that hue, or as a highlight */
+    --hair: rgba(224, 221, 212, 0.6);
+    --ink: #1C1B18;          /* primary text, headings */
+    --mid: #756F68;          /* secondary text */
+    --soft: #8C8985;         /* tertiary (large or decorative only) */
 
-    /* category families (pale fill + pastel border/icon); grey never marks a category */
-    --fam-upland-fill: #E4F3E1;     --fam-upland: #9CCB8E;      /* green */
-    --fam-barbadense-fill: #F4ECF5; --fam-barbadense: #CCA8CF;  /* purple */
-    --fam-asiatic-fill: #FFF8CE;    --fam-asiatic: #FCCF61;     /* yellow */
+    /* families: pale fill + core pastel (dot, icon, chart, the family's own border) */
+    --pink-fill: #FDE0E5;   --pink: #F8AAB6;   --pink-light: #FCC2CC;
+    --yellow-fill: #FFF8CE; --yellow: #FCCF61;
+    --blue-fill: #E5F3FC;   --blue: #8DBAED;   --blue-lighter: #D6E7F8;
+    --green-fill: #E4F3E1;  --green: #9CCB8E;
+    --purple-fill: #F4ECF5; --purple: #CCA8CF;
+    --deep: #2E6DA8;         /* links */
 
-    --overlay: inset 0 0 0 100vmax rgba(0, 0, 0, 0.2);   /* hover = 20% black overlay, never added colour */
+    --overlay: inset 0 0 0 100vmax rgba(0, 0, 0, 0.2);   /* hover: darker version of the element's own colour, never another hue */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    --radius: 10px;
+    --r: 10px;               /* base radius */
+    --r-md: 8px;             /* inner elements */
 
-    --font: "Euclid Ignited", "Euclid Circular B", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --display: "ITC Novarese", "Lora", Georgia, serif;
-    --display-weight: 400;     /* Novarese: no bold, size only */
+    --sans: "Euclid Ignited", "Euclid Circular B", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --serif: "ITC Novarese", "Lora", Georgia, serif;   /* headings: no bold, size only */
+    --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
   }
-  /* Fallback fonts (design.md): without Novarese, titles fall back to Lora at the fallback title weight */
-  .no-novarese { --display-weight: 600; }
+
+  /* the only category families on this page: cotton species. One meaning per colour, so
+     green, purple and yellow mean species everywhere and nothing else. */
+  .fam-upland     { --f: var(--green-fill);  --b: var(--green); }
+  .fam-barbadense { --f: var(--purple-fill); --b: var(--purple); }
+  .fam-asiatic    { --f: var(--yellow-fill); --b: var(--yellow); }
 
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html { background: var(--cream); scroll-behavior: smooth; }
-  body { margin: 0; background: var(--cream); color: var(--darkgrey); font: 400 15px/1.4 var(--font); }
-  a { color: var(--action-text); text-decoration: none; }
+  html { background: var(--cream); scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  p { margin: 0; }
+  a { color: var(--deep); text-decoration: none; }
   a:hover { text-decoration: underline; }
   :focus { outline: none; }
-  :focus-visible { outline: 2px solid var(--deep); outline-offset: 2px; }
-  p { margin: 0 0 12px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); }
+  .muted { color: var(--mid); font-size: 14px; }
+  .num { font-variant-numeric: tabular-nums; }
+  .fade-in { animation: fadeIn 0.4s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .wrap { max-width: 1200px; margin: 0 auto; padding-inline: 24px; }
 
-  .title { font-family: var(--display); font-weight: var(--display-weight); letter-spacing: -0.01em; margin: 0; }
-  h1.title { font-size: 36px; line-height: 1.15; margin-bottom: 10px; }
-  h2.title { font-size: 28px; line-height: 1.2; margin-bottom: 6px; }
-  h3 { font-size: 18px; font-weight: 500; margin: 0 0 4px; }
-  h4 { font-size: 15px; font-weight: 500; margin: 0 0 4px; }
-  .sub { color: var(--mediumgrey); font-size: 14px; margin: 0; }
-  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--label); }
-  .fade-in { animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  /* Bubble: white, rounded-lg, 1px line, shadow-sm */
+  .bubble { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow-sm); }
 
-  /* Buttons: Apply = pink, actions = blue-lightest (design.md) */
-  .btn {
-    --btn-radius: 8px;
-    --btn-primary: var(--pink);
-    --btn-primary-fg: var(--darkgrey);
-    --btn-bg: var(--white);
-    --btn-fg: var(--darkgrey);
-    --btn-border: var(--border);
-    --btn-accent: var(--white);
-    font-family: var(--font); letter-spacing: 0.025em; box-shadow: none;
+  /* Chip: only for a species name that the reader matches against a chart (pale fill, own-hue border, dot, ink text) */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px;
+    background: var(--f); border: 1px solid var(--b); color: var(--ink);
+    font-size: 12px; line-height: 18px; white-space: nowrap; letter-spacing: 0.01em;
   }
-  .btn:hover, .btn--outline:hover, .btn--action:hover { box-shadow: var(--overlay); }
-  .btn--action { background: var(--blue-lightest); border-color: var(--action-border); color: var(--action-text); }
-  .btn--action { color: var(--deep); }
-  .btn:focus-visible { box-shadow: none; outline: 2px solid var(--deep); outline-offset: 2px; }
+  .chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--b); flex: none; }
 
-  /* Multicategory toggle (design.md): one bordered pill, clipped segments, active = pink */
+  /* ============ element overrides ============ */
+  .btn {
+    --btn-radius: var(--r-md);
+    --btn-primary: var(--pink);
+    --btn-primary-fg: var(--ink);
+    --btn-bg: var(--white);
+    --btn-fg: var(--ink);
+    --btn-border: var(--line);
+    --btn-accent: var(--white);
+    font-family: var(--sans); letter-spacing: 0.025em; box-shadow: none;
+  }
+  /* hover: keep the button's own fill (buttons.css would swap in --btn-primary) and darken it */
+  .btn:hover { background: var(--btn-primary); box-shadow: var(--overlay); }
+  .btn--outline:hover, .btn--ghost:hover { background: var(--btn-bg); }
+  .btn:focus-visible { box-shadow: none; outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* Multicategory toggle: one bordered pill, clipped segments, active segment pink */
   .segmented {
     --seg-track: var(--white);
     --seg-selected-bg: var(--pink);
-    --seg-selected-text: var(--darkgrey);
-    --seg-text: var(--label);
-    --seg-text-hover: var(--darkgrey);
-    display: inline-flex; gap: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius);
-    overflow: hidden; box-shadow: var(--shadow-sm); font-family: var(--font);
+    --seg-selected-text: var(--ink);
+    --seg-text: var(--mid);
+    --seg-text-hover: var(--ink);
+    display: inline-flex; gap: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--r);
+    overflow: hidden; box-shadow: var(--shadow-sm); font-family: var(--sans);
   }
   .segmented__option {
-    flex: none; height: auto; padding: 6px 14px; border-radius: 0; font-size: 12px;
-    text-transform: uppercase; letter-spacing: 0.05em;
+    flex: none; height: auto; padding: 7px 16px; border-radius: 0;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
   }
   .segmented__option:hover { box-shadow: var(--overlay); }
   .segmented__option[aria-checked="true"] { box-shadow: none; font-weight: 500; }
   .segmented__option[aria-checked="true"]:hover { box-shadow: var(--overlay); }
-  .segmented__option:focus-visible { outline: 2px solid var(--deep); outline-offset: -2px; }
+  .segmented__option:focus-visible { outline: 2px solid var(--ink); outline-offset: -3px; }
 
-  /* Header: cream shell, app title, nav-tab bar in a white bubble */
-  .topbar { background: var(--cream); border-bottom: 1px solid var(--border); }
-  .topbar__inner {
-    max-width: 1400px; margin: 0 auto; padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  /* ============ header ============ */
+  .topbar { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 1px solid var(--line); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 10px; color: var(--ink); }
+  .brand:hover { text-decoration: none; }
+  .brand .serif { font-size: 20px; }
+  .brand .muted { font-size: 13px; }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tabs a { color: var(--mid); font-size: 14px; padding: 20px 10px 18px; border-bottom: 2px solid transparent; }
+  .tabs a:hover { color: var(--ink); text-decoration: none; box-shadow: var(--overlay); }
+  .tabs a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--blue); font-weight: 500; }
+
+  /* ============ hero ============ */
+  .hero { padding: 64px 0 40px; }
+  /* title spans the content column and never runs past two lines */
+  .hero h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.12; margin: 0 0 18px; }
+  .hero h1 em { font-style: italic; color: var(--mid); }
+  .hero .lede { font-size: 17px; line-height: 1.6; color: var(--mid); max-width: 640px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .tile { padding: 24px; display: flex; flex-direction: column; }
+  .tile__num { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin: 12px 0 8px; font-variant-numeric: tabular-nums; }
+  .tile__num small { font-size: 16px; font-weight: 500; color: var(--mid); letter-spacing: 0; margin-left: 2px; }
+  .tile .muted { line-height: 1.45; }
+
+  /* ============ sections ============ */
+  .section { padding-top: 88px; }
+  /* section heads: full content width, no number gutter, same left edge as the panels below */
+  .shead { margin-bottom: 32px; }
+  .shead h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.15; margin: 0 0 10px; }
+  .shead p { color: var(--mid); line-height: 1.6; max-width: 75ch; }
+
+  /* filter bubbles (one per species). Every part of a bubble uses its own family only:
+     unselected = pale fill + 1px core border + dot; selected = 2px border in its own core colour.
+     "All" is neutral: white + grey line; selected = off-white fill + 2px darker grey. Never pink. */
+  .fbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .fbar .label { margin-right: 6px; }
+  .fbubble {
+    --ring: var(--b);
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    font: 500 13px/18px var(--sans); letter-spacing: 0.025em; color: var(--ink);
+    background: var(--f); border: 1px solid var(--b);
+    transition: box-shadow 150ms ease;
   }
-  .apptitle { color: var(--mediumgrey); font-size: 14px; letter-spacing: 0.025em; }
-  .tabs {
-    display: flex; flex-wrap: wrap; background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 0 6px;
+  .fbubble::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--b); }
+  .fbubble--all { --f: var(--white); --b: var(--line); --ring: var(--soft); }
+  .fbubble--all::before { display: none; }
+  .fbubble--all[aria-pressed="true"] { --f: var(--offwhite); --b: var(--soft); }
+  .fbubble:hover { box-shadow: var(--overlay); }                                   /* darker own fill */
+  .fbubble[aria-pressed="true"] { box-shadow: 0 0 0 1px var(--ring); }             /* 1px border + 1px ring = 2px, own hue */
+  .fbubble[aria-pressed="true"]:hover { box-shadow: 0 0 0 1px var(--ring), var(--overlay); }
+
+  .grid-12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+  .span-7 { grid-column: span 7; } .span-5 { grid-column: span 5; }
+  .panel { padding: 32px; min-width: 0; display: flex; flex-direction: column; }
+  .panel h3 { font-size: 22px; line-height: 1.2; margin: 0 0 6px; }
+  .panel__head { margin-bottom: 28px; }
+
+  /* staple-length range chart */
+  .ladder { position: relative; flex: 1; display: flex; flex-direction: column; }
+  .ladder__rows { position: relative; }
+  .ladder__row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; align-items: center; min-height: 46px; padding-block: 4px; transition: opacity 250ms ease; }
+  .ladder__row.is-dim { opacity: 0.22; }
+  .ladder__name { font-size: 14px; font-weight: 500; line-height: 1.2; }
+  .ladder__name small { display: block; font-size: 12px; font-weight: 400; color: var(--mid); }
+  .ladder__track { position: relative; align-self: stretch; min-height: 38px; }
+  .ladder__bar {
+    position: absolute; top: 50%; height: 16px; transform: translateY(-50%); border-radius: 999px;
+    background: var(--b); cursor: default;
   }
-  .tabs a {
-    padding: 10px 12px 8px; font-size: 14px; color: var(--mediumgrey); border-bottom: 2px solid transparent;
+  .ladder__bar::after { content: ""; position: absolute; inset: -14px 0; }
+  .ladder__val { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); margin-left: 8px; padding: 0 4px; background: var(--white); font-size: 12px; color: var(--mid); white-space: nowrap; }
+  @media (max-width: 620px) {   /* long bars near the edge: label sits before the bar */
+    .ladder__val--in { left: auto !important; right: calc(100% - var(--start)); margin: 0 8px 0 0; }
   }
-  .tabs a:hover { color: var(--darkgrey); text-decoration: none; box-shadow: var(--overlay); }
-  .tabs a[aria-current="page"] { color: var(--darkgrey); border-bottom-color: var(--blue); font-weight: 500; }
+  .ladder__axis { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; margin-top: 6px; }
+  .ladder__ticks { position: relative; height: 22px; border-top: 1px solid var(--line); }
+  .ladder__ticks span { position: absolute; top: 6px; transform: translateX(-50%); font-size: 12px; color: var(--mid); }
+  .ladder__els { position: absolute; top: -26px; bottom: 0; left: 128px; right: 0; pointer-events: none; }
+  .ladder__els i { position: absolute; top: 22px; bottom: 0; border-left: 1px dashed var(--soft); }
+  .ladder__els b { position: absolute; top: 0; transform: translateX(-50%); font-size: 12px; font-weight: 500; white-space: nowrap; background: var(--white); padding: 0 6px; }
+  .ladder { padding-top: 26px; }
+  .legend { display: flex; gap: 8px 18px; flex-wrap: wrap; margin-top: 22px; font-size: 13px; color: var(--mid); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--b); }
 
-  main { max-width: 1400px; margin: 0 auto; padding: 36px 16px 64px; }
-  .lede { color: var(--mediumgrey); max-width: 780px; margin: 0; }
-  .section { margin-top: 56px; }
-  .section__head { margin-bottom: 20px; max-width: 820px; }
+  /* pie */
+  .pie-box { display: flex; flex-direction: column; align-items: center; gap: 24px; flex: 1; justify-content: center; }
+  .pie { width: 190px; height: 190px; }
+  .pie path { stroke: var(--white); stroke-width: 2.5; transition: opacity 200ms ease; }
+  .pie path.is-dim { opacity: 0.25; }
+  .shares { width: 100%; display: flex; flex-direction: column; }
+  .share { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--hair); }
+  .share:first-child { border-top: 0; }
+  .share b { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .share .muted { font-size: 13px; margin-top: 4px; }
 
-  /* Bubbles: white, rounded-lg, 1px gray-200, shadow-sm */
-  .bubble { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 32px; }
-  .tile { padding: 24px; }
-  .tile__num { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.15; margin: 8px 0 4px; }
-  .panel { padding: 32px; min-width: 0; }
-  .panel__head { margin-bottom: 20px; }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 24px; align-items: stretch; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
-  .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; background: var(--white); }
-  .card p { font-size: 14px; margin: 0; }
-  .card .sub { margin-top: 8px; }
+  /* cotton type cards */
+  .types { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+  .type { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .type__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .type__tier { font-size: 13px; color: var(--ink); }   /* tier is a rating: plain ink text, no chip, no colour */
+  .type h3 { font-size: 24px; line-height: 1.15; margin: 0; }
+  .type__staple { display: flex; align-items: baseline; gap: 8px; }
+  .type__staple b { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .mini { position: relative; height: 6px; border-radius: 999px; background: var(--offwhite); }
+  .mini i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--b); }
+  .type p { font-size: 14px; line-height: 1.55; }
+  .type__use { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--mid); }
 
-  /* Filter cards (design.md: stat cards are the filter) */
-  .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 16px; }
-  .fcard {
-    display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
-    text-align: left; font: inherit; color: inherit; cursor: pointer;
-    background: var(--white); border: 2px solid transparent; border-radius: 16px; padding: 16px 20px;
-    box-shadow: var(--shadow-sm); transition: background 150ms ease, border-color 150ms ease;
+  /* neutral note: yellow means Asiatic on this page, so a note can't borrow it */
+  .note { margin-top: 24px; padding: 16px 20px; border-radius: var(--r); background: var(--offwhite); border: 1px solid var(--line); font-size: 14px; line-height: 1.55; }
+  .note strong { font-weight: 500; }
+
+  /* fibre to fabric steps */
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; position: relative; }
+  .steps::before { content: ""; position: absolute; top: 22px; left: 22px; right: 22px; border-top: 1px solid var(--line); }
+  .step { position: relative; }
+  .step__no {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--pink-fill); border: 1px solid var(--pink);   /* numbered badge: pale pink fill, pink border, ink number */
+    display: grid; place-items: center; font-family: var(--serif); font-size: 18px; margin-bottom: 20px;
   }
-  .fcard:hover { box-shadow: var(--shadow-sm), var(--overlay); }
-  .fcard[aria-pressed="true"] { border-color: var(--pink); }
-  .fcard__num { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; margin: 6px 0 2px; }
-  .filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 30px; margin: 16px 0 24px; }
-  .filterbar__label { color: var(--label); font-size: 12px; }
-  .fchip {
-    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font: inherit; font-size: 12px;
-    background: var(--blue-lightest); color: var(--blue-2); border: 1px solid rgba(141, 186, 237, 0.3); cursor: pointer;
-  }
-  .fchip:hover { background-image: var(--hover); }
-  .fchip svg { width: 12px; height: 12px; }
-  .clear { background: none; border: 0; padding: 0; font: inherit; font-size: 12px; color: var(--label); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .step h3 { font-size: 20px; margin: 0 0 8px; line-height: 1.2; }
+  .step p { font-size: 14px; line-height: 1.6; color: var(--ink); }
+  .step__look { margin-top: 12px; font-size: 13px; color: var(--mid); }
+  .step__look b { font-weight: 500; color: var(--ink); }
 
-  /* Badges: rounded-full, text-xs */
-  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 16px; white-space: nowrap; border: 1px solid transparent; }
-  .badge--low    { background: var(--green-100); color: var(--green-700); }
-  .badge--medium { background: var(--amber-100); color: var(--amber-700); }
-  .badge--high   { background: var(--error-wash); color: var(--error); }
-  .badge--cream  { background: var(--cream); color: var(--darkgrey); border-color: var(--lightgrey); }
+  /* buying guide */
+  .guide__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+  .specs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 32px; }
+  .spec { padding: 20px 22px; border-left: 1px solid var(--line); }
+  .spec:first-child { border-left: 0; }
+  .spec b { display: block; font-size: 18px; font-weight: 600; margin: 8px 0 4px; font-variant-numeric: tabular-nums; }
+  .spec .muted { font-size: 13px; line-height: 1.45; }
+  .weaves { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .weave { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); padding: 6px; box-shadow: var(--shadow-sm); }
+  .weave__img { border-radius: var(--r-md); background: var(--offwhite); aspect-ratio: 5 / 2.4; display: grid; place-items: center; overflow: hidden; }
+  .weave__img svg { width: 100%; height: 100%; }
+  .weave__body { padding: 16px 14px 14px; }
+  .weave__body h4 { font-family: var(--serif); font-weight: 400; font-size: 20px; margin: 0 0 4px; }
+  .weave__body p { font-size: 14px; line-height: 1.55; }
+  .weave__meta { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin-top: 12px; font-size: 13px; }
+  .weave__meta dt { color: var(--mid); }
+  .weave__meta dd { margin: 0; }
 
-  /* Tables */
   .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  .table-wrap > table { min-width: 680px; }   /* wide tables scroll on phones instead of squashing */
-  th {
-    text-align: left; padding: 0 24px 12px 0; border-bottom: 1px solid var(--border);
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--label); font-weight: 400; white-space: nowrap;
-  }
-  td { padding: 16px 24px 16px 0; border-top: 1px solid rgba(224, 221, 212, 0.6); vertical-align: top; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+  th { text-align: left; padding: 0 24px 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); font-weight: 400; white-space: nowrap; }
+  td { padding: 16px 24px 16px 0; border-top: 1px solid var(--hair); vertical-align: top; line-height: 1.5; }
   tr:first-child td { border-top: 0; }
   td strong { font-weight: 500; }
-  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .empty { color: var(--mediumgrey); font-size: 14px; padding: 16px 0 0; }
 
-  /* Range chart */
-  .range { position: relative; padding-top: 22px; }
-  .range__row { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 16px; min-height: 44px; }
-  .range__name { font-size: 14px; font-weight: 500; line-height: 1.25; }
-  .range__name small { display: block; font-weight: 400; font-size: 12px; color: var(--mediumgrey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .range__track { align-self: stretch; }
-  .range__track { position: relative; height: 100%; }
-  .range__bar {
-    position: absolute; top: 50%; height: 14px; transform: translateY(-50%);
-    background: var(--fam-fill); box-shadow: inset 0 0 0 1px var(--fam-line); border-radius: 4px; transition: background 200ms ease;
+  /* annotated label */
+  .anno { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
+  .frame { padding: 6px; position: sticky; top: 96px; }
+  .frame__img { border-radius: var(--r-md); background: var(--offwhite); padding: 40px 28px; display: grid; place-items: center; }
+  .tag {
+    width: 100%; max-width: 340px; background: var(--cream); border-radius: 6px; padding: 26px 22px 22px;
+    box-shadow: var(--shadow-sm); position: relative; outline: 1px dashed var(--line); outline-offset: -8px;
   }
-  .range__bar.is-on { background: var(--fam-line); box-shadow: inset 0 0 0 2px var(--darkgrey); }
-  .fam-green  { --fam-fill: var(--green-fill);  --fam-line: var(--green); }
-  .fam-yellow { --fam-fill: var(--yellow-fill); --fam-line: var(--yellow); }
-  .fam-purple { --fam-fill: var(--purple-fill); --fam-line: var(--purple); }
-  .range__bar::after { content: ""; position: absolute; inset: -12px 0; }
-  .range__val {
-    position: absolute; top: 50%; transform: translateY(-50%); margin-left: 6px; padding: 0 2px;
-    font-size: 12px; color: var(--mediumgrey); white-space: nowrap; font-variant-numeric: tabular-nums;
-    background: var(--white); z-index: 1;   /* sits above the ELS marker line */
+  .tag__brand { font-family: var(--serif); font-size: 18px; text-align: center; margin-bottom: 14px; }
+  .tag__line {
+    display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 6px;
+    font: 500 12.5px/1.35 var(--mono); letter-spacing: 0.02em; text-transform: uppercase; transition: box-shadow 150ms ease;
   }
-  .range__axis { display: grid; grid-template-columns: 130px 1fr; gap: 16px; margin-top: 8px; }
-  .range__ticks { position: relative; height: 18px; border-top: 1px solid var(--border); }
-  .range__ticks span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 12px; color: var(--mediumgrey); font-variant-numeric: tabular-nums; }
-  .range__plot { position: absolute; top: 22px; bottom: 26px; left: 146px; right: 0; pointer-events: none; }
-  .range__marker { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--mediumgrey); }
-  .range__marker-label { position: absolute; top: -22px; transform: translateX(-50%); font-size: 12px; font-weight: 500; white-space: nowrap; }
-  .chart-note { margin-top: 16px; font-size: 12px; color: var(--mediumgrey); display: flex; gap: 16px; flex-wrap: wrap; }
-  .chart-note i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
-
-  /* Pie */
-  .pie-wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-  .pie { width: 200px; height: 200px; flex: none; }
-  .pie path { stroke-width: 2; stroke-linejoin: round; cursor: default; }
-  .legend { display: flex; flex-direction: column; gap: 12px; font-size: 14px; flex: 1; min-width: 200px; }
-  .legend__item { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: baseline; }
-  .legend__sw { width: 12px; height: 12px; border-radius: 3px; align-self: center; border: 1px solid; }
-  .legend__val { font-weight: 600; font-variant-numeric: tabular-nums; }
-
-  .tooltip {
-    position: fixed; z-index: 30; pointer-events: none; background: var(--white); color: var(--darkgrey);
-    border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; font-size: 12px; box-shadow: var(--shadow-lg); max-width: 240px;
+  .tag__line.is-active { box-shadow: 0 0 0 2px var(--pink); background: var(--white); }
+  .pin {
+    width: 20px; height: 20px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    background: var(--pink-fill); border: 1px solid var(--pink); font: 500 11px var(--sans); color: var(--ink); letter-spacing: 0;
   }
-  .tooltip strong { display: block; font-size: 14px; font-weight: 500; }
+  .frame__cap { font-size: 12px; color: var(--mid); padding: 10px 8px 4px; }
 
-  .notice { border-radius: 8px; padding: 12px 16px; font-size: 14px; margin-top: 20px; border: 1px solid; }
-  .notice--info { background: var(--blue-lightest); border-color: var(--action-border); }
-  .notice--warning { background: var(--amber-100); border-color: var(--border); }
-  .notice strong { font-weight: 500; }
+  .checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .check {
+    display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; padding: 18px 20px; cursor: default;
+    transition: box-shadow 150ms ease;
+  }
+  .check.is-active { box-shadow: var(--shadow-sm), 0 0 0 1px var(--pink); border-color: var(--pink); }
+  .check .pin { width: 26px; height: 26px; font-size: 12px; }
+  .check__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .check h4 { font-size: 16px; font-weight: 500; margin: 0; }
+  .check__risk { font-weight: 400; }   /* risk is written into the title as plain ink text, never a chip */
+  .check p { font-size: 14px; line-height: 1.55; }
+  .check__look { margin-top: 8px; font-size: 13px; color: var(--mid); }
+  .check__look b { color: var(--ink); font-weight: 500; }
 
-  .guide-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
-  .spec-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; margin-bottom: 24px; }
-  .spec__val { font-size: 18px; font-weight: 500; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
-
-  /* Expandable, variant 1 (design.md) */
-  .expand { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .expand + .expand { margin-top: 16px; }
-  .expand__head {
-    width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer;
+  /* expandables */
+  .expands { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+  .xp { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .xp--2 { box-shadow: var(--shadow-sm); }
+  .xp__head {
+    width: 100%; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; text-align: left; cursor: pointer;
     background: var(--white); border: 0; padding: 16px 20px; font: inherit; color: inherit;
   }
-  .expand__head:hover { box-shadow: var(--overlay); }
-  .expand__head .title { font-size: 20px; }
-  .expand__count { background: var(--amber-100); color: var(--amber-700); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
-  .expand__sub { color: var(--mediumgrey); font-size: 14px; }
-  .expand__chev { margin-left: auto; width: 16px; height: 16px; color: var(--mediumgrey); flex: none; transition: transform 0ms; }
-  .expand__head[aria-expanded="true"] .expand__chev { transform: rotate(180deg); }
-  .expand__body { padding: 4px 20px 20px; }
+  .xp__head:hover { box-shadow: var(--overlay); }
+  .xp--2 .xp__head[aria-expanded="true"] { border-bottom: 1px solid var(--line); }
+  .xp__head .serif { font-size: 20px; }
+  .xp__badge { padding: 1px 10px; border-radius: 999px; font-size: 12px; color: var(--mid); background: var(--cream); border: 1px solid var(--line); }
+  .xp__sub { color: var(--mid); font-size: 14px; }
+  .xp__icon { margin-left: auto; color: var(--mid); font-size: 11px; width: 16px; height: 16px; display: grid; place-items: center; flex: none; }
+  .xp__icon svg { width: 16px; height: 16px; }
+  .xp__body { padding: 4px 20px 20px; }
+  .xp--2 .xp__body { padding-top: 16px; }
+  .flags { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+  .flag { border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+  .flag h4 { font-size: 15px; font-weight: 500; margin: 0 0 6px; }
+  .flag p { font-size: 14px; line-height: 1.5; color: var(--mid); }
+  .gloss { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 0 32px; margin: 0; }
+  .gloss div { padding: 12px 0; border-top: 1px solid var(--hair); }
+  .gloss dt { font-weight: 500; font-size: 14px; }
+  .gloss dd { margin: 2px 0 0; font-size: 14px; color: var(--mid); }
 
-  footer { margin-top: 48px; color: var(--mediumgrey); font-size: 12px; max-width: 820px; }
+  .tooltip {
+    position: fixed; z-index: 40; pointer-events: none; background: var(--white); border: 1px solid var(--line);
+    border-radius: var(--r); box-shadow: var(--shadow-lg); padding: 8px 12px; font-size: 13px; max-width: 240px;
+  }
+  .tooltip b { display: block; font-weight: 500; }
+  .tooltip span { color: var(--mid); }
 
-  @media (max-width: 640px) {
-    h1.title { font-size: 30px; }
+  footer { margin-top: 96px; padding: 28px 0 48px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--mid); }
+
+  /* ============ responsive ============ */
+  @media (max-width: 980px) {
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .span-7, .span-5 { grid-column: span 12; }
+    .types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+    .steps::before { display: none; }
+    .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .spec:nth-child(3) { border-left: 0; }
+    .spec:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .weaves { grid-template-columns: 1fr; }
+    .anno { grid-template-columns: 1fr; }
+    .frame { position: static; }
+  }
+  @media (max-width: 620px) {
+    .wrap { padding-inline: 16px; }
+    .tabs { display: none; }
+    .hero { padding-top: 40px; }
+    .tiles, .types, .steps, .specs { grid-template-columns: 1fr; }
+    .spec { border-left: 0; border-top: 1px solid var(--line); }
+    .spec:first-child { border-top: 0; }
     .panel { padding: 24px; }
-    .range__row, .range__axis { grid-template-columns: 92px 1fr; gap: 10px; }
-    .range__plot { left: 102px; }
-    .expand__sub { display: none; }
+    .ladder__row, .ladder__axis { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; }
+    .ladder__els { left: 94px; }
   }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="topbar__inner">
-    <span class="apptitle">Cotton, Decoded · Buyer's report</span>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="serif">Cotton, Decoded</span><span class="muted">Buyer's report</span></a>
     <nav class="tabs" aria-label="Sections">
-      <a href="#types" aria-current="page">Types</a>
+      <a href="#fibre" aria-current="true">Fibre</a>
       <a href="#fabric">Fabric</a>
-      <a href="#buying">Buying guide</a>
+      <a href="#guide">Buying guide</a>
       <a href="#labels">Labels</a>
     </nav>
   </div>
 </header>
 
-<main>
-  <span class="label">Home textiles &amp; basics</span>
-  <h1 class="title">Cotton, decoded</h1>
-  <p class="lede">"100% cotton" covers a wide range of quality. This report explains the main types of cotton, why fibre length matters most, and how fibre, yarn and weave together decide how bed sheets and t-shirts feel and wear. It ends with a checklist for reading labels.</p>
+<main class="wrap" id="top">
+  <section class="hero">
+    <h1 class="serif">Not all cotton is equal.</h1>
+    <p class="lede">The label tells you which one you're buying. "100% cotton" covers fibres that differ a lot in quality. This report explains the main types of cotton, why fibre length matters most, how fibre, yarn and weave together decide how sheets and t-shirts feel, and what to check on a label before you buy.</p>
+  </section>
 
   <section class="tiles" aria-label="Key figures">
     <div class="bubble tile">
       <span class="label">Upland cotton</span>
-      <div class="tile__num">≈90%</div>
-      <p class="sub">of world cotton. The everyday short-to-medium staple fibre.</p>
+      <div class="tile__num">≈90<small>%</small></div>
+      <p class="muted">of the world's cotton. The everyday short-to-medium staple fibre.</p>
     </div>
     <div class="bubble tile">
       <span class="label">Extra-long staple</span>
-      <div class="tile__num">≥ 35 mm</div>
-      <p class="sub">Fibre length that counts as ELS: Pima, Supima, Egyptian Giza.</p>
+      <div class="tile__num">35<small>mm+</small></div>
+      <p class="muted">Fibre length that qualifies as ELS: Pima, Supima, Egyptian Giza.</p>
     </div>
     <div class="bubble tile">
       <span class="label">Sheet thread count</span>
       <div class="tile__num">200–400</div>
-      <p class="sub">The useful range for single-ply percale. Above it, check the ply.</p>
+      <p class="muted">The useful range for single-ply percale. Higher numbers usually count plies.</p>
     </div>
     <div class="bubble tile">
       <span class="label">T-shirt weight</span>
-      <div class="tile__num">150–200</div>
-      <p class="sub">g/m² (gsm) for an everyday tee that keeps its shape.</p>
+      <div class="tile__num">150–200<small>gsm</small></div>
+      <p class="muted">Grams per square metre for an everyday tee that keeps its shape.</p>
     </div>
   </section>
 
-  <!-- ===================== TYPES ===================== -->
-  <section class="section" id="types">
-    <div class="section__head">
-      <h2 class="title">The types of cotton</h2>
-      <p class="sub">Cotton is graded mainly by <strong>staple length</strong>, the length of a single fibre. Longer fibres spin into finer, stronger yarn with fewer loose ends, so the fabric is softer, smoother and pills less. Select types below to compare them in the chart and table.</p>
+  <!-- ============ 01 FIBRE ============ -->
+  <section class="section" id="fibre">
+    <div class="shead">
+      <h2 class="serif">The types of cotton</h2>
+      <p>Cotton is graded mainly by <strong>staple length</strong>, the length of a single fibre. Longer fibres spin into finer, stronger yarn with fewer loose ends, so the fabric is softer and smoother and pills less. Cotton comes from three groups of species, shown in colour throughout this section.</p>
     </div>
 
-    <div class="filters" id="filters" role="group" aria-label="Filter by cotton type"></div>
-    <div class="filterbar" id="filterbar" aria-live="polite"></div>
+    <div class="fbar" role="group" aria-label="Filter by species">
+      <span class="label">Species</span>
+      <button class="fbubble fbubble--all" aria-pressed="true" data-fam="all">All</button>
+      <button class="fbubble fam-upland" aria-pressed="false" data-fam="upland">Upland</button>
+      <button class="fbubble fam-barbadense" aria-pressed="false" data-fam="barbadense">Barbadense</button>
+      <button class="fbubble fam-asiatic" aria-pressed="false" data-fam="asiatic">Asiatic</button>
+    </div>
 
-    <div class="grid-2" id="typeGrid">
-      <div class="bubble panel">
+    <div class="grid-12">
+      <div class="bubble panel span-7">
         <div class="panel__head">
-          <h3>Staple length by cotton type</h3>
-          <p class="sub">Typical fibre length in millimetres. Longer is finer and stronger.</p>
+          <h3 class="serif">Staple length by cotton type</h3>
+          <p class="muted">Typical fibre length in millimetres. Longer is finer and stronger.</p>
         </div>
-        <div class="range" id="rangeChart" role="img"
-             aria-label="Range chart of typical staple length: Asiatic 13 to 24 mm, Upland 22 to 30 mm, Egyptian Giza 33 to 40 mm, Pima and Supima 35 to 40 mm, Sea Island 40 to 50 mm."></div>
-        <div class="chart-note" id="rangeLegend">
-          <span><i style="background: var(--grey-500)"></i>Cotton type</span>
-          <span><i style="background: var(--pink); box-shadow: inset 0 0 0 1px var(--pink-1)"></i>Selected</span>
+        <div class="ladder" id="ladder" role="img"
+             aria-label="Range chart of typical staple length. Asiatic 13 to 24 mm; Upland 22 to 30 mm; Egyptian Giza 33 to 40 mm; Pima and Supima 35 to 40 mm; Sea Island 40 to 50 mm. Extra-long staple starts at 35 mm."></div>
+        <div class="legend">
+          <span class="fam-upland"><i></i>Upland · <em>G. hirsutum</em></span>
+          <span class="fam-barbadense"><i></i>Barbadense · <em>G. barbadense</em></span>
+          <span class="fam-asiatic"><i></i>Asiatic · <em>G. arboreum, herbaceum</em></span>
         </div>
       </div>
 
-      <div class="bubble panel">
+      <div class="bubble panel span-5">
         <div class="panel__head">
-          <h3>Share of world cotton by species</h3>
-          <p class="sub">Commonly cited approximate shares of global production.</p>
+          <h3 class="serif">Share of world cotton</h3>
+          <p class="muted">Approximate share of global production by species group.</p>
         </div>
-        <div class="pie-wrap">
-          <svg class="pie" id="pie" viewBox="-100 -100 200 200" role="img" aria-label="Pie chart: Upland about 90%, Barbadense about 8%, Asiatic about 2%."></svg>
-          <div class="legend" id="legend"></div>
+        <div class="pie-box">
+          <svg class="pie" id="pie" viewBox="-100 -100 200 200" role="img" aria-label="Pie chart: Upland about 90 percent, Barbadense about 8 percent, Asiatic about 2 percent."></svg>
+          <div class="shares" id="shares"></div>
         </div>
-        <div class="notice notice--info">Only a small share of the world's cotton is extra-long staple. If a cheap product claims to be Egyptian or Pima cotton, be sceptical.</div>
       </div>
     </div>
 
-    <div class="bubble panel" style="margin-top: 24px;">
-      <div class="panel__head">
-        <h3>Cotton types at a glance</h3>
-        <p class="sub" id="tableSub">All six types.</p>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Type</th><th>Species</th><th>Staple</th><th>Feel &amp; wear</th><th>Typical use</th><th>Tier</th></tr></thead>
-          <tbody id="typeRows"></tbody>
-        </table>
-      </div>
-      <div class="notice notice--warning"><strong>Organic, Better Cotton and recycled are not cotton types.</strong> They describe how the cotton was grown or sourced, not how long the fibre is. Organic cotton can be Upland or Pima.</div>
-    </div>
+    <div class="types" id="types" aria-live="polite"></div>
+
+    <div class="note"><p><strong>Organic, Better Cotton and recycled are not cotton types.</strong> They describe how the cotton was grown or sourced, not how long the fibre is. Organic cotton can be Upland or Pima.</p></div>
   </section>
 
-  <!-- ===================== FABRIC ===================== -->
+  <!-- ============ 02 FABRIC ============ -->
   <section class="section" id="fabric">
-    <div class="section__head">
-      <h2 class="title">From fibre to fabric</h2>
-      <p class="sub">A good fibre can still become a poor fabric. These four steps decide how the fibre ends up feeling.</p>
+    <div class="shead">
+      <h2 class="serif">From fibre to fabric</h2>
+      <p>A good fibre can still become a poor fabric. These four steps decide how the fibre ends up feeling.</p>
     </div>
-    <div class="cards">
-      <div class="card">
-        <span class="label">1 · Cleaning</span>
-        <h4>Combed vs carded</h4>
-        <p>Combing removes short fibres and impurities, which gives a smoother, stronger yarn. Carded-only yarn is cheaper and fuzzier.</p>
-        <p class="sub">Look for: "combed"</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step__no">1</div>
+        <h3 class="serif">Combed, not carded</h3>
+        <p>Combing removes short fibres and impurities, which leaves a smoother, stronger yarn. Carded-only yarn is cheaper and fuzzier.</p>
+        <p class="step__look">Look for <b>"combed"</b></p>
       </div>
-      <div class="card">
-        <span class="label">2 · Spinning</span>
-        <h4>Ring-spun vs open-end</h4>
-        <p>Ring-spun (and compact) yarn is twisted tightly into a fine, soft thread. Open-end yarn is cheaper to make but feels rougher and drier.</p>
-        <p class="sub">Look for: "ring-spun", "compact"</p>
+      <div class="step">
+        <div class="step__no">2</div>
+        <h3 class="serif">Ring-spun yarn</h3>
+        <p>Ring-spun and compact yarns are twisted tightly into a fine, soft thread. Open-end yarn is cheaper to make but feels rougher and drier.</p>
+        <p class="step__look">Look for <b>"ring-spun"</b>, <b>"compact"</b></p>
       </div>
-      <div class="card">
-        <span class="label">3 · Construction</span>
-        <h4>Weave or knit</h4>
-        <p>Sheets are woven (percale or sateen). T-shirts are knitted, usually as single jersey, which stretches and drapes.</p>
-        <p class="sub">Look for: the weave name, gsm</p>
+      <div class="step">
+        <div class="step__no">3</div>
+        <h3 class="serif">Weave or knit</h3>
+        <p>Sheets are woven, as percale or sateen. T-shirts are knitted, usually as single jersey, which stretches and drapes.</p>
+        <p class="step__look">Look for <b>the weave name</b>, <b>gsm</b></p>
       </div>
-      <div class="card">
-        <span class="label">4 · Finishing</span>
-        <h4>Mercerised, pre-shrunk</h4>
-        <p>Mercerising adds lustre and strength. Pre-shrinking (or "sanforised") limits shrinkage to a few percent.</p>
-        <p class="sub">Look for: "pre-shrunk", "mercerised"</p>
+      <div class="step">
+        <div class="step__no">4</div>
+        <h3 class="serif">Finishing</h3>
+        <p>Mercerising adds lustre and strength. Pre-shrinking (or "sanforising") limits shrinkage to a few percent.</p>
+        <p class="step__look">Look for <b>"pre-shrunk"</b>, <b>"mercerised"</b></p>
       </div>
     </div>
   </section>
 
-  <!-- ===================== BUYING GUIDE ===================== -->
-  <section class="section" id="buying">
+  <!-- ============ 03 BUYING GUIDE ============ -->
+  <section class="section" id="guide">
+    <div class="shead">
+      <h2 class="serif">Buying guide</h2>
+      <p>What matters most depends on what you're buying. Choose a product.</p>
+    </div>
+
     <div class="bubble panel">
-      <div class="guide-head">
-        <div>
-          <h2 class="title">Buying guide</h2>
-          <p class="sub">What matters most, by product.</p>
-        </div>
+      <div class="guide__head">
+        <h3 class="serif" id="guideTitle">Bed sheets</h3>
         <div class="segmented" role="radiogroup" aria-label="Product" id="productToggle">
           <button class="segmented__option" role="radio" aria-checked="true" data-target="sheets">Bed sheets</button>
           <button class="segmented__option" role="radio" aria-checked="false" data-target="tees">T-shirts</button>
@@ -406,30 +501,46 @@
       </div>
 
       <div id="guide-sheets" class="fade-in">
-        <div class="spec-list">
-          <div class="card"><span class="label">Fibre</span><div class="spec__val">Long or ELS staple</div><p class="sub">Supima, certified Giza, or combed Upland</p></div>
-          <div class="card"><span class="label">Thread count</span><div class="spec__val">200–400</div><p class="sub">Single-ply percale; 300–600 for sateen</p></div>
-          <div class="card"><span class="label">Yarn</span><div class="spec__val">Single-ply, combed</div><p class="sub">Multi-ply is heavier and less breathable</p></div>
-          <div class="card"><span class="label">Safety</span><div class="spec__val">OEKO-TEX® 100</div><p class="sub">Tested for harmful substances</p></div>
+        <div class="specs">
+          <div class="spec"><span class="label">Fibre</span><b>Long or ELS staple</b><p class="muted">Supima, certified Giza, or combed Upland</p></div>
+          <div class="spec"><span class="label">Thread count</span><b>200–400</b><p class="muted">Single-ply percale; 300–600 for sateen</p></div>
+          <div class="spec"><span class="label">Yarn</span><b>Single-ply, combed</b><p class="muted">Multi-ply is heavier and less breathable</p></div>
+          <div class="spec"><span class="label">Safety</span><b>OEKO-TEX® 100</b><p class="muted">Tested for harmful substances</p></div>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Weave</th><th>How it's made</th><th>Feels</th><th>Good for</th><th>Watch for</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Percale</strong></td><td>One-over-one plain weave</td><td>Crisp, matte, cool</td><td>Warm sleepers, summer</td><td>Creases easily; feels stiff at first</td></tr>
-              <tr><td><strong>Sateen</strong></td><td>Three or four over, one under</td><td>Smooth, slight sheen, warmer</td><td>Cool rooms, people who want a silky feel</td><td>Long floats can snag and pill</td></tr>
-              <tr><td><strong>Flannel</strong></td><td>Brushed plain or twill weave</td><td>Fuzzy, warm</td><td>Winter</td><td>Judge by weight (g/m²), not thread count</td></tr>
-            </tbody>
-          </table>
+        <div class="weaves">
+          <div class="weave">
+            <div class="weave__img" aria-hidden="true"><svg viewBox="0 0 250 120" id="w-percale"></svg></div>
+            <div class="weave__body">
+              <h4>Percale</h4>
+              <p>A one-over-one plain weave. Crisp, matte and cool, and softens with every wash.</p>
+              <dl class="weave__meta"><dt>Good for</dt><dd>Warm sleepers, summer</dd><dt>Watch for</dt><dd>Creases easily</dd></dl>
+            </div>
+          </div>
+          <div class="weave">
+            <div class="weave__img" aria-hidden="true"><svg viewBox="0 0 250 120" id="w-sateen"></svg></div>
+            <div class="weave__body">
+              <h4>Sateen</h4>
+              <p>Three or four threads over, one under. Smooth, with a soft sheen, and warmer to sleep in.</p>
+              <dl class="weave__meta"><dt>Good for</dt><dd>Cool rooms, a silky feel</dd><dt>Watch for</dt><dd>Long floats can snag and pill</dd></dl>
+            </div>
+          </div>
+          <div class="weave">
+            <div class="weave__img" aria-hidden="true"><svg viewBox="0 0 250 120" id="w-flannel"></svg></div>
+            <div class="weave__body">
+              <h4>Flannel</h4>
+              <p>A plain or twill weave, brushed to raise a soft nap. Fuzzy and warm.</p>
+              <dl class="weave__meta"><dt>Good for</dt><dd>Winter</dd><dt>Watch for</dt><dd>Judge by g/m², not thread count</dd></dl>
+            </div>
+          </div>
         </div>
       </div>
 
       <div id="guide-tees" class="fade-in" hidden>
-        <div class="spec-list">
-          <div class="card"><span class="label">Fibre</span><div class="spec__val">Combed ring-spun</div><p class="sub">Pima or Supima for extra softness and less pilling</p></div>
-          <div class="card"><span class="label">Weight</span><div class="spec__val">150–200 gsm</div><p class="sub">&lt; 140 sheer · 200+ heavyweight</p></div>
-          <div class="card"><span class="label">Yarn count</span><div class="spec__val">30s–40s single</div><p class="sub">Higher means finer yarn; 20s is heavier and rougher</p></div>
-          <div class="card"><span class="label">Shrinkage</span><div class="spec__val">Pre-shrunk</div><p class="sub">Otherwise expect about 5% shrinkage</p></div>
+        <div class="specs">
+          <div class="spec"><span class="label">Fibre</span><b>Combed ring-spun</b><p class="muted">Pima or Supima for extra softness and less pilling</p></div>
+          <div class="spec"><span class="label">Weight</span><b>150–200 gsm</b><p class="muted">Below 140 is sheer; 200+ is heavyweight</p></div>
+          <div class="spec"><span class="label">Yarn count</span><b>30s–40s single</b><p class="muted">Higher is finer; 20s is heavier and rougher</p></div>
+          <div class="spec"><span class="label">Shrinkage</span><b>Pre-shrunk</b><p class="muted">Otherwise expect about 5%</p></div>
         </div>
         <div class="table-wrap">
           <table>
@@ -446,222 +557,238 @@
     </div>
   </section>
 
-  <!-- ===================== LABELS ===================== -->
+  <!-- ============ 04 LABELS ============ -->
   <section class="section" id="labels">
-    <div class="bubble panel">
-      <div class="panel__head">
-        <span class="label">Checklist</span>
-        <h2 class="title">What to look at when reading a label</h2>
-        <p class="sub">Check these in order. The first three tell you most of what you need to know.</p>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Label says</th><th>What it really means</th><th>Check</th><th>Risk</th></tr></thead>
-          <tbody>
-            <tr><td class="num">1</td><td><strong>Fibre content (%)</strong></td>
-              <td>Must be listed by law in the EU and US. "Cotton rich" or "cotton feel" means it's a blend, or not cotton at all.</td>
-              <td>A clear percentage for every fibre</td><td><span class="badge badge--low">Low</span></td></tr>
-            <tr><td class="num">2</td><td><strong>Cotton type</strong> (Egyptian, Pima, Supima)</td>
-              <td>The most common premium claim, and the most often abused. Look-alike names such as "Egyptian-style" or "Pima feel" are marketing, not fibre.</td>
-              <td>Supima® trademark, Cotton Egypt Association logo, a named Giza variety</td><td><span class="badge badge--high">High</span></td></tr>
-            <tr><td class="num">3</td><td><strong>Thread count</strong></td>
-              <td>Threads per square inch. Some makers multiply the count by the number of plies to reach 800–1,200. The US FTC has called that misleading.</td>
-              <td>"Single-ply", and a count of 200–600</td><td><span class="badge badge--medium">Medium</span></td></tr>
-            <tr><td class="num">4</td><td><strong>Yarn &amp; construction</strong></td>
-              <td>"Combed", "ring-spun" and "compact" show care in making the yarn. A missing weave name or weight is a small warning sign.</td>
-              <td>Weave name (percale, sateen) or gsm for knits</td><td><span class="badge badge--medium">Medium</span></td></tr>
-            <tr><td class="num">5</td><td><strong>Certifications</strong></td>
-              <td><strong>GOTS</strong>: organic fibre and processing. <strong>OEKO-TEX® 100</strong>: tested for harmful substances, not organic. <strong>Better Cotton</strong>: supports better farming practices, but the product itself may not contain it.</td>
-              <td>A certificate or licence number you can look up</td><td><span class="badge badge--medium">Medium</span></td></tr>
-            <tr><td class="num">6</td><td><strong>Country of origin</strong></td>
-              <td>Where the product was made (sewn or woven), not where the cotton was grown. Egyptian cotton woven in India is normal.</td>
-              <td>Don't read it as a quality signal</td><td><span class="badge badge--cream">Info</span></td></tr>
-            <tr><td class="num">7</td><td><strong>Care instructions</strong></td>
-              <td>A hot-wash instruction on sheets is a good sign. "Wash before use" and "dry flat" often point to an unstable finish.</td>
-              <td>"Pre-shrunk"; 40–60 °C wash for sheets</td><td><span class="badge badge--low">Low</span></td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="shead">
+      <h2 class="serif">How to read a label</h2>
+      <p>Seven things to check, in order. Point at an item to find it on the sample label. The first three tell you most of what you need to know.</p>
     </div>
 
-    <div style="margin-top: 24px;">
-      <div class="expand">
-        <button class="expand__head" aria-expanded="false" aria-controls="flags">
-          <span class="title">Red flags on the shelf</span><span class="expand__count">5</span>
-          <span class="expand__sub">Claims to question before you buy</span>
-          <svg class="expand__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    <div class="anno">
+      <figure class="bubble frame" style="margin:0">
+        <div class="frame__img">
+          <div class="tag" id="tag">
+            <div class="tag__brand">Maison Linen</div>
+            <div class="tag__line" data-k="1"><span class="pin">1</span>100% cotton</div>
+            <div class="tag__line" data-k="2"><span class="pin">2</span>Supima® cotton</div>
+            <div class="tag__line" data-k="3"><span class="pin">3</span>300 thread count · single-ply</div>
+            <div class="tag__line" data-k="4"><span class="pin">4</span>Combed · sateen weave</div>
+            <div class="tag__line" data-k="5"><span class="pin">5</span>OEKO-TEX® 100 · 21.HPT.4471</div>
+            <div class="tag__line" data-k="6"><span class="pin">6</span>Made in Portugal</div>
+            <div class="tag__line" data-k="7"><span class="pin">7</span>Wash 60 °C · pre-shrunk</div>
+          </div>
+        </div>
+        <figcaption class="frame__cap">A sample label for a sheet set. The brand and certificate number are made up.</figcaption>
+      </figure>
+
+      <ol class="checks" id="checks">
+        <li class="bubble check" data-k="1"><span class="pin">1</span><div>
+          <div class="check__top"><h4>Fibre content <span class="check__risk">· low risk</span></h4></div>
+          <p>Must be listed as a percentage by law in the EU and US. "Cotton rich" or "cotton feel" means it's a blend, or not cotton at all.</p>
+          <p class="check__look">Check: <b>a percentage for every fibre</b></p></div></li>
+        <li class="bubble check" data-k="2"><span class="pin">2</span><div>
+          <div class="check__top"><h4>Cotton type <span class="check__risk">· high risk</span></h4></div>
+          <p>The most common premium claim, and the one most often abused. Look-alike names such as "Egyptian-style" or "Pima feel" are marketing, not fibre.</p>
+          <p class="check__look">Check: <b>Supima® trademark, Cotton Egypt Association logo, a named Giza variety</b></p></div></li>
+        <li class="bubble check" data-k="3"><span class="pin">3</span><div>
+          <div class="check__top"><h4>Thread count <span class="check__risk">· medium risk</span></h4></div>
+          <p>Threads per square inch. Some makers multiply the count by the number of plies to reach 800–1,200. The US FTC has called that misleading.</p>
+          <p class="check__look">Check: <b>"single-ply", and a count of 200–600</b></p></div></li>
+        <li class="bubble check" data-k="4"><span class="pin">4</span><div>
+          <div class="check__top"><h4>Yarn &amp; construction <span class="check__risk">· medium risk</span></h4></div>
+          <p>"Combed", "ring-spun" and "compact" show care in making the yarn. A missing weave name or weight is a small warning sign.</p>
+          <p class="check__look">Check: <b>the weave name, or gsm for knits</b></p></div></li>
+        <li class="bubble check" data-k="5"><span class="pin">5</span><div>
+          <div class="check__top"><h4>Certifications <span class="check__risk">· medium risk</span></h4></div>
+          <p><strong>GOTS</strong> covers organic fibre and processing. <strong>OEKO-TEX® 100</strong> tests for harmful substances but isn't organic. <strong>Better Cotton</strong> supports better farming, but the product itself may not contain it.</p>
+          <p class="check__look">Check: <b>a certificate or licence number you can look up</b></p></div></li>
+        <li class="bubble check" data-k="6"><span class="pin">6</span><div>
+          <div class="check__top"><h4>Country of origin <span class="check__risk">· for information</span></h4></div>
+          <p>Where the product was made (sewn or woven), not where the cotton grew. Egyptian cotton woven in India is normal.</p>
+          <p class="check__look">Check: <b>don't read it as a quality signal</b></p></div></li>
+        <li class="bubble check" data-k="7"><span class="pin">7</span><div>
+          <div class="check__top"><h4>Care instructions <span class="check__risk">· low risk</span></h4></div>
+          <p>A hot-wash instruction on sheets is a good sign. "Wash before use" and "dry flat" often point to an unstable finish.</p>
+          <p class="check__look">Check: <b>"pre-shrunk", and a 40–60 °C wash for sheets</b></p></div></li>
+      </ol>
+    </div>
+
+    <div class="expands">
+      <div class="xp">
+        <button class="xp__head" aria-expanded="false" aria-controls="xp-flags">
+          <span class="serif">Red flags on the shelf</span><span class="xp__badge">5</span>
+          <span class="xp__sub">Claims to question before you buy</span>
+          <span class="xp__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
         </button>
-        <div class="expand__body" id="flags" hidden>
-          <div class="cards">
-            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">1,000+ thread count, low price</h4><p>Almost always made with multi-ply yarns. Judge the fibre and weave instead.</p></div>
-            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Egyptian-quality"</h4><p>Not a fibre claim. Real Egyptian cotton names itself and shows a logo.</p></div>
-            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Cotton rich"</h4><p>A blend, often with polyester. Look for the percentages.</p></div>
-            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Heavyweight", 130 gsm</h4><p>Labels and numbers should agree. Heavyweight tees start around 200 gsm.</p></div>
-            <div class="card"><span class="badge badge--high">Red flag</span><h4 style="margin-top:10px">"Organic" without a certificate</h4><p>GOTS or OCS certification backs an organic claim. OEKO-TEX® doesn't.</p></div>
+        <div class="xp__body" id="xp-flags" hidden>
+          <div class="flags">
+            <div class="flag"><h4>1,000+ threads, low price</h4><p>Almost always multi-ply yarns. Judge the fibre and the weave instead.</p></div>
+            <div class="flag"><h4>"Egyptian-quality"</h4><p>Not a fibre claim. Real Egyptian cotton names itself and shows a logo.</p></div>
+            <div class="flag"><h4>"Cotton rich"</h4><p>A blend, often with polyester. Look for the percentages.</p></div>
+            <div class="flag"><h4>"Heavyweight" at 130 gsm</h4><p>The words and the numbers should agree. Heavyweight tees start around 200 gsm.</p></div>
+            <div class="flag"><h4>"Organic" with no certificate</h4><p>GOTS or OCS backs an organic claim. OEKO-TEX® doesn't.</p></div>
           </div>
         </div>
       </div>
-      <div class="expand">
-        <button class="expand__head" aria-expanded="false" aria-controls="glossary">
-          <span class="title">Glossary</span><span class="expand__count">8</span>
-          <span class="expand__sub">Terms used on labels and in this report</span>
-          <svg class="expand__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      <div class="xp xp--2">
+        <button class="xp__head" aria-expanded="false" aria-controls="xp-gloss">
+          <span class="serif">Glossary</span><span class="xp__badge">8</span>
+          <span class="xp__sub">Terms used on labels and in this report</span>
+          <span class="xp__icon" aria-hidden="true">▼</span>
         </button>
-        <div class="expand__body" id="glossary" hidden>
-          <div class="table-wrap">
-            <table>
-              <tbody>
-                <tr><td><strong>Staple</strong></td><td>The length of a single cotton fibre.</td></tr>
-                <tr><td><strong>ELS</strong></td><td>Extra-long staple: fibres of roughly 35 mm (1⅜ in) or more.</td></tr>
-                <tr><td><strong>Ply</strong></td><td>The number of yarns twisted together into one thread.</td></tr>
-                <tr><td><strong>Thread count</strong></td><td>Horizontal plus vertical threads per square inch of woven fabric.</td></tr>
-                <tr><td><strong>gsm</strong></td><td>Grams per square metre: the fabric's weight.</td></tr>
-                <tr><td><strong>Yarn count (Ne)</strong></td><td>The fineness of a yarn. Higher numbers mean finer yarn.</td></tr>
-                <tr><td><strong>Jersey</strong></td><td>The single knit used for most t-shirts.</td></tr>
-                <tr><td><strong>Mercerised</strong></td><td>Treated with caustic soda to add lustre, strength and better dye uptake.</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="xp__body" id="xp-gloss" hidden>
+          <dl class="gloss">
+            <div><dt>Staple</dt><dd>The length of a single cotton fibre.</dd></div>
+            <div><dt>ELS</dt><dd>Extra-long staple: fibres of about 35 mm (1⅜ in) or more.</dd></div>
+            <div><dt>Ply</dt><dd>The number of yarns twisted together into one thread.</dd></div>
+            <div><dt>Thread count</dt><dd>Horizontal plus vertical threads per square inch of woven fabric.</dd></div>
+            <div><dt>gsm</dt><dd>Grams per square metre: the fabric's weight.</dd></div>
+            <div><dt>Yarn count (Ne)</dt><dd>The fineness of a yarn. Higher numbers mean finer yarn.</dd></div>
+            <div><dt>Jersey</dt><dd>The single knit used for most t-shirts.</dd></div>
+            <div><dt>Mercerised</dt><dd>Treated with caustic soda for lustre, strength and better dye uptake.</dd></div>
+          </dl>
         </div>
       </div>
     </div>
   </section>
-
-  <footer>
-    Figures are typical ranges and commonly cited approximations, compiled for this example of the Cotton theme. Check them against current sources before reusing them. <a href="game.html">Test yourself: Label Detective →</a>
-  </footer>
 </main>
 
-<div class="tooltip" id="tooltip" hidden></div>
+<footer>
+  <div class="wrap">
+    <span>Figures are typical ranges and commonly cited approximations, compiled for this example of the Cotton theme. Check them against current sources before reusing them.</span>
+    <a href="game.html">Test yourself: Label Detective →</a>
+  </div>
+</footer>
+
+<div class="tooltip" id="tip" hidden></div>
 
 <script>
-  /* Use the fallback heading weight when ITC Novarese isn't installed */
-  (function () {
-    const c = document.createElement("canvas").getContext("2d");
-    c.font = "40px monospace"; const base = c.measureText("mmmmmlllli").width;
-    c.font = '40px "ITC Novarese", monospace';
-    if (c.measureText("mmmmmlllli").width === base) document.documentElement.classList.add("no-novarese");
-  })();
-
-  /* ---------- Data ---------- */
-  const TYPES = [
-    { id: "asiatic", name: "Asiatic", note: "Desi", species: "<em>G. arboreum</em>, <em>G. herbaceum</em>", min: 13, max: 24,
-      feel: "Short, coarse fibre; hardy plant, often rain-fed.", use: "Denim, padding, blends, surgical cotton", tier: "Standard" },
-    { id: "upland", name: "Upland", note: "≈90% of supply", species: "<em>G. hirsutum</em>", min: 22, max: 30,
-      feel: "Sturdy and versatile; softens with washing. Shorter fibres pill more.", use: "Most t-shirts, jeans, everyday sheets and towels", tier: "Standard" },
-    { id: "egyptian", name: "Egyptian", note: "Giza", species: "<em>G. barbadense</em>", min: 33, max: 40,
-      feel: "Very soft with a slight lustre. Quality depends on the Giza variety.", use: "Luxury sheets, shirting", tier: "Premium" },
-    { id: "pima", name: "Pima", note: "Peru, US, Australia", species: "<em>G. barbadense</em>", min: 35, max: 40,
-      feel: "Smooth, strong, resists pilling; keeps colour well.", use: "Premium tees, knitwear and sheets", tier: "Premium" },
-    { id: "supima", name: "Supima®", note: "US Pima, licensed", species: "<em>G. barbadense</em>", min: 35, max: 40,
-      feel: "Pima grown in the USA, sold under a licensed trademark that can be traced.", use: "Premium tees, sheets and underwear", tier: "Premium" },
-    { id: "seaisland", name: "Sea Island", note: "rare", species: "<em>G. barbadense</em>", min: 40, max: 50,
-      feel: "The longest and silkiest fibre. Very rare and expensive.", use: "Luxury shirts and underwear", tier: "Rare" }
-  ];
-  const AXIS = { min: 10, max: 58, ticks: [10, 20, 30, 40, 50] };
-  const ELS = 35;
-  const SHARE = [
-    { name: "Upland", detail: "G. hirsutum", value: 90, color: "#8C8985" },
-    { name: "Barbadense", detail: "Pima, Egyptian, Sea Island", value: 8, color: "#F8AAB6" },
-    { name: "Asiatic", detail: "G. arboreum & G. herbaceum", value: 2, color: "#8DBAED" }
-  ];
-  const selected = new Set();
   const $ = id => document.getElementById(id);
 
-  /* ---------- Tooltip ---------- */
-  const tip = $("tooltip");
-  function showTip(x0, y0, html) {
+  /* ---------- data ---------- */
+  const TYPES = [
+    { id: "asiatic",   fam: "asiatic",    name: "Asiatic",       note: "Desi",              min: 13, max: 24, tier: "Standard",
+      feel: "Short, coarse fibre from a hardy, often rain-fed plant.", use: "Denim, padding, blends, surgical cotton" },
+    { id: "upland",    fam: "upland",     name: "Upland",        note: "≈90% of supply",    min: 22, max: 30, tier: "Standard",
+      feel: "Sturdy and versatile, and softens with washing. Shorter fibres pill more.", use: "Most t-shirts, jeans, everyday sheets and towels" },
+    { id: "egyptian",  fam: "barbadense", name: "Egyptian Giza", note: "Egypt",             min: 33, max: 40, tier: "Premium",
+      feel: "Very soft with a slight lustre. Quality depends on the Giza variety.", use: "Luxury sheets, shirting" },
+    { id: "pima",      fam: "barbadense", name: "Pima",          note: "Peru, US, Australia", min: 35, max: 40, tier: "Premium",
+      feel: "Smooth and strong; resists pilling and holds colour well.", use: "Premium tees, knitwear and sheets" },
+    { id: "supima",    fam: "barbadense", name: "Supima®",       note: "US Pima, licensed", min: 35, max: 40, tier: "Premium",
+      feel: "American Pima sold under a licensed trademark that can be traced.", use: "Premium tees, sheets and underwear" },
+    { id: "seaisland", fam: "barbadense", name: "Sea Island",    note: "Caribbean",         min: 40, max: 50, tier: "Rare",
+      feel: "The longest and silkiest fibre. Very rare and expensive.", use: "Luxury shirts and underwear" }
+  ];
+  const FAMS = {
+    upland:     { name: "Upland",     latin: "G. hirsutum",              share: 90, color: "#9CCB8E" },
+    barbadense: { name: "Barbadense", latin: "G. barbadense",            share: 8,  color: "#CCA8CF" },
+    asiatic:    { name: "Asiatic",    latin: "G. arboreum, G. herbaceum", share: 2,  color: "#FCCF61" }
+  };
+  const AXIS = { min: 10, max: 55, ticks: [10, 20, 30, 40, 50] };
+  const ELS = 35;
+  let fam = "all";
+
+  /* ---------- tooltip ---------- */
+  const tip = $("tip");
+  function showTip(x, y, html) {
     tip.innerHTML = html; tip.hidden = false;
-    const pad = 12, w = tip.offsetWidth, h = tip.offsetHeight;
-    let x = x0 + pad, y = y0 - h - pad;
-    if (x + w > window.innerWidth - 8) x = x0 - w - pad;
-    if (y < 8) y = y0 + pad;
-    tip.style.left = x + "px"; tip.style.top = y + "px";
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    tip.style.left = Math.min(x + 14, innerWidth - w - 8) + "px";
+    tip.style.top = (y - h - 14 < 8 ? y + 14 : y - h - 14) + "px";
   }
   const hideTip = () => { tip.hidden = true; };
 
-  /* ---------- Filter cards ---------- */
-  const filters = $("filters");
-  TYPES.forEach(t => {
-    const b = document.createElement("button");
-    b.className = "fcard"; b.setAttribute("aria-pressed", "false"); b.dataset.id = t.id;
-    b.innerHTML = `<span class="label">${t.name}</span><div class="fcard__num">${t.min}–${t.max} mm</div><span class="sub">${t.tier} · ${t.note}</span>`;
-    b.addEventListener("click", () => { selected.has(t.id) ? selected.delete(t.id) : selected.add(t.id); update(); });
-    filters.appendChild(b);
-  });
-
-  function renderFilterbar() {
-    const bar = $("filterbar");
-    if (!selected.size) { bar.innerHTML = `<span class="filterbar__label">Showing all types. Select cards to compare.</span>`; return; }
-    bar.innerHTML = `<span class="filterbar__label">Filtered:</span>` + [...selected].map(id => {
-      const t = TYPES.find(x => x.id === id);
-      return `<button class="fchip" data-id="${id}" aria-label="Remove ${t.name} filter">${t.name}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
-    }).join("") + (selected.size >= 2 ? `<button class="clear" id="clearAll">Clear all</button>` : "");
-    bar.querySelectorAll(".fchip").forEach(c => c.addEventListener("click", () => { selected.delete(c.dataset.id); update(); }));
-    const ca = $("clearAll"); if (ca) ca.addEventListener("click", () => { selected.clear(); update(); });
-  }
-
-  /* ---------- Range chart ---------- */
+  /* ---------- staple ladder ---------- */
   const pct = v => ((v - AXIS.min) / (AXIS.max - AXIS.min)) * 100;
-  function renderRange() {
-    let html = TYPES.map(d => `<div class="range__row">
-        <div class="range__name">${d.name}<small>${d.note}</small></div>
-        <div class="range__track">
-          <div class="range__bar${selected.has(d.id) ? " is-on" : ""}" tabindex="0" data-id="${d.id}"
-               style="left:${pct(d.min)}%;width:${pct(d.max) - pct(d.min)}%" aria-label="${d.name}: ${d.min} to ${d.max} mm"></div>
-          <span class="range__val" style="left:${pct(d.max)}%">${d.min}–${d.max} mm</span>
-        </div></div>`).join("");
-    html += `<div class="range__axis"><span></span><div class="range__ticks">${AXIS.ticks.map(t => `<span style="left:${pct(t)}%">${t}</span>`).join("")}</div></div>`;
-    html += `<div class="range__plot"><div class="range__marker" style="left:${pct(ELS)}%"><span class="range__marker-label">ELS ≥ ${ELS} mm</span></div></div>`;
-    $("rangeChart").innerHTML = html;
-    $("rangeChart").querySelectorAll(".range__bar").forEach(bar => {
-      const d = TYPES.find(x => x.id === bar.dataset.id);
-      const label = `<strong>${d.name}</strong>${d.min}–${d.max} mm staple${d.min >= ELS - 2 ? " · extra-long" : ""}`;
-      bar.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, label));
-      bar.addEventListener("mouseleave", hideTip);
-      bar.addEventListener("focus", () => { const r = bar.getBoundingClientRect(); showTip(r.right, r.top, label); });
-      bar.addEventListener("blur", hideTip);
+  function renderLadder() {
+    const el = $("ladder");
+    el.innerHTML = `<div class="ladder__rows">${TYPES.map(t => `
+        <div class="ladder__row fam-${t.fam}${fam !== "all" && fam !== t.fam ? " is-dim" : ""}">
+          <div class="ladder__name">${t.name}<small>${t.note}</small></div>
+          <div class="ladder__track">
+            <div class="ladder__bar" data-id="${t.id}" tabindex="0" aria-label="${t.name}: ${t.min} to ${t.max} millimetres"
+                 style="left:${pct(t.min)}%;width:${pct(t.max) - pct(t.min)}%"></div>
+            <span class="ladder__val${pct(t.max) > 75 ? " ladder__val--in" : ""}" style="left:${pct(t.max)}%;--start:${pct(t.min)}%">${t.min}–${t.max} mm</span>
+          </div>
+        </div>`).join("")}
+        <div class="ladder__els"><i style="left:${pct(ELS)}%"></i><b style="left:${pct(ELS)}%">ELS ≥ ${ELS} mm</b></div>
+      </div>
+      <div class="ladder__axis"><span></span><div class="ladder__ticks">${AXIS.ticks.map(t => `<span style="left:${pct(t)}%">${t}</span>`).join("")}</div></div>`;
+    el.querySelectorAll(".ladder__bar").forEach(b => {
+      const t = TYPES.find(x => x.id === b.dataset.id);
+      const html = `<b>${t.name}</b><span>${t.min}–${t.max} mm · ${FAMS[t.fam].name}${t.min >= ELS - 2 ? " · extra-long" : ""}</span>`;
+      b.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, html));
+      b.addEventListener("mouseleave", hideTip);
+      b.addEventListener("focus", () => { const r = b.getBoundingClientRect(); showTip(r.right, r.top, html); });
+      b.addEventListener("blur", hideTip);
     });
   }
 
-  /* ---------- Table ---------- */
-  function renderTable() {
-    const rows = TYPES.filter(t => !selected.size || selected.has(t.id));
-    $("typeRows").innerHTML = rows.map(t => `<tr class="fade-in">
-      <td><strong>${t.name}</strong></td><td>${t.species}</td><td class="num">${t.min}–${t.max} mm</td>
-      <td>${t.feel}</td><td>${t.use}</td><td><span class="badge badge--cream">${t.tier}</span></td></tr>`).join("");
-    $("tableSub").textContent = selected.size ? `${rows.length} of ${TYPES.length} types selected.` : `All ${TYPES.length} types.`;
-  }
-
-  function update() {
-    filters.querySelectorAll(".fcard").forEach(b => b.setAttribute("aria-pressed", selected.has(b.dataset.id)));
-    renderFilterbar(); renderRange(); renderTable();
-  }
-
-  /* ---------- Pie ---------- */
-  (function () {
-    const r = 92; let a0 = -Math.PI / 2; let svg = "";
-    SHARE.forEach(d => {
-      const a1 = a0 + (d.value / 100) * Math.PI * 2;
-      const large = a1 - a0 > Math.PI ? 1 : 0;
-      const p = `M0 0 L${(r * Math.cos(a0)).toFixed(2)} ${(r * Math.sin(a0)).toFixed(2)} A${r} ${r} 0 ${large} 1 ${(r * Math.cos(a1)).toFixed(2)} ${(r * Math.sin(a1)).toFixed(2)}Z`;
-      svg += `<path d="${p}" fill="${d.color}" data-name="${d.name}"></path>`;
+  /* ---------- pie ---------- */
+  function renderPie() {
+    let a0 = -Math.PI / 2, svg = "";
+    const r = 96;
+    Object.entries(FAMS).forEach(([k, f]) => {
+      const a1 = a0 + (f.share / 100) * Math.PI * 2;
+      const pt = a => `${(r * Math.cos(a)).toFixed(2)} ${(r * Math.sin(a)).toFixed(2)}`;
+      svg += `<path class="${fam !== "all" && fam !== k ? "is-dim" : ""}" data-k="${k}" fill="${f.color}"
+                d="M0 0 L${pt(a0)} A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${pt(a1)}Z"></path>`;
       a0 = a1;
     });
     $("pie").innerHTML = svg;
     $("pie").querySelectorAll("path").forEach(p => {
-      const d = SHARE.find(x => x.name === p.dataset.name);
-      p.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, `<strong>${d.name} · ≈${d.value}%</strong>${d.detail}`));
+      const f = FAMS[p.dataset.k];
+      p.addEventListener("mousemove", e => showTip(e.clientX, e.clientY, `<b>${f.name} · ≈${f.share}%</b><span>${f.latin}</span>`));
       p.addEventListener("mouseleave", hideTip);
     });
-    $("legend").innerHTML = SHARE.map(d => `<div class="legend__item">
-      <span class="legend__sw" style="background:${d.color}"></span>
-      <span>${d.name}<br><span class="sub">${d.detail}</span></span>
-      <span class="legend__val">≈${d.value}%</span></div>`).join("");
-  })();
+    $("shares").innerHTML = Object.entries(FAMS).map(([k, f]) => `
+      <div class="share"><div><span class="chip fam-${k}">${f.name}</span><p class="muted"><em>${f.latin}</em></p></div><b>≈${f.share}%</b></div>`).join("");
+  }
 
-  /* ---------- Multicategory toggle ---------- */
+  /* ---------- type cards ---------- */
+  function renderTypes() {
+    const list = TYPES.filter(t => fam === "all" || t.fam === fam);
+    $("types").innerHTML = list.map(t => `
+      <article class="bubble type fam-${t.fam} fade-in">
+        <div class="type__top"><span class="chip fam-${t.fam}">${FAMS[t.fam].name}</span><span class="type__tier">${t.tier}</span></div>
+        <h3 class="serif">${t.name}</h3>
+        <div class="type__staple"><b>${t.min}–${t.max} mm</b><span class="muted">staple</span></div>
+        <div class="mini" aria-hidden="true"><i style="left:${pct(t.min)}%;width:${pct(t.max) - pct(t.min)}%"></i></div>
+        <p>${t.feel}</p>
+        <p class="type__use">${t.use}</p>
+      </article>`).join("");
+  }
+
+  function render() { renderLadder(); renderPie(); renderTypes(); }
+
+  document.querySelectorAll(".fbubble").forEach(b => b.addEventListener("click", () => {
+    fam = b.dataset.fam === fam ? "all" : b.dataset.fam;
+    document.querySelectorAll(".fbubble").forEach(x => x.setAttribute("aria-pressed", x.dataset.fam === fam));
+    render();
+  }));
+
+  /* ---------- weave diagrams (ink lines on off-white) ---------- */
+  /* warpOver(x, y) says whether the vertical (warp) thread lies on top at that crossing */
+  function weave(id, warpOver, nap) {
+    const svg = $(id), c = 20, cols = 13, rows = 6, ox = 0, oy = 0, t = 13, g = (c - t) / 2;
+    let s = "";
+    for (let x = 0; x < cols; x++)   /* warp, underneath */
+      s += `<rect x="${ox + x * c + g}" y="0" width="${t}" height="120" fill="#E0DDD4"/>`;
+    for (let y = 0; y < rows; y++)   /* weft */
+      s += `<rect x="0" y="${oy + y * c + g}" width="250" height="${t}" rx="2" fill="#FFFFFF" stroke="#E0DDD4"/>`;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++)
+      if (warpOver(x, y)) s += `<rect x="${ox + x * c + g}" y="${oy + y * c - 1}" width="${t}" height="${c + 2}" rx="2" fill="#E0DDD4" stroke="#C9C5B8" stroke-width="0.6"/>`;
+    if (nap) s += `<rect width="250" height="120" fill="#FAF7F2" opacity="0.45"/>`;
+    svg.setAttribute("viewBox", `0 0 ${cols * c} ${rows * c}`);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+    svg.innerHTML = s;
+  }
+  weave("w-percale", (x, y) => (x + y) % 2 === 0);            /* one over, one under */
+  weave("w-sateen",  (x, y) => (x + y * 2) % 5 !== 0);        /* four over, one under */
+  weave("w-flannel", (x, y) => (x + y) % 3 !== 0, true);      /* twill, brushed soft */
+
+  /* ---------- multicategory toggle ---------- */
   const opts = [...$("productToggle").querySelectorAll(".segmented__option")];
   function select(o) {
     opts.forEach(x => {
@@ -669,6 +796,7 @@
       x.setAttribute("aria-checked", on); x.tabIndex = on ? 0 : -1;
       $("guide-" + x.dataset.target).hidden = !on;
     });
+    $("guideTitle").textContent = o.textContent;
   }
   opts.forEach((o, i) => {
     o.tabIndex = o.getAttribute("aria-checked") === "true" ? 0 : -1;
@@ -680,11 +808,25 @@
     });
   });
 
-  /* ---------- Expandables (open state remembered in sessionStorage) ---------- */
-  document.querySelectorAll(".expand__head").forEach(h => {
+  /* ---------- label annotations ---------- */
+  function mark(k) {
+    document.querySelectorAll("#tag .tag__line, #checks .check").forEach(el => el.classList.toggle("is-active", el.dataset.k === k));
+  }
+  document.querySelectorAll("#checks .check, #tag .tag__line").forEach(el => {
+    el.addEventListener("mouseenter", () => mark(el.dataset.k));
+    el.addEventListener("mouseleave", () => mark(null));
+  });
+
+  /* ---------- expandables (open state kept in sessionStorage) ---------- */
+  document.querySelectorAll(".xp__head").forEach(h => {
     const body = $(h.getAttribute("aria-controls"));
-    const key = "cotton-expand-" + body.id;
-    const set = open => { h.setAttribute("aria-expanded", open); body.hidden = !open; };
+    const glyph = h.closest(".xp--2") ? h.querySelector(".xp__icon") : null;
+    const key = "cotton-" + body.id;
+    const set = open => {
+      h.setAttribute("aria-expanded", open); body.hidden = !open;
+      if (glyph) glyph.textContent = open ? "▲" : "▼";
+      else h.querySelector(".xp__icon svg").style.transform = open ? "rotate(180deg)" : "";
+    };
     try { if (sessionStorage.getItem(key) === "1") set(true); } catch (e) {}
     h.addEventListener("click", () => {
       const open = h.getAttribute("aria-expanded") !== "true"; set(open);
@@ -692,18 +834,14 @@
     });
   });
 
-  /* ---------- Nav: mark the section in view ---------- */
+  /* ---------- nav: mark the section in view ---------- */
   const navLinks = [...document.querySelectorAll(".tabs a")];
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      navLinks.forEach(a => a.getAttribute("href") === "#" + en.target.id
-        ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
-    });
-  }, { rootMargin: "-40% 0px -55% 0px" });
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) navLinks.forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + en.target.id));
+  }), { rootMargin: "-35% 0px -60% 0px" });
   document.querySelectorAll("main section[id]").forEach(s => io.observe(s));
 
-  update();
+  render();
 </script>
 </body>
 </html>

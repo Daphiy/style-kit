@@ -1,45 +1,102 @@
 # Cotton Design Guide
-Design style: warm, quiet, minimalist. 
-A calm, light, editorial style. White cards sit on a warm off-white page. The type is quiet, the corners are large and soft, there is almost no shadow, and soft pastels carry the meaning.
+Design style: MINIMALIST, ELEGANT AND SLEEK. Warm and quiet, with colour used sparingly. 
 
+## First principle: minimal, no redundant elements
+Every element on the page must carry information the reader needs. Before adding anything, ask whether the page would lose information without it. If not, leave it out.
+- No eyebrows or kickers, decorative chips, badges, icons, dividers, ornaments or "label" pills.
+- Don't say the same thing twice. If a title says it, the subtitle doesn't repeat it. If a line is already highlighted, it doesn't also get a "Red flag" chip.
+- Prefer plain text to a component. A status, a count, a category name or a date is usually best as a word in a sentence.
+- Fewer, larger, calmer elements beat many small ones. When in doubt, remove.
+A calm, light, editorial style. White cards sit on a warm off-white page. The type is quiet, the corners are large and soft, there is almost no shadow, and soft pastels carry the meaning.
 
 ## Colors
 
 ### Neutrals 
 The page background is cream, #FAF7F2, and cards are white.
 
+The top header bar for navigation is white. 
+
 #F0EEE4 is a slightly deeper off-white.
 #E0DDD4 is the light grey for borders and dividers.
 Text greys, from lightest to darkest: #8C8985 (grey-500) for tertiary text, #756F68 (medium grey) for secondary text, and #1C1B18 (dark grey) for primary text and headings.
 
 ### General 
-The borders are never in another color. 
 
-Hover is always created with adding a black overlay at 20% opacity, not by adding color. 
+#### Use colour sparingly (hard rule)
+This theme is minimalist, elegant and sleek. Most of every page is neutral: cream ground, white surfaces, grey lines and ink text. Colour appears only where it means something:
+- a category
+- a state (selected, active, highlighted)
+- the main pink accent
+
+Colour is never decoration. If you're unsure whether an element needs colour, leave it neutral. A page where most elements are coloured is wrong.
+
+**One meaning per colour.** On a page, each colour stands for exactly one thing. Once colours encode the page's categories (for example cotton species), don't reuse the palette for anything else.
+
+**Don't make status labels.** Status, level, risk, priority, rating and similar (Low / Medium / High risk, New, Recommended …) are not chips, pills or badges. Write them into the item's text instead, for example "High risk. The most common premium claim…" or "Cotton type · high risk".
+- Use ink text, optionally at weight 500. No fill, no dot, no border and no colour.
+- If the order matters, show it by sorting or in words, not with traffic-light colours.
+
+Coloured status labels compete with the category colours and only add clutter.
+
+**No decorative chips.** A chip or pill must do a job: either it's a filter you can click, or it names a category whose colour the reader matches against a chart or legend. Everything else is clutter. In particular:
+- **No eyebrow or kicker labels above titles** ("Home textiles & basics", "Report", "New", the topic or section name). Leave them out. If the context really matters, put it in the subtitle or intro sentence as plain text.
+- **No pills for metadata** such as dates, authors, sources, counts or read time. Write these as muted plain text.
+
+Before adding any chip, badge or coloured element, ask whether the page would lose information without it. If not, don't add it.
+
+#### Borders (hard rule)
+The default border is 1px #E0DDD4 grey. A border may only be coloured in two cases:
+
+1. **The element already carries that colour.** A chip or badge with a pale pink fill may have a pink border, and a pale yellow chip may have a yellow border. The border repeats the element's own hue.
+2. **It shows a highlight.** That means an active, selected or linked item, such as the card that matches the label line you point at. The highlight border uses the element's own hue:
+   - A coloured element highlights in its own colour.
+   - A neutral element that already holds a pink detail (for example a white card with a pink numbered badge) may highlight in pink.
+   - A neutral element with no colour in it (the white "All" filter bubble, a plain white card) highlights in a darker neutral, never pink. Use a #8C8985 border and a #F0EEE4 fill.
+
+Never colour the border of a neutral, static element: cards, panels, tiles, image frames, inputs, popovers or dropdowns at rest. These stay grey #E0DDD4.
+
+**Never combine hues on one element.** Fill, border, dot, icon and highlight all come from the same family. A pink highlight ring on a yellow chip is wrong; highlight the yellow chip in yellow instead. This also covers fakes: no `box-shadow` or `outline` ring in a second hue.
+
+The active nav tab has a 2px blue underline (#8DBAED). Keyboard focus uses a 2px ink outline (#1C1B18), not a colour.
+
+#### Hover
+Hover is always a **darker version of the element's own colour**. It never switches to another hue.
+1. If the theme defines a darker shade of that colour, use it. For example, a #E5F3FC blue button hovers to #D6E7F8, and a #8DBAED blue element hovers to #4B8FD0.
+2. Otherwise, lay a 20% black overlay on it (`box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.2)`).
+
+Hover never introduces a new colour. A pink hover on a blue button, a pink ring around a hovered card, or a grey background swap (`hover:bg-gray-50`) are all wrong. Text and border keep their family too. Hovering a blue button darkens the blue and nothing else.
+
+**Implementation note.** The shared button CSS (`elements/buttons/buttons.css`) sets `.btn:hover { background: var(--btn-primary) }`, and in this theme `--btn-primary` is pink. If a variant sets `background:` directly (`.btn--action { background: blue }`), the `:hover` rule is more specific and wins, so the button turns pink on hover. To avoid that, set the variant's colour through the variables (`.btn--action { --btn-primary: <its fill>; --btn-primary-fg: <its text> }`), or give the variant its own `:hover` rule. After building, hover over every coloured control and check that it only gets darker.
 
 ### Categories/ Type families 
-if you have a few categories, use color to represent them. Each family has a pale fill and a stronger pastel border.
+if you have a few categories, use color to represent them. Each family has a pale fill and a stronger "core" pastel. The core pastel colours the dot, the icon, chart marks and that family's own border.
+
+How a category chip or filter bubble looks. Every part uses one family only:
+- **Label or unselected filter bubble:** pale family fill, 1px border in the core colour, an 8px dot in the core colour, ink text.
+- **Selected filter bubble:** the same chip with a 2px border in its own core colour and ink text at weight 500. A selected yellow chip gets a yellow border, never a pink one.
+- **"All" or another neutral bubble:** white fill and a grey #E0DDD4 border when unselected. When selected, it gets a #F0EEE4 fill and a 2px #8C8985 border, which is a darker neutral. It is never pink: the bubbles next to it are green, purple and yellow, and pink would add a fourth, unrelated colour.
+- **Numbered badges** (1, 2, 3 …): pale pink fill, pink border, ink number.
 
 grey is never to be used to signal a category in the report or in the charts. if needed, repeat colors in new shades
 
+A label that names one of the page's categories takes that category's colour. All other labels are neutral (see "Don't colour-code status labels" above). 
+
 #### Pink 
-The fill is #FDE0E5 and the border and icon are #F8AAB6.
+The fill is #FDE0E5. The core colour (dot, icon, chart, and the border of this family's own chips) is #F8AAB6.
 
 #### Yellow
-The fill is #FFF8CE and the border and icon are #FCCF61.
+The fill is #FFF8CE. The core colour (dot, icon, chart, and the border of this family's own chips) is #FCCF61.
 #FFE495 (swa-yellow-light) and the darker #D3A328 (swa-yellow-1) round out the brand yellows. 
 
 ####  Blue 
-Shelf Unit, Hanging Boxes and Other. The fill is #E5F3FC and the border and icon are #8DBAED.
-Purple (Add-ons): Earrings Spinner, Tray and Other. The fill is #F4ECF5 and the border and icon are #CCA8CF.
+The fill is #E5F3FC. The core colour (dot, icon, chart, and the border of this family's own chips) is #8DBAED.
 
 #### Green 
-the fill is #E4F3E1 and the border and icon are #9CCB8E.
+The fill is #E4F3E1. The core colour (dot, icon, chart, and the border of this family's own chips) is #9CCB8E.
 
 #### Purple 
-The fill is #F4ECF5 (swa-purple-light), with #EADBEB as a slightly deeper tint. The core purple, #CCA8CF (swa-purple), is the Add-ons border and icon. A strong violet, #874AF0 (swa-purple-1), is defined but rarely used. 
+The fill is #F4ECF5 (swa-purple-light), with #EADBEB as a slightly deeper tint. The core colour (dot, icon, chart, and the border of this family's own chips) is #CCA8CF (swa-purple). A strong violet, #874AF0 (swa-purple-1), is defined but rarely used. 
 
-On the display cards, the outer octagon is filled with the family fill at 55% opacity and has a 2px stroke in the border colour, which thickens to 2.5px on hover. Inside it, 7px in, is a white octagon with a 0.5px stroke in the same border colour, so you see a double frame with a coloured band between the lines. The display-type icon sits at the bottom centre in the border colour, and hovering lays a 23% black wash over the inner octagon. In the display picker, each type is shown as a 48px rounded square filled with the family fill, with the icon in the border colour.
 
 ### Main Accent: Pink
 Pink is the main accent colour. The lightest shade, #FDE0E5 (swa-pink-lighter), is the Freestanding fill, and #FCC2CC (swa-pink-light) is available as an in-between tint. 
@@ -48,19 +105,17 @@ The core pink, #F8AAB6 (swa-pink), is used for:
 1. the active segment of the toggle
 2. primary buttons such as Apply
 3. labels 
-4. the border of a selected filter card
+4. the highlight border of an active element that already holds pink, such as a card with a pink numbered badge. It is never used on an element of another hue, and never on a plain neutral element like the "All" bubble.
 
 
 ### Blue
-Blue is used for navigation, filters and action buttons. The lightest shade, #E5F3FC (swa-blue-lightest), is the Window fill, the filter chip background and the action button background. The shades in between are #D6E7F8 (swa-blue-lighter) and #ADCFF1 (swa-blue-light). The core blue, #8DBAED (swa-blue), is the Window border, the active nav-tab underline and text, the "+" add tiles and a chart colour. #4B8FD0 (swa-blue-2) is the filter chip text and the "+" tile hover. The deeper #358ADA and #2E6DA8 are defined but rarely used.
+Blue is used for navigation, filters and action buttons. The lightest shade, #E5F3FC (swa-blue-lightest), is the Window fill, the filter chip background and the action button background. The shades in between are #D6E7F8 (swa-blue-lighter) and #ADCFF1 (swa-blue-light). The core blue, #8DBAED (swa-blue), is the blue family's dot and icon colour, the active nav-tab underline and text, the "+" add tiles and a chart colour. #4B8FD0 (swa-blue-2) is the filter chip text and the "+" tile hover. The deeper #358ADA and #2E6DA8 are defined but rarely used.
 
-Links are deep blue and underline on hover. Focus shows a 2px deep outline with a 2px offset. Disabled controls use 55% opacity.
+Links are deep blue and underline on hover. Focus shows a 2px ink (#1C1B18) outline with a 2px offset. Disabled controls use 55% opacity.
 
-### Errors 
-Errors use a red ramp from #FEF3F3 through #FDE7E7, #FCD1D1, #F14545 and #EE1717 to #BE1212.
 
 ### The overall pattern
-Each hue comes as a very pale wash for fills plus a mid-saturation pastel for borders, icons and accents. Text rarely uses the hue colours. Pink and blue carry interaction state. Yellow, purple and green mostly mark display families, with amber also used for warnings and green for confirmations.
+Each hue comes as a very pale wash for fills plus a mid-saturation pastel for dots, icons, chart marks and that element's own border. Neutral elements have grey borders unless they are highlighted. One hue per element. Text rarely uses the hue colours. Pink and blue carry interaction state. Yellow, purple and green mark category families only. They are not used for status, risk or warning labels.
 
 
 ## Fonts
@@ -75,7 +130,8 @@ As a fallback, use:
 #### Fallback fonts 
 Family: Inter, with fallbacks system-ui, -apple-system, 'Segoe UI', sans-serif. Monospace: ui-monospace, SFMono-Regular, Consolas, monospace.
 
-The heading font should fallback to a serif, e.g. Lora. 
+The heading font Novarese should fallback to a serif, e.g. Lora. 
+
 #### weights 
 Weights: 400 for body, 500 for subheadings, labels and buttons, 600 for page and section titles and big numbers.
 Scale:
@@ -94,9 +150,9 @@ Shapes are slighly rounded, sleek and elegant.
 
 - Base radius: --radius: 0.625rem (10px). rounded-lg (10px) is by far the most common (~137 uses), followed by rounded-md (8px) for inner elements and rounded-full for chips, badges and spinners.
 - Larger radius: rounded-2xl (16px) only on the clickable section filter cards.
-- Borders: almost every surface has a 1px border-gray-200. Thin and light, never heavy.
+- Borders: 1px #E0DDD4 by default. Thin and light, never heavy. They are coloured only on an element that already has that hue, or as a highlight (see "Borders" under Colors).
 - Shading: soft. The standard is shadow-sm on cards and bubbles. Floating layers (dropdowns, popovers) use shadow-lg, and image cards go up to shadow-md on hover. A comment in the code says outright that every bubble gets shadow-sm so it lifts off the cream background.
-- Focus: browser outlines are removed globally. Inputs show focus by recolouring the border (pink or dark grey) or with a faint ring-2 ring-swa-darkgrey/20.
+- Focus: keyboard focus shows a 2px ink (#1C1B18) outline with a 2px offset. Never recolour a border to show focus.
 - Motion: content fades in (animate-fadeIn, 0.4s), dismissed items fade and slide out, and loading shows three pulsing dots.
 
 - Panels and stat tiles: 16px radius, white, no border, a very faint shadow 0 1px 3px rgba(28,27,24,0.06). Panels have 32px padding and tiles 24px.
@@ -107,8 +163,9 @@ Shapes are slighly rounded, sleek and elegant.
 
 ## Elements
 
+
 ### Toggle Multicategory (A / B / C / D)
-Source: PeriodToggle in StoreCatalog.tsx:116. It's a segmented control built from buttons inside one bordered pill:
+It's a segmented control built from buttons inside one bordered pill:
 
 <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
   {options.map(opt => (
@@ -116,7 +173,7 @@ Source: PeriodToggle in StoreCatalog.tsx:116. It's a segmented control built fro
       aria-pressed={value === opt}
       onClick={() => onChange(opt)}
       className={`px-3 py-1 text-xs uppercase tracking-wider transition-colors ${
-        value === opt ? 'bg-swa-pink text-white' : 'text-gray-600 hover:bg-gray-50'
+        value === opt ? 'bg-swa-pink text-swa-darkgrey' : 'text-gray-600'   /* hover = 20% black overlay */
       }`}>
       {opt}
     </button>
@@ -128,11 +185,17 @@ How it works:
 
 overflow-hidden on the wrapper clips the segments to the rounded corners, so the segments themselves need no radius.
 There are no gaps or dividers between the presets. Only the "Custom" segment gets a border-l.
-The active segment is filled solid pink with white text. Inactive segments are grey text on white.
+The active segment is filled solid pink with ink text (never white text on pink). Inactive segments are grey text on white. The outer border and the "Custom" divider are grey #E0DDD4.
 "Custom" opens a popover (absolute right-0 top-full mt-2 bg-white border rounded-lg shadow-lg p-3 w-64) with two date inputs and Cancel/Apply buttons. Once a range is applied, the button label changes to show that range.
 To reuse it for other categories, swap the presets array. The pattern takes any number of options.
-Shelf image inside a bubble
-Source: StoreCatalog.tsx:274 and the popup at around line 2440. The look comes from a white outer frame with tiny padding, wrapping an inner image with a slightly smaller radius:
+
+### Filter 
+A filter can also use rounded filter bubbles per category, or a dropdown menu, rather than a toggle. 
+
+Filter bubbles are fully rounded pills, 6px 14px padding, 13px text at weight 500. Borders, fills and the selected state follow "Categories / Type families" above. A selected bubble is highlighted in its own hue only.
+
+### Embedded images (image inside a bubble)
+The look comes from a white outer frame with tiny padding, wrapping an inner image with a slightly smaller radius:
 
 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1.5">   {/* frame */}
   <div className="relative rounded-md overflow-hidden bg-gray-100" style={{aspectRatio:'5 / 3'}}>
@@ -146,32 +209,30 @@ The 6px white p-1.5 acts as the slim mat or border. The outer rounded-lg (10px) 
 On hover, the gradient and label fade out and a centred dark overlay (bg-black/44) appears with the name, product count and sales.
 In the popup version the image stays at its natural aspect ratio, and a caption sits underneath: text-xs text-swa-mediumgrey "Scanned on…".
 
+
 ### Expandable elements
 There are two variants, both a white card with a full-width header button:
 
 #### Variant 1
-bg-white rounded-lg border border-gray-200 overflow-hidden. The header is px-5 py-4 hover:bg-gray-50 and holds a Novarese text-xl title, an optional amber rounded-full count badge, a grey subtitle, and a ChevronDown/ChevronUp (lucide, w-4 h-4 text-swa-mediumgrey) on the right. The body is px-5 pb-5 pt-1. Open state is remembered in sessionStorage.
+bg-white rounded-lg border border-gray-200 overflow-hidden. The header is px-5 py-4 (hover = 20% black overlay) and holds a Novarese text-xl title, an optional neutral rounded-full count badge (cream fill, grey border, muted text), a grey subtitle, and a ChevronDown/ChevronUp (lucide, w-4 h-4 text-swa-mediumgrey) on the right. The body is px-5 pb-5 pt-1. Open state is remembered in sessionStorage.
 #### Variant 2
-the same card plus shadow-sm. The header has a border-b border-gray-100, hovers to bg-swa-cream/40, shows a cream pill badge, and uses ▼/▲ text glyphs instead of icons.
+the same card plus shadow-sm. The header has a 1px #E0DDD4 bottom border, hovers with the 20% black overlay, shows a cream pill badge, and uses ▼/▲ text glyphs instead of icons.
 
 Neither variant animates. The content simply mounts and unmounts.
 
-### Filters
-Filtering is done by clicking the stat cards themselves:
 
-Each section card is a <button> with rounded-2xl px-5 py-4 border-2. Unselected cards have border-transparent, selected ones border-swa-pink, and both hover to hover:bg-pink-50. Several can be selected at once.
-Active filters show above the grid as removable chips: inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full bg-swa-blue-lightest text-swa-blue-2 border border-swa-blue/30 with an X icon (w-3 h-3). They're preceded by a grey "Filtered:" label.
-When two or more filters are active, a "Clear all" text link appears (text-xs text-gray-500 underline underline-offset-2).
-The filtered grid re-keys on the filter set, so it fades in again on every change.
-Dropdown menu (store selector)
-Source: StoreSelector in App.tsx:45. It's a custom dropdown, deliberately not a native <select>:
+## Headings
 
-Trigger: bg-swa-cream border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-swa-darkgrey, with hover:border-swa-darkgrey and the focus ring ring-2 ring-swa-darkgrey/20. A ChevronDown (w-4 h-4 text-gray-400) is absolutely positioned at right-2. The label shows the store name followed by the Swarovski ID.
-Menu: absolute right-0 top-full mt-1 z-30 min-w-full bg-white border border-gray-200 rounded-lg shadow-lg py-1 max-h-72 overflow-auto.
-Rows: px-3 py-1.5 text-sm. The selected row gets bg-swa-cream text-swa-darkgrey and other rows hover:bg-gray-50. The ID appears after the name as a text-gray-400 suffix.
-Dismiss: clicking outside closes the menu (a document mousedown listener).
-Responsive: on iPad and mobile the trigger shrinks to text-xs and is capped at max-w-[140px] / max-w-[110px] with truncation.
-The settings menu beside it reuses the same trigger and menu styling, with px-4 py-2 rows and a border-t divider.
+Page titles and section titles span the full width of the content column:
+- no `max-width` narrower than the column
+- no indent, side column or number gutter beside the title
+- the title starts at the same left edge as the panels below it
+- any intro paragraph under a title starts at that same left edge
+
+A title never takes more than two lines at any screen width.
+- Size it with `clamp()` so it shrinks on narrow screens. For example, page title `clamp(28px, 4vw, 44px)` and section title `clamp(24px, 3vw, 32px)`.
+- If it would still wrap to a third line at the smallest size, the title is too long. Shorten it and move the rest into the subtitle or intro paragraph. Don't shrink it further, cap its width or let it run to three lines.
+- After building, check the rendered page at desktop, tablet and 400px widths.
 
 ## Style instructions
 
